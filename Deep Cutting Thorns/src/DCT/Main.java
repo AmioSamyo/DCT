@@ -1,3 +1,4 @@
+package DCT;
 
 public class Main {
 
