@@ -5,6 +5,7 @@ Deep Cutting Thorns
 * Eclipse 2021
 * Junit 5
 * EGit for Eclipse
+* Sonarlint for Eclipse
 * GitHub
 ### Link utili
 * [Standard di programmazione del progetto](https://docs.google.com/document/d/1JlvX7-UAI6mDam0AodGNqDfiHFvxoy863aZuVYu-IoA/edit?usp=sharing)
