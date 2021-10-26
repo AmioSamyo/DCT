@@ -1,5 +1,7 @@
 package DCT;
 
+import java.awt.Graphics;
+
 public class World {
 	
 	private int[][] tiles;
@@ -7,6 +9,14 @@ public class World {
 	
 	public World(String path) {
 		this.loadWorld(path);
+	}
+	
+	public void update() {
+		
+	}
+	
+	public void render(Graphics g) {
+		
 	}
 	
 	private void loadWorld(String path) {
