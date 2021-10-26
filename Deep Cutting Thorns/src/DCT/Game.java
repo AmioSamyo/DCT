@@ -3,16 +3,23 @@ package DCT;
 public class Game {
 
 	private boolean running;
-	private Display display;
+	private int width;
+	private int height;
+	
+	private String title;
 	private Thread thread;
+	
+	private Display display;
 
 	public Game(String title, int width, int height) {
-		this.display = new Display(title, width, height);
 		this.running = false;
+		this.width=width;
+		this.height=height;
+		this.title=title;
 	}
 
 	public void initialize() {
-		// TODO
+		this.display = new Display(this.title, this.width, this.height);
 	}
 
 	public void update() {
@@ -24,10 +31,38 @@ public class Game {
 	}
 
 	public void run() {
-		
-		int fps;
-		int nowTime;
-		int lastTime;
+
+		int fps = 60;
+		int update;
+		long nowTime;
+		long lastTime = System.nanoTime();
+		long timer;
+
+		double updatePerSecond = 1000000000 / fps;
+		double delta = 0;
+
+		while (this.running) {
+			
+			initialize();
+			
+			nowTime = System.nanoTime();
+			timer += (nowTime - lastTime);
+			delta += (nowTime - lastTime) / updatePerSecond;
+			lastTime = nowTime;
+
+			if (delta >= 1) {
+				update();
+				render();
+				update++;
+				delta--;
+			}
+			
+			if(timer >= 1000000000){
+				System.out.println("Ticks and Frames: " + update);
+				update = 0;
+				timer = 0;
+			}
+		}
 	}
 
 	public synchronized void start() {
