@@ -30,6 +30,7 @@ public class World {
 	private void loadWorld(String path) {
 		String file = Utils.loadFileAsString(path);
 		String[] tokens = file.split("\\s+");
+		int toBeSkipped = 2;
 
 		this.columns = Utils.parseInt(tokens[0]);
 		this.rows = Utils.parseInt(tokens[1]);
@@ -37,7 +38,7 @@ public class World {
 
 		for (int y = 0; y < this.rows; y++) {
 			for (int x = 0; x < this.columns; x++) {
-				this.tiles[x][y] = Utils.parseInt(tokens[(x + (y * this.columns)) + 4]);
+				this.tiles[x][y] = Utils.parseInt(tokens[(x + (y * this.columns)) + toBeSkipped]);
 			}
 		}
 	}
