@@ -22,6 +22,9 @@ public class Display {
 	public void CreateDisplay() {
 		frame = FrameSetter();
 		canvas = CanvasSetter();
+		
+		frame.add(canvas);
+		frame.pack();
 	}
 
 	public JFrame getJFrame() {		
