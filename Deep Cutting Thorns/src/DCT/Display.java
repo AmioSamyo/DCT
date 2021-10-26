@@ -44,7 +44,11 @@ public class Display {
 	}
 
 	private Canvas CanvasSetter() {
-
+		canvas = new Canvas();
+		
+		canvas.setSize(width, height);
+		canvas.setVisible(true);
+		canvas.setFocusable(false);
 		return canvas;
 	}
 }
