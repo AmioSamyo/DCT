@@ -24,19 +24,34 @@ public class Game {
 	}
 
 	public void run() {
-		// TODO
+		
+		int fps;
+		int nowTime;
+		int lastTime;
 	}
 
 	public synchronized void start() {
 		if (this.running) {
 			return;
 		}
+
 		this.thread = new Thread();
 		this.running = true;
+
 		this.thread.start();
 	}
 
-	public void stop() {
-		// TODO
+	public synchronized void stop() {
+		if (!this.running) {
+			return;
+		}
+
+		this.running = false;
+
+		try {
+			this.thread.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 }
