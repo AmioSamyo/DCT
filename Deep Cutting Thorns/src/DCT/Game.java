@@ -33,10 +33,10 @@ public class Game {
 	public void run() {
 
 		int fps = 60;
-		int update;
+		int update = 0;
 		long nowTime;
 		long lastTime = System.nanoTime();
-		long timer;
+		long timer = 0;
 
 		double updatePerSecond = 1000000000 / fps;
 		double delta = 0;
