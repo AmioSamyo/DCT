@@ -7,7 +7,10 @@ public class Launcher {
 	private static final String TITLE = "Deep Cutting Thorns";
 
 	public static void main(String[] args) {
-		System.out.println(TITLE + " " + WIDTH + " " + HEIGHT);
+
+		Game game = new Game(TITLE, WIDTH, HEIGHT);
+		game.start();
+
 	}
 
 }
