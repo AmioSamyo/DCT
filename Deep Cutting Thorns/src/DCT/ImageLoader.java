@@ -18,5 +18,3 @@ public class ImageLoader {
 		return img;
 	}
 }
-
-// https://docs.oracle.com/javase/tutorial/2d/images/index.html
