@@ -11,9 +11,9 @@ public class Game {
 
 	private String title;
 	private Thread thread;
-
 	private Graphics g;
 	private BufferStrategy bufferStrategy;
+	
 	private Display display;
 
 	public Game(String title, int width, int height) {
