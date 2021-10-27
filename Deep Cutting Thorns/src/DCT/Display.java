@@ -1,8 +1,9 @@
 package DCT;
 
 import java.awt.Canvas;
-import java.awt.Dimension;
+
 import javax.swing.JFrame;
+import javax.swing.WindowConstants;
 
 public class Display {
 
@@ -16,42 +17,43 @@ public class Display {
 		this.title = title;
 		this.width = width;
 		this.height = height;
-		CreateDisplay();
-	}
-
-	public void CreateDisplay() {
-		frame = FrameSetter();
-		canvas = CanvasSetter();
-		
-		frame.add(canvas);
-		frame.pack();
-	}
-
-	public JFrame getJFrame() {		
-		return frame;
+		this.CreateDisplay();
 	}
 
 	public Canvas getCanvas() {
-		return canvas;
+		return this.canvas;
+	}
+
+	public JFrame getJFrame() {
+		return this.frame;
+	}
+
+	public void CreateDisplay() {
+		this.frame = this.FrameSetter();
+		this.canvas = this.CanvasSetter();
+
+		this.frame.add(this.canvas);
+		this.frame.pack();
 	}
 
 	private JFrame FrameSetter() {
-		frame = new JFrame(title);
-		
-		frame.setSize(width, height);
-		frame.setResizable(false);
-		frame.setVisible(true);
-		frame.setFocusable(false);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		return frame;
+		this.frame = new JFrame(this.title);
+
+		this.frame.setSize(this.width, this.height);
+		this.frame.setResizable(false);
+		this.frame.setVisible(true);
+		this.frame.setFocusable(false);
+		this.frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		return this.frame;
 	}
 
 	private Canvas CanvasSetter() {
-		canvas = new Canvas();
-		
-		canvas.setSize(width, height);
-		canvas.setVisible(true);
-		canvas.setFocusable(false);
-		return canvas;
+		this.canvas = new Canvas();
+
+		this.canvas.setSize(this.width, this.height);
+		this.canvas.setVisible(true);
+		this.canvas.setFocusable(false);
+		return this.canvas;
 	}
+
 }
