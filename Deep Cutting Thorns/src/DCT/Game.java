@@ -1,6 +1,9 @@
 package DCT;
 
-public class Game {
+import java.awt.Graphics;
+import java.awt.image.BufferStrategy;
+
+public class Game implements Runnable {
 
 	private boolean running;
 	private int width;
@@ -8,6 +11,8 @@ public class Game {
 
 	private String title;
 	private Thread thread;
+	private Graphics g;
+	private BufferStrategy bufferStrategy;
 
 	private Display display;
 
@@ -27,7 +32,18 @@ public class Game {
 	}
 
 	public void render() {
-		// TODO
+
+		this.bufferStrategy = this.display.getCanvas().getBufferStrategy();
+
+		if (this.bufferStrategy == null) {
+			this.display.getCanvas().createBufferStrategy(3);
+			return;
+		}
+
+		this.g = this.bufferStrategy.getDrawGraphics();
+
+		this.bufferStrategy.show();
+		this.g.dispose();
 	}
 
 	public void run() {
@@ -41,9 +57,9 @@ public class Game {
 		double updatePerSecond = 1000000000 / fps;
 		double delta = 0;
 
-		while (this.running) {
+		initialize();
 
-			initialize();
+		while (this.running) {
 
 			nowTime = System.nanoTime();
 			timer += (nowTime - lastTime);
@@ -73,7 +89,7 @@ public class Game {
 			return;
 		}
 
-		this.thread = new Thread();
+		this.thread = new Thread(this);
 		this.running = true;
 
 		this.thread.start();
