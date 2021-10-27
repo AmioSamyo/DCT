@@ -17,8 +17,6 @@ public class ImageLoader {
 		}
 		catch(IOException e){
 			e.printStackTrace();
-			//TO DOO
-			return img;
 		}
 		return img;		
 	}
