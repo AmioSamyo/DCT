@@ -55,5 +55,4 @@ public class Display {
 		this.canvas.setFocusable(false);
 		return this.canvas;
 	}
-
 }
