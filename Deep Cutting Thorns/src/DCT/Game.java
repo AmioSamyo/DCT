@@ -1,5 +1,8 @@
 package DCT;
 
+import java.awt.Graphics;
+import java.awt.image.BufferStrategy;
+
 public class Game {
 
 	private boolean running;
@@ -9,6 +12,8 @@ public class Game {
 	private String title;
 	private Thread thread;
 
+	private Graphics g;
+	private BufferStrategy bufferStrategy;
 	private Display display;
 
 	public Game(String title, int width, int height) {
@@ -27,7 +32,10 @@ public class Game {
 	}
 
 	public void render() {
-		// TODO
+		this.bufferStrategy=this.display.getCanvas().getBufferStrategy();
+		if(this.bufferStrategy==null) {
+			this.display.getCanvas().createBufferStrategy(3);
+		}
 	}
 
 	public void run() {
