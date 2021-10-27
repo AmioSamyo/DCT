@@ -3,7 +3,7 @@ package DCT;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 
-public class Game {
+public class Game implements Runnable {
 
 	private boolean running;
 	private int width;
@@ -13,7 +13,7 @@ public class Game {
 	private Thread thread;
 	private Graphics g;
 	private BufferStrategy bufferStrategy;
-	
+
 	private Display display;
 
 	public Game(String title, int width, int height) {
@@ -57,9 +57,9 @@ public class Game {
 		double updatePerSecond = 1000000000 / fps;
 		double delta = 0;
 
-		while (this.running) {
+		initialize();
 
-			initialize();
+		while (this.running) {
 
 			nowTime = System.nanoTime();
 			timer += (nowTime - lastTime);
@@ -89,7 +89,7 @@ public class Game {
 			return;
 		}
 
-		this.thread = new Thread();
+		this.thread = new Thread(this);
 		this.running = true;
 
 		this.thread.start();
