@@ -35,7 +35,9 @@ public class Game {
 		this.bufferStrategy=this.display.getCanvas().getBufferStrategy();
 		if(this.bufferStrategy==null) {
 			this.display.getCanvas().createBufferStrategy(3);
+			return;
 		}
+		g=bufferStrategy.getDrawGraphics();
 	}
 
 	public void run() {
