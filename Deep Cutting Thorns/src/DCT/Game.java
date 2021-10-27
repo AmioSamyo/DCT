@@ -32,12 +32,14 @@ public class Game {
 	}
 
 	public void render() {
-		this.bufferStrategy=this.display.getCanvas().getBufferStrategy();
-		if(this.bufferStrategy==null) {
+		this.bufferStrategy = this.display.getCanvas().getBufferStrategy();
+		if (this.bufferStrategy == null) {
 			this.display.getCanvas().createBufferStrategy(3);
 			return;
 		}
-		g=bufferStrategy.getDrawGraphics();
+		this.g = this.bufferStrategy.getDrawGraphics();
+		this.bufferStrategy.show();
+		this.g.dispose();
 	}
 
 	public void run() {
