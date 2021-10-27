@@ -10,11 +10,11 @@ public abstract class State {
 
 	public abstract void render(Graphics g);
 
-	public State getCurrentState() {
+	public static State getCurrentState() {
 		return State.currentState;
 	}
 
-	public void setCurrentState(State s) {
+	public static void setCurrentState(State s) {
 		State.currentState = s;
 	}
 }
