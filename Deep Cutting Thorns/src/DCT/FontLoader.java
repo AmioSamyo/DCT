@@ -11,12 +11,9 @@ public class FontLoader {
 
 		try {
 			return Font.createFont(Font.TRUETYPE_FONT, new File(path)).deriveFont(Font.PLAIN, size);
-		} catch (FontFormatException e) {
+		} catch (FontFormatException | IOException e) {
 			e.printStackTrace();
 			System.exit(-1);
-		} catch (IOException e) {
-			e.printStackTrace();
-			System.exit(-2);
 		}
 
 		return null;
