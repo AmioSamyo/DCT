@@ -1,7 +1,9 @@
-package DCT;
+package DCT.game;
 
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
+
+import DCT.gfx.Display;
 
 public class Game implements Runnable {
 

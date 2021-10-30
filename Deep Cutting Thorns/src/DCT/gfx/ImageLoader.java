@@ -1,4 +1,4 @@
-package DCT;
+package DCT.gfx;
 
 import java.awt.image.BufferedImage;
 import java.io.File;

@@ -1,5 +1,7 @@
 package DCT;
 
+import DCT.game.Game;
+
 public class Launcher {
 
 	private static final int WIDTH = 1200;

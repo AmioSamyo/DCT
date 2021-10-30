@@ -1,6 +1,8 @@
-package DCT;
+package DCT.game;
 
 import java.awt.Graphics;
+
+import DCT.Utils;
 
 public class World {
 
