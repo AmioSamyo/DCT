@@ -1,4 +1,4 @@
-package DCT;
+package DCT.state;
 
 import java.awt.Graphics;
 
