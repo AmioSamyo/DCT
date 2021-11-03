@@ -1,6 +1,9 @@
 package DCT.input;
 
-public class KeyManager {
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
+public class KeyManager implements KeyListener {
 
 	private boolean keys[];
 	private boolean justPressed[];
@@ -15,9 +18,9 @@ public class KeyManager {
 	}
 
 	public void update() {
-		
+
 		for (int i = 0; i < keys.length; i++) {
-			
+
 			if (cantPress[i] && !keys[i]) {
 				cantPress[i] = false;
 			} else if (justPressed[i]) {
@@ -25,9 +28,32 @@ public class KeyManager {
 				justPressed[i] = false;
 			}
 			if (!cantPress[i] && keys[i]) {
-				justPressed[i]=true;
+				justPressed[i] = true;
 			}
 		}
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		
+		if(e.getKeyCode() < 0 || e.getKeyCode() >= keys.length) 
+			return;
+		this.keys[e.getKeyCode()] = true;
+
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		
+		if (e.getKeyCode() < 0 || e.getKeyCode() >= keys.length)
+			return;
+		this.keys[e.getKeyCode()] = false;
+		
+	}
+	
+	@Override
+	public void keyTyped(KeyEvent e) {
+		
 	}
 
 }
