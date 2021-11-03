@@ -4,6 +4,8 @@ import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 
 import DCT.gfx.Display;
+import DCT.state.GameState;
+import DCT.state.State;
 
 public class Game implements Runnable {
 
@@ -11,12 +13,14 @@ public class Game implements Runnable {
 	private int width;
 	private int height;
 
+	private String worldPath = "";
 	private String title;
 	private Thread thread;
 	private Graphics g;
 	private BufferStrategy bufferStrategy;
 
 	private Display display;
+	private State gameState;
 
 	public Game(String title, int width, int height) {
 		this.running = false;
@@ -27,10 +31,15 @@ public class Game implements Runnable {
 
 	public void initialize() {
 		this.display = new Display(this.title, this.width, this.height);
+		
+		this.gameState = new GameState(this.worldPath);
+		State.setCurrentState(gameState);
 	}
 
 	public void update() {
-		// TODO
+		if (State.getCurrentState() != null) {
+			State.getCurrentState().update();
+		}
 	}
 
 	public void render() {
@@ -43,6 +52,11 @@ public class Game implements Runnable {
 		}
 
 		this.g = this.bufferStrategy.getDrawGraphics();
+		this.g.clearRect(0, 0, this.width, this.height);
+		
+		if(State.getCurrentState() != null) {
+			State.getCurrentState().render(g);
+		}
 
 		this.bufferStrategy.show();
 		this.g.dispose();
