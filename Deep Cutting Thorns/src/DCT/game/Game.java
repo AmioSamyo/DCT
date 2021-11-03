@@ -13,7 +13,7 @@ public class Game implements Runnable {
 	private int width;
 	private int height;
 
-	private String worldPath = "";
+	private String worldPath = "rsc\\worldTest";
 	private String title;
 	private Thread thread;
 	private Graphics g;
