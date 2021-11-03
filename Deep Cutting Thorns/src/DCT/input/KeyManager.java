@@ -1,4 +1,4 @@
-package DCT.Input;
+package DCT.input;
 
 public class KeyManager {
 
