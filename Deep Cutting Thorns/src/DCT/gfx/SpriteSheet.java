@@ -11,7 +11,7 @@ public class SpriteSheet {
 	}
 
 	public BufferedImage cropImage(Rectangle rect) {
-		this.sheet.getSubimage(rect.x, rect.y, rect.width, rect.height);
-		return this.sheet;
+		BufferedImage croppedImage = this.sheet.getSubimage(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
+		return croppedImage;
 	}
 }
