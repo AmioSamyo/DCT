@@ -41,6 +41,9 @@ public class Game implements Runnable {
 	}
 
 	public void update() {
+		
+		this.keyManager.update();
+		
 		if (State.getCurrentState() != null) {
 			State.getCurrentState().update();
 		}
