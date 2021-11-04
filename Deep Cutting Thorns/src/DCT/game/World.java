@@ -2,7 +2,7 @@ package DCT.game;
 
 import java.awt.Graphics;
 
-import DCT.Utils;
+import DCT.utility.Utils;
 
 public class World {
 

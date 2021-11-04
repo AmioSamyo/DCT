@@ -3,7 +3,7 @@ package Test;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.*;
 
-import DCT.Utils;
+import DCT.utility.Utils;
 
 class UtilsTest {
 

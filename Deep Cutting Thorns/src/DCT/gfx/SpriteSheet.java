@@ -2,6 +2,8 @@ package DCT.gfx;
 
 import java.awt.image.BufferedImage;
 
+import DCT.utility.Rectangle;
+
 public class SpriteSheet {
 	
 	private BufferedImage sheet;

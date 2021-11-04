@@ -1,4 +1,4 @@
-package DCT;
+package DCT.utility;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

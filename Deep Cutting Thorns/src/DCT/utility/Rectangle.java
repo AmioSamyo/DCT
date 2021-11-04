@@ -1,4 +1,4 @@
-package DCT.gfx;
+package DCT.utility;
 
 public class Rectangle {
 	
