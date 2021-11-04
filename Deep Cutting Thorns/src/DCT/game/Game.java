@@ -19,7 +19,7 @@ public class Game implements Runnable {
 	private Thread thread;
 	private Graphics g;
 	private BufferStrategy bufferStrategy;
-	
+
 	private Display display;
 	private State gameState;
 	private KeyManager keyManager;
@@ -29,21 +29,21 @@ public class Game implements Runnable {
 		this.width = width;
 		this.height = height;
 		this.title = title;
-		this.keyManager=new KeyManager();
+		this.keyManager = new KeyManager();
 	}
 
 	public void initialize() {
 		this.display = new Display(this.title, this.width, this.height);
 		this.display.getJFrame().addKeyListener(this.keyManager);
-		
+
 		this.gameState = new GameState(this.worldPath);
 		State.setCurrentState(gameState);
 	}
 
 	public void update() {
-		
+
 		this.keyManager.update();
-		
+
 		if (State.getCurrentState() != null) {
 			State.getCurrentState().update();
 		}
@@ -60,8 +60,8 @@ public class Game implements Runnable {
 
 		this.g = this.bufferStrategy.getDrawGraphics();
 		this.g.clearRect(0, 0, this.width, this.height);
-		
-		if(State.getCurrentState() != null) {
+
+		if (State.getCurrentState() != null) {
 			State.getCurrentState().render(g);
 		}
 
@@ -131,4 +131,9 @@ public class Game implements Runnable {
 			e.printStackTrace();
 		}
 	}
+
+	public KeyManager getKeyManager() {
+		return this.keyManager;
+	}
+
 }
