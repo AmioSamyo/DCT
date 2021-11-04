@@ -29,11 +29,12 @@ public class Game implements Runnable {
 		this.width = width;
 		this.height = height;
 		this.title = title;
-		keyManager=new KeyManager();
+		this.keyManager=new KeyManager();
 	}
 
 	public void initialize() {
 		this.display = new Display(this.title, this.width, this.height);
+		this.display.getJFrame().addKeyListener(this.keyManager);
 		
 		this.gameState = new GameState(this.worldPath);
 		State.setCurrentState(gameState);
