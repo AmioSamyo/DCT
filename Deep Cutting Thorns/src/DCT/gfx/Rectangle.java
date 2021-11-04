@@ -2,7 +2,10 @@ package DCT.gfx;
 
 public class Rectangle {
 	
-	private int x, y, width, height;	
+	int x;
+	int y;
+	int width;
+	int height;	
 	
 	public Rectangle(int x, int y, int width, int height) {
 		this.x = x;
