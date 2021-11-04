@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 
 import DCT.gfx.Display;
+import DCT.input.KeyManager;
 import DCT.state.GameState;
 import DCT.state.State;
 
@@ -21,22 +22,28 @@ public class Game implements Runnable {
 
 	private Display display;
 	private State gameState;
+	private KeyManager keyManager;
 
 	public Game(String title, int width, int height) {
 		this.running = false;
 		this.width = width;
 		this.height = height;
 		this.title = title;
+		this.keyManager = new KeyManager();
 	}
 
 	public void initialize() {
 		this.display = new Display(this.title, this.width, this.height);
-		
+		this.display.getJFrame().addKeyListener(this.keyManager);
+
 		this.gameState = new GameState(this.worldPath);
 		State.setCurrentState(gameState);
 	}
 
 	public void update() {
+
+		this.keyManager.update();
+
 		if (State.getCurrentState() != null) {
 			State.getCurrentState().update();
 		}
@@ -53,8 +60,8 @@ public class Game implements Runnable {
 
 		this.g = this.bufferStrategy.getDrawGraphics();
 		this.g.clearRect(0, 0, this.width, this.height);
-		
-		if(State.getCurrentState() != null) {
+
+		if (State.getCurrentState() != null) {
 			State.getCurrentState().render(g);
 		}
 
@@ -124,4 +131,9 @@ public class Game implements Runnable {
 			e.printStackTrace();
 		}
 	}
+
+	public KeyManager getKeyManager() {
+		return this.keyManager;
+	}
+
 }
