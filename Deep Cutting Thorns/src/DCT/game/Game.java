@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 
 import DCT.gfx.Display;
+import DCT.input.KeyManager;
 import DCT.state.GameState;
 import DCT.state.State;
 
@@ -18,15 +19,17 @@ public class Game implements Runnable {
 	private Thread thread;
 	private Graphics g;
 	private BufferStrategy bufferStrategy;
-
+	
 	private Display display;
 	private State gameState;
+	private KeyManager keyManager;
 
 	public Game(String title, int width, int height) {
 		this.running = false;
 		this.width = width;
 		this.height = height;
 		this.title = title;
+		keyManager=new KeyManager();
 	}
 
 	public void initialize() {
