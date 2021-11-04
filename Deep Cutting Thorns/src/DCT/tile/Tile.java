@@ -6,6 +6,7 @@ import java.awt.Graphics;
 public class Tile {
 
 	private int id = 0;
+	private boolean solid = false;
 
 	private BufferedImage texture = null;
 
@@ -20,6 +21,14 @@ public class Tile {
 
 	public void render(Graphics g, int x, int y) {
 		g.drawImage(this.texture, x, y, null);
+	}
+	
+	public int getId() {
+		return this.id;
+	}
+	
+	public boolean isSolid() {
+		return this.solid;
 	}
 
 }
