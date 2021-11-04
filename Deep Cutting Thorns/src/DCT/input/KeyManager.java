@@ -5,9 +5,7 @@ import java.awt.event.KeyListener;
 
 public class KeyManager implements KeyListener {
 
-	private boolean keys[];
-	private boolean justPressed[];
-	private boolean cantPress[];
+	private boolean[] keys, justPressed, cantPress;
 
 	public KeyManager() {
 
@@ -31,13 +29,16 @@ public class KeyManager implements KeyListener {
 				this.justPressed[i] = true;
 			}
 		}
+
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
 
-		if (e.getKeyCode() < 0 || e.getKeyCode() >= this.keys.length)
+		if (e.getKeyCode() < 0 || e.getKeyCode() >= this.keys.length) {
 			return;
+		}
+
 		this.keys[e.getKeyCode()] = true;
 
 	}
@@ -45,8 +46,10 @@ public class KeyManager implements KeyListener {
 	@Override
 	public void keyReleased(KeyEvent e) {
 
-		if (e.getKeyCode() < 0 || e.getKeyCode() >= this.keys.length)
+		if (e.getKeyCode() < 0 || e.getKeyCode() >= this.keys.length) {
 			return;
+		}
+
 		this.keys[e.getKeyCode()] = false;
 
 	}
@@ -60,6 +63,7 @@ public class KeyManager implements KeyListener {
 		if (keyCode < 0 || keyCode >= this.keys.length) {
 			return false;
 		}
+
 		return this.justPressed[keyCode];
 	}
 
