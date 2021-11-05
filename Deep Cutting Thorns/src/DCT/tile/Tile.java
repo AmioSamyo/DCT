@@ -6,7 +6,7 @@ import java.awt.Graphics;
 public class Tile {
 
 	public static final int TILEWIDTH = 0;
-	public static final int TILEHEIGTH = 0;
+	public static final int TILEHEIGHT = 0;
 	public static Tile[] tiles = new Tile[256];
 
 	private int id = 0;
@@ -26,7 +26,7 @@ public class Tile {
 	}
 
 	public void render(Graphics g, int x, int y) {
-		g.drawImage(this.texture, x, y, null);
+		g.drawImage(this.texture, x, y, TILEWIDTH, TILEHEIGHT, null);
 	}
 
 	public int getId() {
