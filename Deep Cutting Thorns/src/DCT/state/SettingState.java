@@ -1,10 +1,13 @@
 package DCT.state;
 
+import DCT.Facade;
+
 public class SettingState {
+	
+	private Facade facade;
 
-	public SettingState() {
-		// TODO
-
+	public SettingState(Facade facade) {
+		this.facade = facade;
 	}
 
 	public void update() {
