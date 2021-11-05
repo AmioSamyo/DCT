@@ -77,5 +77,28 @@ public class MouseManager implements MouseInputListener {
 		this.mouseX = e.getX();
 		this.mouseY = e.getY();
 	}
-
+	
+	public int getMouseX() {
+		return this.mouseX;
+	}
+	
+	public int getMouseY() {
+		return this.mouseY;
+	}
+	
+	public boolean getLeftClicked() {
+		return this.leftClicked;
+	}
+	
+	public boolean getLeftPressed() {
+		return this.leftPressed;
+	}
+	
+	public boolean getRightClicked() {
+		return this.rightClicked;
+	}
+	
+	public boolean getRightPressed() {
+		return this.rightPressed;
+	}
 }
