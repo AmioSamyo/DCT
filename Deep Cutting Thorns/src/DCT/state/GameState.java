@@ -11,8 +11,8 @@ public class GameState extends State {
 	private Facade facade;
 
 	public GameState(String worldPath, Facade facade) {
-		this.world = new World(worldPath);
 		this.facade = facade;
+		this.world = new World(worldPath, this.facade);
 	}
 
 	@Override
