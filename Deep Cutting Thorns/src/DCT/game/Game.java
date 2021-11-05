@@ -3,6 +3,7 @@ package DCT.game;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 
+import DCT.Facade;
 import DCT.gfx.Display;
 import DCT.input.KeyManager;
 import DCT.input.MouseManager;
@@ -25,14 +26,17 @@ public class Game implements Runnable {
 	private State gameState;
 	private KeyManager keyManager;
 	private MouseManager mouseManager;
+	private Facade facade;
 
 	public Game(String title, int width, int height) {
 		this.running = false;
 		this.width = width;
 		this.height = height;
 		this.title = title;
-		this.keyManager = new KeyManager();
+		
 		this.mouseManager = new MouseManager();
+		this.facade = new Facade(this);
+		this.keyManager = new KeyManager(this.facade);
 	}
 
 	public void initialize() {
@@ -42,8 +46,8 @@ public class Game implements Runnable {
 		this.display.getJFrame().addMouseMotionListener(this.mouseManager);
 		this.display.getCanvas().addMouseListener(this.mouseManager);
 		this.display.getCanvas().addMouseMotionListener(this.mouseManager);
-		
-		this.gameState = new GameState(this.worldPath);
+
+		this.gameState = new GameState(this.worldPath, this.facade);
 		State.setCurrentState(gameState);
 	}
 
@@ -142,8 +146,20 @@ public class Game implements Runnable {
 	public KeyManager getKeyManager() {
 		return this.keyManager;
 	}
-
+	
 	public MouseManager getMouseManager() {
 		return this.mouseManager;
+	}
+	
+	public Display getDisplay() {
+		return this.display;
+	}
+
+	public int getWidth() {
+		return this.width;
+	}
+
+	public int getHeight() {
+		return this.height;
 	}
 }

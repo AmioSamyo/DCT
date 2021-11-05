@@ -3,15 +3,21 @@ package DCT.input;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import DCT.Facade;
+
 public class KeyManager implements KeyListener {
 
 	private boolean[] keys, justPressed, cantPress;
+	
+	private Facade facade;
 
-	public KeyManager() {
+	public KeyManager(Facade facade) {
 
 		this.keys = new boolean[256];
 		this.justPressed = new boolean[keys.length];
 		this.cantPress = new boolean[keys.length];
+		
+		this.facade = facade;
 
 	}
 
