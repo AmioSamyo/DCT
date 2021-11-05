@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 
 import DCT.Facade;
+import DCT.gfx.Assets;
 import DCT.gfx.Display;
 import DCT.input.KeyManager;
 import DCT.input.MouseManager;
@@ -47,9 +48,12 @@ public class Game implements Runnable {
 		this.display.getJFrame().addMouseMotionListener(this.mouseManager);
 		this.display.getCanvas().addMouseListener(this.mouseManager);
 		this.display.getCanvas().addMouseMotionListener(this.mouseManager);
+		
+		Assets.assetInitialize();
 
 		this.gameState = new GameState(this.worldPath, this.facade);
 		State.setCurrentState(gameState);
+
 	}
 
 	public void update() {
