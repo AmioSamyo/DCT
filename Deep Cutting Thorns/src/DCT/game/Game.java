@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 
 import DCT.Facade;
+import DCT.gfx.Assets;
 import DCT.gfx.Display;
 import DCT.input.KeyManager;
 import DCT.input.MouseManager;
@@ -50,6 +51,9 @@ public class Game implements Runnable {
 
 		this.gameState = new GameState(this.worldPath, this.facade);
 		State.setCurrentState(gameState);
+
+		Assets.assetInitialize();
+
 	}
 
 	public void update() {
