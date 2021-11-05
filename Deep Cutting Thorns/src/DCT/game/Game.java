@@ -33,9 +33,10 @@ public class Game implements Runnable {
 		this.width = width;
 		this.height = height;
 		this.title = title;
-		
-		this.mouseManager = new MouseManager();
+
 		this.facade = new Facade(this);
+
+		this.mouseManager = new MouseManager(this.facade);
 		this.keyManager = new KeyManager(this.facade);
 	}
 
@@ -146,11 +147,11 @@ public class Game implements Runnable {
 	public KeyManager getKeyManager() {
 		return this.keyManager;
 	}
-	
+
 	public MouseManager getMouseManager() {
 		return this.mouseManager;
 	}
-	
+
 	public Display getDisplay() {
 		return this.display;
 	}

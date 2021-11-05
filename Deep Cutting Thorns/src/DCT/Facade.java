@@ -4,6 +4,7 @@ import DCT.game.Game;
 import DCT.game.World;
 import DCT.gfx.Display;
 import DCT.input.KeyManager;
+import DCT.input.MouseManager;
 import DCT.state.GameState;
 import DCT.state.State;
 
@@ -19,9 +20,9 @@ public class Facade {
 		return this.game.getKeyManager();
 	}
 
-	/*
-	 * public MouseManager getMouseManager() { return this.game.getMouseManager(); }
-	 */
+	public MouseManager getMouseManager() {
+		return this.game.getMouseManager();
+	}
 
 	public Display getDiplay() {
 		return this.game.getDisplay();
