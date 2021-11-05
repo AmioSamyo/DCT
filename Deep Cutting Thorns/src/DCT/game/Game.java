@@ -3,6 +3,7 @@ package DCT.game;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 
+import DCT.Facade;
 import DCT.gfx.Display;
 import DCT.input.KeyManager;
 import DCT.state.GameState;
@@ -23,20 +24,23 @@ public class Game implements Runnable {
 	private Display display;
 	private State gameState;
 	private KeyManager keyManager;
+	private Facade facade;
 
 	public Game(String title, int width, int height) {
 		this.running = false;
 		this.width = width;
 		this.height = height;
 		this.title = title;
-		this.keyManager = new KeyManager();
+
+		this.facade = new Facade(this);
+		this.keyManager = new KeyManager(this.facade);
 	}
 
 	public void initialize() {
 		this.display = new Display(this.title, this.width, this.height);
 		this.display.getJFrame().addKeyListener(this.keyManager);
 
-		this.gameState = new GameState(this.worldPath);
+		this.gameState = new GameState(this.worldPath, this.facade);
 		State.setCurrentState(gameState);
 	}
 
@@ -134,6 +138,18 @@ public class Game implements Runnable {
 
 	public KeyManager getKeyManager() {
 		return this.keyManager;
+	}
+
+	public Display getDisplay() {
+		return this.display;
+	}
+
+	public int getWidth() {
+		return this.width;
+	}
+
+	public int getHeight() {
+		return this.height;
 	}
 
 }
