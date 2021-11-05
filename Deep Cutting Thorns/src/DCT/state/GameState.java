@@ -2,13 +2,16 @@ package DCT.state;
 
 import java.awt.Graphics;
 
+import DCT.Facade;
 import DCT.game.World;
 
 public class GameState extends State {
 	
 	private World world;
+	private Facade facade;
 
-	public GameState(String worldPath) {
+	public GameState(String worldPath, Facade facade) {
+		this.facade = facade;
 		this.world = new World(worldPath);
 	}
 
@@ -20,6 +23,10 @@ public class GameState extends State {
 	@Override
 	public void render(Graphics g) {
 		this.world.render(g);
+	}
+	
+	public World getWorld() {
+		return this.world;
 	}
 
 }
