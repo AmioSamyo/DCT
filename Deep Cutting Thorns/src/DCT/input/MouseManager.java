@@ -74,7 +74,8 @@ public class MouseManager implements MouseInputListener {
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		
+		this.mouseX = e.getX();
+		this.mouseY = e.getY();
 	}
 
 }
