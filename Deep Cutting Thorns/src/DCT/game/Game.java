@@ -48,11 +48,11 @@ public class Game implements Runnable {
 		this.display.getJFrame().addMouseMotionListener(this.mouseManager);
 		this.display.getCanvas().addMouseListener(this.mouseManager);
 		this.display.getCanvas().addMouseMotionListener(this.mouseManager);
+		
+		Assets.assetInitialize();
 
 		this.gameState = new GameState(this.worldPath, this.facade);
 		State.setCurrentState(gameState);
-
-		Assets.assetInitialize();
 
 	}
 
