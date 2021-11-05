@@ -11,10 +11,7 @@ public class World {
 	private int[][] tiles;
 	private int columns, rows;
 
-	private Facade facade;
-
-	public World(String path, Facade facade) {
-		this.facade = facade;
+	public World(String path) {
 		this.loadWorld(path);
 	}
 
