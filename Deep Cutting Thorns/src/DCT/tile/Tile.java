@@ -17,6 +17,8 @@ public class Tile {
 	public Tile(BufferedImage texture, int id) {
 		this.texture = texture;
 		this.id = id;
+		
+		tiles[id] = this;
 	}
 
 	public void update() {
