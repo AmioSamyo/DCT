@@ -30,11 +30,11 @@ public class Rectangle {
 		return this.height;
 	}
 	
-	public int setX(int positionX) {
-		return this.x = positionX;
+	public void setX(int positionX) {
+		this.x = positionX;
 	}
 	
-	public int setY(int positionY) {
-		return this.y = positionY;
+	public void setY(int positionY) {
+		this.y = positionY;
 	}
 }

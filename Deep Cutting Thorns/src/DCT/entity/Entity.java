@@ -36,4 +36,12 @@ public abstract class Entity {
 	public int getPositionHeight() {
 		return this.position.getHeight();
 	}
+	
+	public void setX(int positionX) {
+		this.position.setX(positionX);
+	}
+	
+	public void setY(int positionY) {
+		this.position.setY(positionY);;
+	}
 }
