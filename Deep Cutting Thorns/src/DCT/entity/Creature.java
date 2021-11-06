@@ -39,5 +39,13 @@ public abstract class Creature extends Entity {
 	public void die() {
 		this.speed = 0;
 	}
+	
+	public void setXMove(int speed) {
+		this.xMove = speed;
+	}
+	
+	public void setYMove(int speed) {
+		this.yMove = speed;
+	}
 
 }
