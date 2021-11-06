@@ -8,6 +8,7 @@ public class Tile {
 	public static final int TILEWIDTH = 0;
 	public static final int TILEHEIGHT = 0;
 	public static Tile[] tiles = new Tile[256];
+	public static Tile wallTile = new WallTile(3);
 
 	private int id = 0;
 	private boolean solid = false;
