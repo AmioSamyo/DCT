@@ -10,6 +10,7 @@ public class Tile {
 	public static Tile[] tiles = new Tile[256];
 	public static Tile wallTile = new WallTile(3);
 	public static Tile grassTile= new GrassTile(0);
+	public static Tile flowerTile=new GrassTile(1);
 
 	private int id = 0;
 	private boolean solid = false;

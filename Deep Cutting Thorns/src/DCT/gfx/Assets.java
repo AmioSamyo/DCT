@@ -14,14 +14,15 @@ public class Assets {
 		SpriteSheet grassSheet = new SpriteSheet(ImageLoader.imageLoad("rsc//32x32_map_Da_Tagliare.png"));
 
 		grass = grassSheet.cropImage(new Rectangle(74, 0, 32, 32));
+		grassFlower = grassSheet.cropImage(new Rectangle(74 + 32, 32 * 8, 32, 32));
 
 		SpriteSheet wallSheet = new SpriteSheet(ImageLoader.imageLoad("rsc//walls tile.gif"));
 
 		wall = wallSheet.cropImage(new Rectangle(0, 0, 32, 32));
 
 		SpriteSheet playerSheet = new SpriteSheet(ImageLoader.imageLoad("rsc\\goblin.png"));
-		int playerAnimWidth = 704/11;
-		int playerAnimHeight = 320/5;
+		int playerAnimWidth = 704 / 11;
+		int playerAnimHeight = 320 / 5;
 
 		playerAnimationDown = new BufferedImage[5];
 		playerAnimationRight = new BufferedImage[5];
