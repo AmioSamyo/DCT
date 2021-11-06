@@ -6,15 +6,15 @@ import DCT.utility.Rectangle;
 
 public class Assets {
 
-	public static BufferedImage grass, grassFlower, grassRock, wall;
+	public static BufferedImage grass, flowerGrass, rockGrass, wall;
 	public static BufferedImage[] playerAnimationDown, playerAnimationRight, playerAnimationUp, playerAnimationLeft;
 
 	public static void assetInitialize() {
 
 		SpriteSheet grassSheet = new SpriteSheet(ImageLoader.imageLoad("rsc//32x32_map_Da_Tagliare.png"));
 
-		grass = grassSheet.cropImage(new Rectangle(74, 0, 32, 32));
-		grassFlower = grassSheet.cropImage(new Rectangle(74 + 32, 32 * 8, 32, 32));
+		grass = grassSheet.cropImage(new Rectangle(107, 33, 32, 32));
+		flowerGrass = grassSheet.cropImage(new Rectangle(107, 231, 32, 32));
 
 		SpriteSheet wallSheet = new SpriteSheet(ImageLoader.imageLoad("rsc//walls tile.gif"));
 
