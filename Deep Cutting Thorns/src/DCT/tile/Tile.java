@@ -5,9 +5,14 @@ import java.awt.Graphics;
 
 public class Tile {
 
-	public static final int TILEWIDTH = 0;
-	public static final int TILEHEIGHT = 0;
+	public static final int TILEWIDTH = 64;
+	public static final int TILEHEIGHT = 64;
 	public static Tile[] tiles = new Tile[256];
+
+	public static Tile grassTile = new GrassTile(0);
+	public static Tile flowerGrassTile = new FlowerGrassTile(1);
+	public static Tile rockGrassTile = new RockGrassTile(2);
+	public static Tile wallTile = new WallTile(3);
 
 	private int id = 0;
 	private boolean solid = false;
@@ -17,7 +22,7 @@ public class Tile {
 	public Tile(BufferedImage texture, int id) {
 		this.texture = texture;
 		this.id = id;
-		
+
 		tiles[id] = this;
 	}
 
