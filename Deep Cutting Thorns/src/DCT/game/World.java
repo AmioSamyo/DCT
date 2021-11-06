@@ -3,6 +3,7 @@ package DCT.game;
 import java.awt.Graphics;
 
 import DCT.Facade;
+import DCT.gfx.Assets;
 import DCT.tile.Tile;
 import DCT.utility.Utils;
 
@@ -21,6 +22,8 @@ public class World {
 				Tile.tiles[this.tiles[x][y]].render(g, x * Tile.TILEWIDTH, y * Tile.TILEHEIGHT);
 			}
 		}
+		//TEMPORARY
+		g.drawImage(Assets.playerAnimationDown[0], 300, 300, null);
 	}
 
 	public void update() {

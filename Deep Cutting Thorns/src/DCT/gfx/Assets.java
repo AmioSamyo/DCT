@@ -7,15 +7,36 @@ import DCT.utility.Rectangle;
 public class Assets {
 
 	public static BufferedImage grass, grassFlower, grassRock, wall;
+	public static BufferedImage[] playerAnimationDown, playerAnimationRight, playerAnimationUp, playerAnimationLeft;
 
 	public static void assetInitialize() {
 
 		SpriteSheet grassSheet = new SpriteSheet(ImageLoader.imageLoad("rsc//32x32_map_Da_Tagliare.png"));
-		
+
 		grass = grassSheet.cropImage(new Rectangle(96, 0, 32, 32));
-		
+
 		SpriteSheet wallSheet = new SpriteSheet(ImageLoader.imageLoad("rsc//walls tile.gif"));
-		
+
 		wall = wallSheet.cropImage(new Rectangle(0, 0, 32, 32));
+
+		SpriteSheet playerSheet = new SpriteSheet(ImageLoader.imageLoad("rsc\\goblin.png"));
+		int playerAnimWidth = 704/11;
+		int playerAnimHeight = 320/5;
+
+		playerAnimationDown = new BufferedImage[11];
+		playerAnimationRight = new BufferedImage[11];
+		playerAnimationUp = new BufferedImage[11];
+		playerAnimationLeft = new BufferedImage[11];
+
+		for (int i = 0; i < 11; i++) {
+			playerAnimationDown[i] = playerSheet.cropImage(
+					new Rectangle(i * playerAnimWidth, playerAnimHeight * 0, playerAnimWidth, playerAnimHeight));
+			playerAnimationRight[i] = playerSheet.cropImage(
+					new Rectangle(i * playerAnimWidth, playerAnimHeight * 1, playerAnimWidth, playerAnimHeight));
+			playerAnimationUp[i] = playerSheet.cropImage(
+					new Rectangle(i * playerAnimWidth, playerAnimHeight * 2, playerAnimWidth, playerAnimHeight));
+			playerAnimationLeft[i] = playerSheet.cropImage(
+					new Rectangle(i * playerAnimWidth, playerAnimHeight * 3, playerAnimWidth, playerAnimHeight));
+		}
 	}
 }
