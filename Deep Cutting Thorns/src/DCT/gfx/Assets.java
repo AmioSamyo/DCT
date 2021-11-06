@@ -13,7 +13,7 @@ public class Assets {
 
 		SpriteSheet grassSheet = new SpriteSheet(ImageLoader.imageLoad("rsc//32x32_map_Da_Tagliare.png"));
 
-		grass = grassSheet.cropImage(new Rectangle(96, 0, 32, 32));
+		grass = grassSheet.cropImage(new Rectangle(74, 0, 32, 32));
 
 		SpriteSheet wallSheet = new SpriteSheet(ImageLoader.imageLoad("rsc//walls tile.gif"));
 
