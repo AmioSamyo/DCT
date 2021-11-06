@@ -3,6 +3,7 @@ package DCT.game;
 import java.awt.Graphics;
 
 import DCT.Facade;
+import DCT.gfx.Animation;
 import DCT.gfx.Assets;
 import DCT.tile.Tile;
 import DCT.utility.Utils;
@@ -11,9 +12,14 @@ public class World {
 
 	private int[][] tiles;
 	private int columns, rows;
+	
+	//TEMPORARY
+	private Animation animTest;
 
 	public World(String path) {
 		this.loadWorld(path);
+		//TEMPORARY
+		this.animTest = new Animation(100, Assets.playerAnimationDown);
 	}
 
 	public void render(Graphics g) {
@@ -23,7 +29,7 @@ public class World {
 			}
 		}
 		//TEMPORARY
-		g.drawImage(Assets.playerAnimationDown[0], 300, 300, null);
+		g.drawImage(this.animTest.getCurrentFrame(), 300, 300, 704/11*2, 320/5*2, null);
 	}
 
 	public void update() {
@@ -32,6 +38,8 @@ public class World {
 				Tile.tiles[this.tiles[x][y]].update();
 			}
 		}
+		//TEMPORARY
+		this.animTest.update();
 	}
 
 	public int getColumns() {

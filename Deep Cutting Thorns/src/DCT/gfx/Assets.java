@@ -23,12 +23,12 @@ public class Assets {
 		int playerAnimWidth = 704/11;
 		int playerAnimHeight = 320/5;
 
-		playerAnimationDown = new BufferedImage[11];
-		playerAnimationRight = new BufferedImage[11];
-		playerAnimationUp = new BufferedImage[11];
-		playerAnimationLeft = new BufferedImage[11];
+		playerAnimationDown = new BufferedImage[5];
+		playerAnimationRight = new BufferedImage[5];
+		playerAnimationUp = new BufferedImage[5];
+		playerAnimationLeft = new BufferedImage[5];
 
-		for (int i = 0; i < 11; i++) {
+		for (int i = 0; i < 5; i++) {
 			playerAnimationDown[i] = playerSheet.cropImage(
 					new Rectangle(i * playerAnimWidth, playerAnimHeight * 0, playerAnimWidth, playerAnimHeight));
 			playerAnimationRight[i] = playerSheet.cropImage(
