@@ -21,17 +21,17 @@ public abstract class Creature extends Entity {
 
 	protected void MoveY() {
 		if (this.yMove > 0) {
-			this.position.setY(this.position.getY() + speed);
+			this.position.setY(this.position.getY() + yMove);
 		} else if (this.yMove < 0) {
-			this.position.setY(this.position.getY() + speed);
+			this.position.setY(this.position.getY() + yMove);
 		}
 	}
 
 	protected void MoveX() {
 		if (this.xMove > 0) {
-			this.position.setX(this.position.getX() + speed);
+			this.position.setX(this.position.getX() + xMove);
 		} else if (this.xMove < 0) {
-			this.position.setX(this.position.getX() + speed);
+			this.position.setX(this.position.getX() + xMove);
 		}
 	}
 
