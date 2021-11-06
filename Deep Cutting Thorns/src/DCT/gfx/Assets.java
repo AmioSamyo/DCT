@@ -15,6 +15,7 @@ public class Assets {
 
 		grass = grassSheet.cropImage(new Rectangle(107, 33, 32, 32));
 		flowerGrass = grassSheet.cropImage(new Rectangle(107, 231, 32, 32));
+		rockGrass = grassSheet.cropImage(new Rectangle(140, 198, 32, 32));
 
 		SpriteSheet wallSheet = new SpriteSheet(ImageLoader.imageLoad("rsc//walls tile.gif"));
 
