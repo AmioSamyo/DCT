@@ -8,9 +8,10 @@ public class Tile {
 	public static final int TILEWIDTH = 64;
 	public static final int TILEHEIGHT = 64;
 	public static Tile[] tiles = new Tile[256];
-	public static Tile wallTile = new WallTile(3);
+	
 	public static Tile grassTile= new GrassTile(0);
-	public static Tile flowerTile=new GrassTile(1);
+	public static Tile flowerTile=new FlowerGrassTile(1);
+	public static Tile wallTile = new WallTile(3);
 
 	private int id = 0;
 	private boolean solid = false;
