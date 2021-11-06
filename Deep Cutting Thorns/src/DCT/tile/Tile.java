@@ -5,8 +5,8 @@ import java.awt.Graphics;
 
 public class Tile {
 
-	public static final int TILEWIDTH = 0;
-	public static final int TILEHEIGHT = 0;
+	public static final int TILEWIDTH = 64;
+	public static final int TILEHEIGHT = 64;
 	public static Tile[] tiles = new Tile[256];
 	public static Tile wallTile = new WallTile(3);
 
