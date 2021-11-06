@@ -1,9 +1,24 @@
 package DCT.entity;
 
-public class Entity {
+import java.awt.Graphics;
 
-	public Entity() {
-		
+import DCT.Facade;
+import DCT.utility.Rectangle;
+
+public abstract class Entity {
+	
+	protected Facade facade;
+	protected Rectangle position;
+	
+	public Entity(Facade facade, Rectangle position) {
+		this.facade = facade;
+		this.position = position;
 	}
-
+	
+	public abstract void update();
+	
+	public abstract void render(Graphics g);
+	
+	public abstract void die();
+	
 }
