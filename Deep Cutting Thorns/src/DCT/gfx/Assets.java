@@ -19,7 +19,7 @@ public class Assets {
 
 		SpriteSheet wallSheet = new SpriteSheet(ImageLoader.imageLoad("rsc//walls tile.gif"));
 
-		wall = wallSheet.cropImage(new Rectangle(0, 0, 32, 32));
+		wall = wallSheet.cropImage(new Rectangle(32, 0, 32, 32));
 
 		SpriteSheet playerSheet = new SpriteSheet(ImageLoader.imageLoad("rsc\\goblin.png"));
 		int playerAnimWidth = 704 / 11;
