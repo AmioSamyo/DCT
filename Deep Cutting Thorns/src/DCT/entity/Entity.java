@@ -21,4 +21,19 @@ public abstract class Entity {
 	
 	public abstract void die();
 	
+	public int getPositionX() {
+		return this.position.getX();
+	}
+	
+	public int getPositionY() {
+		return this.position.getY();
+	}
+	
+	public int getPositionWidth() {
+		return this.position.getWidth();
+	}
+	
+	public int getPositionHeight() {
+		return this.position.getHeight();
+	}
 }
