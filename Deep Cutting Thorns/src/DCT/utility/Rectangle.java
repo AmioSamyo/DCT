@@ -29,4 +29,12 @@ public class Rectangle {
 	public int getHeight() {
 		return this.height;
 	}
+	
+	public int setX(int positionX) {
+		return this.x = positionX;
+	}
+	
+	public int setY(int positionY) {
+		return this.y = positionY;
+	}
 }
