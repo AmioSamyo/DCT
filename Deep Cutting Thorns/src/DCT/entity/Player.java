@@ -12,17 +12,21 @@ public class Player extends Creature {
 	private int currentHealth;
 	private Animation playerMoveDown, playerMoveRight, playerMoveUp, playerMoveLeft, playerIdle;
 
+	private Animation currentAnimation;
+
 	public Player(Facade facade, Rectangle position) {
 		super(facade, position);
 		initialize();
 	}
 
 	private void initialize() {
-		this.playerMoveDown = new Animation(speed, Assets.playerAnimationDown);
-		this.playerMoveRight = new Animation(speed, Assets.playerAnimationRight);
-		this.playerMoveUp = new Animation(speed, Assets.playerAnimationUp);
-		this.playerMoveLeft = new Animation(speed, Assets.playerAnimationLeft);
-		this.playerIdle = new Animation(speed, Assets.playerAnimationIdle);
+		this.playerMoveDown = new Animation(100, Assets.playerAnimationDown);
+		this.playerMoveRight = new Animation(100, Assets.playerAnimationRight);
+		this.playerMoveUp = new Animation(100, Assets.playerAnimationUp);
+		this.playerMoveLeft = new Animation(100, Assets.playerAnimationLeft);
+		this.playerIdle = new Animation(100, Assets.playerAnimationIdle);
+
+		this.currentAnimation = this.playerIdle;
 	}
 
 	@Override
@@ -30,38 +34,26 @@ public class Player extends Creature {
 		if (currentHealth <= 0) {
 			die();
 		}
+		this.playerIdle.update();
+		this.playerMoveUp.update();
+		this.playerMoveRight.update();
+		this.playerMoveLeft.update();
+		this.playerMoveDown.update();
 
-		if (xMove == 0 && yMove == 0) {
-			this.playerIdle.update();
-		}
-
-		if (yMove > 0) {
-			this.playerMoveUp.update();
-		}
-
-		if (xMove > 0) {
-			this.playerMoveRight.update();
-		}
-
-		if (xMove < 0) {
-			this.playerMoveLeft.update();
-		}
-
-		if (yMove < 0) {
-			this.playerMoveDown.update();
-		}
+		this.currentAnimation.update();
 	}
 
 	@Override
 	public void render(Graphics g) {
-		
+		g.drawImage(this.currentAnimation.getCurrentFrame(), this.position.getX(), this.position.getY(),
+					this.position.getWidth(), this.position.getHeight(), null);
 	}
-	
+
 	@Override
 	public void die() {
-		
+
 	}
-	
+
 	public int getCurrentHealth() {
 		return this.currentHealth;
 	}
