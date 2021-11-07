@@ -42,6 +42,10 @@ public class Player extends Creature {
 		if (currentHealth <= 0) {
 			die();
 		}
+		//TODO player->Comprende entrambi
+		this.getInput();
+		this.move();
+		this.resetMovement();
 
 		this.playerIdle.update();
 		this.playerMoveUp.update();
@@ -50,12 +54,28 @@ public class Player extends Creature {
 		this.playerMoveDown.update();
 
 		this.currentAnimation.update();
+		
 	}
 
 	@Override
 	public void render(Graphics g) {
 		g.drawImage(this.currentAnimation.getCurrentFrame(), this.position.getX(), this.position.getY(),
 				this.position.getWidth(), this.position.getHeight(), null);
+	}
+	
+	private void getInput() {
+		if (this.facade.getKeyManager().getUp()) {
+			this.addYMove(-this.speed);
+		}
+		if (this.facade.getKeyManager().getDown()) {
+			this.addYMove(this.speed);
+		}
+		if (this.facade.getKeyManager().getLeft()) {
+			this.addXMove(-this.speed);
+		}
+		if (this.facade.getKeyManager().getRight()) {
+			this.addXMove(this.speed);
+		}
 	}
 
 	@Override
