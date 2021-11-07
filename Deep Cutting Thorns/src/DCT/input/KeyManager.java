@@ -75,5 +75,8 @@ public class KeyManager implements KeyListener {
 
 		return this.justPressed[keyCode];
 	}
-
+	
+	public boolean getUp() {
+		return this.up;
+	}
 }
