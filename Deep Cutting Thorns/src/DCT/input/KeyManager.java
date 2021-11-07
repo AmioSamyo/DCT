@@ -7,8 +7,9 @@ import DCT.Facade;
 
 public class KeyManager implements KeyListener {
 
+	private boolean up, down, left, right;
 	private boolean[] keys, justPressed, cantPress;
-	
+
 	private Facade facade;
 
 	public KeyManager(Facade facade) {
@@ -16,7 +17,7 @@ public class KeyManager implements KeyListener {
 		this.keys = new boolean[256];
 		this.justPressed = new boolean[keys.length];
 		this.cantPress = new boolean[keys.length];
-		
+
 		this.facade = facade;
 
 	}
@@ -35,6 +36,8 @@ public class KeyManager implements KeyListener {
 				this.justPressed[i] = true;
 			}
 		}
+
+		up = this.keys[KeyEvent.VK_W];
 
 	}
 
