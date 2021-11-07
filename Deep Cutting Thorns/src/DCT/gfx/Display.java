@@ -42,7 +42,6 @@ public class Display {
 		this.frame.setSize(this.width, this.height);
 		this.frame.setResizable(false);
 		this.frame.setVisible(true);
-		this.frame.setFocusable(false);
 		this.frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		return this.frame;
 	}
