@@ -5,7 +5,7 @@ import java.awt.event.KeyListener;
 
 public class KeyManager implements KeyListener {
 
-	public boolean up, down, left, right;
+	private boolean up, down, left, right;
 	private boolean[] keys, justPressed, cantPress;
 
 	public KeyManager() {
@@ -32,6 +32,9 @@ public class KeyManager implements KeyListener {
 		}
 
 		this.up = this.keys[KeyEvent.VK_W];
+		this.down = this.keys[KeyEvent.VK_S];
+		this.left = this.keys[KeyEvent.VK_A];
+		this.right = this.keys[KeyEvent.VK_D];
 
 	}
 
@@ -72,5 +75,17 @@ public class KeyManager implements KeyListener {
 
 	public boolean getUp() {
 		return this.up;
+	}
+
+	public boolean getDown() {
+		return this.down;
+	}
+
+	public boolean getLeft() {
+		return this.left;
+	}
+
+	public boolean getRight() {
+		return this.right;
 	}
 }
