@@ -14,8 +14,11 @@ public class Player extends Creature {
 
 	private Animation currentAnimation;
 
-	public Player(Facade facade, Rectangle position) {
-		super(facade, position);
+	private static final int PLAYERWIDTH = 704 / 11, PLAYERHEIGHT = 320 / 5;
+	private static final int SCALE = 1;
+
+	public Player(Facade facade, int x, int y) {
+		super(facade, new Rectangle(x, y, PLAYERWIDTH * SCALE, PLAYERHEIGHT * SCALE));
 		initialize();
 	}
 
@@ -46,7 +49,7 @@ public class Player extends Creature {
 	@Override
 	public void render(Graphics g) {
 		g.drawImage(this.currentAnimation.getCurrentFrame(), this.position.getX(), this.position.getY(),
-					this.position.getWidth(), this.position.getHeight(), null);
+				this.position.getWidth(), this.position.getHeight(), null);
 	}
 
 	@Override
