@@ -3,22 +3,17 @@ package DCT.input;
 import java.awt.event.MouseEvent;
 import javax.swing.event.MouseInputListener;
 
-import DCT.Facade;
-
 public class MouseManager implements MouseInputListener {
 
 	private int mouseX, mouseY;
 	private boolean leftClicked, leftPressed, rightClicked, rightPressed;
 
-	private Facade facade;
-
-	public MouseManager(Facade facade) {
+	public MouseManager() {
 		this.leftClicked = false;
 		this.leftPressed = false;
 		this.rightClicked = false;
 		this.rightPressed = false;
 
-		this.facade = facade;
 	}
 
 	@Override
