@@ -56,5 +56,14 @@ public class Player extends Creature {
 	public void render(Graphics g) {
 		
 	}
+	
+	@Override
+	public void die() {
+		
+	}
+	
+	public int getCurrentHealth() {
+		return this.currentHealth;
+	}
 
 }
