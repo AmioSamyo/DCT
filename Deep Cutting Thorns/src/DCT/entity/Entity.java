@@ -42,6 +42,6 @@ public abstract class Entity {
 	}
 	
 	public void setY(int positionY) {
-		this.position.setY(positionY);;
+		this.position.setY(positionY);
 	}
 }
