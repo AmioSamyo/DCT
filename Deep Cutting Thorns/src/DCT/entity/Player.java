@@ -42,10 +42,8 @@ public class Player extends Creature {
 		if (currentHealth <= 0) {
 			die();
 		}
-		//TODO player->Comprende entrambi
-		this.getInput();
-		this.move();
-		this.resetMovement();
+
+		playerMovement();
 
 		this.playerIdle.update();
 		this.playerMoveUp.update();
@@ -61,6 +59,12 @@ public class Player extends Creature {
 	public void render(Graphics g) {
 		g.drawImage(this.currentAnimation.getCurrentFrame(), this.position.getX(), this.position.getY(),
 				this.position.getWidth(), this.position.getHeight(), null);
+	}
+	
+	private void playerMovement() {
+		this.getInput();
+		this.move();
+		this.resetMovement();
 	}
 	
 	private void getInput() {
