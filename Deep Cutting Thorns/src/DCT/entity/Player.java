@@ -10,6 +10,7 @@ import DCT.utility.Rectangle;
 public class Player extends Creature {
 
 	private int currentHealth;
+	private int speed;
 	
 	private Animation playerMoveDown, playerMoveRight, playerMoveUp, playerMoveLeft, playerIdle;
 	private Animation currentAnimation;
@@ -21,6 +22,7 @@ public class Player extends Creature {
 	public Player(Facade facade, int x, int y) {
 		
 		super(facade, new Rectangle(x, y, PLAYERWIDTH * SCALE, PLAYERHEIGHT * SCALE));
+		this.speed=4;
 		
 		initialize();
 	}
