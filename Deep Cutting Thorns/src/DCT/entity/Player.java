@@ -10,25 +10,24 @@ import DCT.utility.Rectangle;
 public class Player extends Creature {
 
 	private int currentHealth;
-	private int speed;
 	
 	private Animation playerMoveDown, playerMoveRight, playerMoveUp, playerMoveLeft, playerIdle;
 	private Animation currentAnimation;
 
 	private static final int PLAYERWIDTH = 704 / 11, PLAYERHEIGHT = 320 / 5;
 	private static final int SCALE = 2;
-	private static final int ANIMATIONSPEED=100;
+	private static final int ANIMATIONSPEED = 100;
 
 	public Player(Facade facade, int x, int y) {
-		
+
 		super(facade, new Rectangle(x, y, PLAYERWIDTH * SCALE, PLAYERHEIGHT * SCALE));
-		this.speed=4;
-		
+		this.speed = 4;
+
 		initialize();
 	}
 
 	private void initialize() {
-		
+
 		this.playerMoveDown = new Animation(ANIMATIONSPEED, Assets.playerAnimationDown);
 		this.playerMoveRight = new Animation(ANIMATIONSPEED, Assets.playerAnimationRight);
 		this.playerMoveUp = new Animation(ANIMATIONSPEED, Assets.playerAnimationUp);
@@ -43,7 +42,7 @@ public class Player extends Creature {
 		if (currentHealth <= 0) {
 			die();
 		}
-		
+
 		this.playerIdle.update();
 		this.playerMoveUp.update();
 		this.playerMoveRight.update();
