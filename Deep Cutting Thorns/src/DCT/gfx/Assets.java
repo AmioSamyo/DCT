@@ -50,12 +50,12 @@ public class Assets {
 		int playerAnimWidth = 704 / 11;
 		int playerAnimHeight = 320 / 5;
 		playerAnimationIdle[0] = playerSheet
-				.cropImage(new Rectangle(2 * playerAnimWidth, playerAnimHeight * 4, playerAnimWidth, playerAnimHeight));
+				.cropImage(new Rectangle(0 * playerAnimWidth, playerAnimHeight * 4, playerAnimWidth, playerAnimHeight));
 		playerAnimationIdle[1] = playerSheet
-				.cropImage(new Rectangle(3 * playerAnimWidth, playerAnimHeight * 4, playerAnimWidth, playerAnimHeight));
+				.cropImage(new Rectangle(1 * playerAnimWidth, playerAnimHeight * 4, playerAnimWidth, playerAnimHeight));
 		playerAnimationIdle[2] = playerSheet
-				.cropImage(new Rectangle(4 * playerAnimWidth, playerAnimHeight * 4, playerAnimWidth, playerAnimHeight));
+				.cropImage(new Rectangle(2 * playerAnimWidth, playerAnimHeight * 4, playerAnimWidth, playerAnimHeight));
 		playerAnimationIdle[3] = playerSheet
-				.cropImage(new Rectangle(3 * playerAnimWidth, playerAnimHeight * 4, playerAnimWidth, playerAnimHeight));
+				.cropImage(new Rectangle(1 * playerAnimWidth, playerAnimHeight * 4, playerAnimWidth, playerAnimHeight));
 	}
 }
