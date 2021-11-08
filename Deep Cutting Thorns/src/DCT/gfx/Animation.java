@@ -26,7 +26,7 @@ public class Animation {
 		if (this.timeCounter > this.animationSpeed) {
 			this.currentFrameIndex++;
 			this.timeCounter = 0;
-			
+
 			if (this.currentFrameIndex >= this.frames.length) {
 				this.currentFrameIndex = 0;
 			}

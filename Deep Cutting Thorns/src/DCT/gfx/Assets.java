@@ -6,8 +6,10 @@ import DCT.utility.Rectangle;
 
 public class Assets {
 
-	public static BufferedImage grass, flowerGrass, rockGrass, wall;
-	public static BufferedImage[] playerAnimationDown, playerAnimationRight, playerAnimationUp, playerAnimationLeft, playerAnimationIdle;
+	public static BufferedImage grass, flowerGrass, rockGrass;
+	public static BufferedImage wall;
+	public static BufferedImage[] playerAnimationDown, playerAnimationRight, playerAnimationUp, playerAnimationLeft;
+	public static BufferedImage[] playerAnimationIdle;
 
 	public static void assetInitialize() {
 
@@ -43,16 +45,17 @@ public class Assets {
 		}
 		idleLoading(playerSheet);
 	}
+
 	private static void idleLoading(SpriteSheet playerSheet) {
 		int playerAnimWidth = 704 / 11;
 		int playerAnimHeight = 320 / 5;
-		playerAnimationIdle[0] = playerSheet.cropImage(
-				new Rectangle(2 * playerAnimWidth, playerAnimHeight * 4, playerAnimWidth, playerAnimHeight));
-		playerAnimationIdle[1] = playerSheet.cropImage(
-				new Rectangle(3 * playerAnimWidth, playerAnimHeight * 4, playerAnimWidth, playerAnimHeight));
-		playerAnimationIdle[2] = playerSheet.cropImage(
-				new Rectangle(4 * playerAnimWidth, playerAnimHeight * 4, playerAnimWidth, playerAnimHeight));
-		playerAnimationIdle[3] = playerSheet.cropImage(
-				new Rectangle(3 * playerAnimWidth, playerAnimHeight * 4, playerAnimWidth, playerAnimHeight));
+		playerAnimationIdle[0] = playerSheet
+				.cropImage(new Rectangle(2 * playerAnimWidth, playerAnimHeight * 4, playerAnimWidth, playerAnimHeight));
+		playerAnimationIdle[1] = playerSheet
+				.cropImage(new Rectangle(3 * playerAnimWidth, playerAnimHeight * 4, playerAnimWidth, playerAnimHeight));
+		playerAnimationIdle[2] = playerSheet
+				.cropImage(new Rectangle(4 * playerAnimWidth, playerAnimHeight * 4, playerAnimWidth, playerAnimHeight));
+		playerAnimationIdle[3] = playerSheet
+				.cropImage(new Rectangle(3 * playerAnimWidth, playerAnimHeight * 4, playerAnimWidth, playerAnimHeight));
 	}
 }

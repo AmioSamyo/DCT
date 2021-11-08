@@ -5,7 +5,7 @@ import java.awt.image.BufferedImage;
 import DCT.utility.Rectangle;
 
 public class SpriteSheet {
-	
+
 	private BufferedImage sheet;
 
 	public SpriteSheet(BufferedImage img) {
@@ -13,7 +13,8 @@ public class SpriteSheet {
 	}
 
 	public BufferedImage cropImage(Rectangle rect) {
-		BufferedImage croppedImage = this.sheet.getSubimage(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
+		BufferedImage croppedImage = this.sheet.getSubimage(rect.getX(), rect.getY(), rect.getWidth(),
+				rect.getHeight());
 		return croppedImage;
 	}
 }

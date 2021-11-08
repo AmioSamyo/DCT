@@ -42,15 +42,15 @@ public class Game implements Runnable {
 	public void initialize() {
 		this.display = new Display(this.title, this.width, this.height);
 		this.display.getJFrame().addKeyListener(this.keyManager);
-		
+
 		this.display.getJFrame().addMouseListener(this.mouseManager);
 		this.display.getJFrame().addMouseMotionListener(this.mouseManager);
-		
+
 		this.display.getCanvas().addMouseListener(this.mouseManager);
 		this.display.getCanvas().addMouseMotionListener(this.mouseManager);
-		
+
 		this.facade = new Facade(this);
-		
+
 		Assets.assetInitialize();
 
 		this.gameState = new GameState(this.worldPath, this.facade);

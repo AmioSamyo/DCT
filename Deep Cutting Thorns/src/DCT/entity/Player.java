@@ -10,7 +10,7 @@ import DCT.utility.Rectangle;
 public class Player extends Creature {
 
 	private int currentHealth;
-	
+
 	private Animation playerMoveDown, playerMoveRight, playerMoveUp, playerMoveLeft, playerIdle;
 	private Animation currentAnimation;
 
@@ -52,7 +52,7 @@ public class Player extends Creature {
 		this.playerMoveDown.update();
 
 		this.currentAnimation.update();
-		
+
 	}
 
 	@Override
@@ -60,13 +60,13 @@ public class Player extends Creature {
 		g.drawImage(this.currentAnimation.getCurrentFrame(), this.position.getX(), this.position.getY(),
 				this.position.getWidth(), this.position.getHeight(), null);
 	}
-	
+
 	private void playerMovement() {
 		this.getInput();
 		this.move();
 		this.resetMovement();
 	}
-	
+
 	private void getInput() {
 		if (this.facade.getKeyManager().getUp()) {
 			this.addYMove(-this.speed);
