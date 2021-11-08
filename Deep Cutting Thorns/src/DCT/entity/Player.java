@@ -61,9 +61,19 @@ public class Player extends Creature {
 				this.position.getWidth(), this.position.getHeight(), null);
 	}
 
+	@Override
+	public void die() {
+
+	}
+
+	public int getCurrentHealth() {
+		return this.currentHealth;
+	}
+
 	private void playerMovement() {
 		this.getInput();
 		this.move();
+		this.chooseCurrentAnimation();
 		this.resetMovement();
 	}
 
@@ -82,13 +92,18 @@ public class Player extends Creature {
 		}
 	}
 
-	@Override
-	public void die() {
-
-	}
-
-	public int getCurrentHealth() {
-		return this.currentHealth;
+	private void chooseCurrentAnimation() {
+		if (this.xMove < 0) {
+			this.currentAnimation = this.playerMoveLeft;
+		} else if (this.xMove > 0) {
+			this.currentAnimation = this.playerMoveRight;
+		} else if (this.yMove < 0) {
+			this.currentAnimation = this.playerMoveUp;
+		} else if (this.yMove > 0) {
+			this.currentAnimation = this.playerMoveDown;
+		} else {
+			this.currentAnimation = this.playerIdle;
+		}
 	}
 
 }
