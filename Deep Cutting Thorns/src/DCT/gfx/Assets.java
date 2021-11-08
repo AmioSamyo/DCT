@@ -6,8 +6,10 @@ import DCT.utility.Rectangle;
 
 public class Assets {
 
-	public static BufferedImage grass, flowerGrass, rockGrass, wall;
-	public static BufferedImage[] playerAnimationDown, playerAnimationRight, playerAnimationUp, playerAnimationLeft, playerAnimationIdle;
+	public static BufferedImage grass, flowerGrass, rockGrass;
+	public static BufferedImage wall;
+	public static BufferedImage[] playerAnimationDown, playerAnimationRight, playerAnimationUp, playerAnimationLeft;
+	public static BufferedImage[] playerAnimationIdle;
 
 	public static void assetInitialize() {
 
@@ -29,7 +31,7 @@ public class Assets {
 		playerAnimationRight = new BufferedImage[5];
 		playerAnimationUp = new BufferedImage[5];
 		playerAnimationLeft = new BufferedImage[5];
-		playerAnimationIdle = new BufferedImage[5];
+		playerAnimationIdle = new BufferedImage[4];
 
 		for (int i = 0; i < 5; i++) {
 			playerAnimationDown[i] = playerSheet.cropImage(
@@ -40,8 +42,20 @@ public class Assets {
 					new Rectangle(i * playerAnimWidth, playerAnimHeight * 2, playerAnimWidth, playerAnimHeight));
 			playerAnimationLeft[i] = playerSheet.cropImage(
 					new Rectangle(i * playerAnimWidth, playerAnimHeight * 3, playerAnimWidth, playerAnimHeight));
-			playerAnimationIdle[i] = playerSheet.cropImage(
-					new Rectangle(i * playerAnimWidth, playerAnimHeight * 4, playerAnimWidth, playerAnimHeight));
 		}
+		idleLoading(playerSheet);
+	}
+
+	private static void idleLoading(SpriteSheet playerSheet) {
+		int playerAnimWidth = 704 / 11;
+		int playerAnimHeight = 320 / 5;
+		playerAnimationIdle[0] = playerSheet
+				.cropImage(new Rectangle(0 * playerAnimWidth, playerAnimHeight * 4, playerAnimWidth, playerAnimHeight));
+		playerAnimationIdle[1] = playerSheet
+				.cropImage(new Rectangle(1 * playerAnimWidth, playerAnimHeight * 4, playerAnimWidth, playerAnimHeight));
+		playerAnimationIdle[2] = playerSheet
+				.cropImage(new Rectangle(2 * playerAnimWidth, playerAnimHeight * 4, playerAnimWidth, playerAnimHeight));
+		playerAnimationIdle[3] = playerSheet
+				.cropImage(new Rectangle(1 * playerAnimWidth, playerAnimHeight * 4, playerAnimWidth, playerAnimHeight));
 	}
 }

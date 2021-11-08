@@ -3,7 +3,7 @@ package DCT.state;
 import DCT.Facade;
 
 public class SettingState {
-	
+
 	private Facade facade;
 
 	public SettingState(Facade facade) {

@@ -3,21 +3,16 @@ package DCT.input;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import DCT.Facade;
-
 public class KeyManager implements KeyListener {
 
+	private boolean up, down, left, right;
 	private boolean[] keys, justPressed, cantPress;
-	
-	private Facade facade;
 
-	public KeyManager(Facade facade) {
+	public KeyManager() {
 
 		this.keys = new boolean[256];
 		this.justPressed = new boolean[keys.length];
 		this.cantPress = new boolean[keys.length];
-		
-		this.facade = facade;
 
 	}
 
@@ -35,6 +30,11 @@ public class KeyManager implements KeyListener {
 				this.justPressed[i] = true;
 			}
 		}
+
+		this.up = this.keys[KeyEvent.VK_W];
+		this.down = this.keys[KeyEvent.VK_S];
+		this.left = this.keys[KeyEvent.VK_A];
+		this.right = this.keys[KeyEvent.VK_D];
 
 	}
 
@@ -73,4 +73,19 @@ public class KeyManager implements KeyListener {
 		return this.justPressed[keyCode];
 	}
 
+	public boolean getUp() {
+		return this.up;
+	}
+
+	public boolean getDown() {
+		return this.down;
+	}
+
+	public boolean getLeft() {
+		return this.left;
+	}
+
+	public boolean getRight() {
+		return this.right;
+	}
 }

@@ -10,24 +10,29 @@ import DCT.utility.Rectangle;
 public class Player extends Creature {
 
 	private int currentHealth;
-	private Animation playerMoveDown, playerMoveRight, playerMoveUp, playerMoveLeft, playerIdle;
 
+	private Animation playerMoveDown, playerMoveRight, playerMoveUp, playerMoveLeft, playerIdle;
 	private Animation currentAnimation;
 
 	private static final int PLAYERWIDTH = 704 / 11, PLAYERHEIGHT = 320 / 5;
-	private static final int SCALE = 1;
+	private static final int SCALE = 2;
+	private static final int ANIMATIONSPEED = 100;
 
 	public Player(Facade facade, int x, int y) {
+
 		super(facade, new Rectangle(x, y, PLAYERWIDTH * SCALE, PLAYERHEIGHT * SCALE));
+		this.speed = 4;
+
 		initialize();
 	}
 
 	private void initialize() {
-		this.playerMoveDown = new Animation(100, Assets.playerAnimationDown);
-		this.playerMoveRight = new Animation(100, Assets.playerAnimationRight);
-		this.playerMoveUp = new Animation(100, Assets.playerAnimationUp);
-		this.playerMoveLeft = new Animation(100, Assets.playerAnimationLeft);
-		this.playerIdle = new Animation(100, Assets.playerAnimationIdle);
+
+		this.playerMoveDown = new Animation(ANIMATIONSPEED, Assets.playerAnimationDown);
+		this.playerMoveRight = new Animation(ANIMATIONSPEED, Assets.playerAnimationRight);
+		this.playerMoveUp = new Animation(ANIMATIONSPEED, Assets.playerAnimationUp);
+		this.playerMoveLeft = new Animation(ANIMATIONSPEED, Assets.playerAnimationLeft);
+		this.playerIdle = new Animation(ANIMATIONSPEED, Assets.playerAnimationIdle);
 
 		this.currentAnimation = this.playerIdle;
 	}
@@ -37,6 +42,9 @@ public class Player extends Creature {
 		if (currentHealth <= 0) {
 			die();
 		}
+
+		playerMovement();
+
 		this.playerIdle.update();
 		this.playerMoveUp.update();
 		this.playerMoveRight.update();
@@ -44,12 +52,34 @@ public class Player extends Creature {
 		this.playerMoveDown.update();
 
 		this.currentAnimation.update();
+
 	}
 
 	@Override
 	public void render(Graphics g) {
 		g.drawImage(this.currentAnimation.getCurrentFrame(), this.position.getX(), this.position.getY(),
 				this.position.getWidth(), this.position.getHeight(), null);
+	}
+
+	private void playerMovement() {
+		this.getInput();
+		this.move();
+		this.resetMovement();
+	}
+
+	private void getInput() {
+		if (this.facade.getKeyManager().getUp()) {
+			this.addYMove(-this.speed);
+		}
+		if (this.facade.getKeyManager().getDown()) {
+			this.addYMove(this.speed);
+		}
+		if (this.facade.getKeyManager().getLeft()) {
+			this.addXMove(-this.speed);
+		}
+		if (this.facade.getKeyManager().getRight()) {
+			this.addXMove(this.speed);
+		}
 	}
 
 	@Override

@@ -7,7 +7,7 @@ import DCT.entity.Player;
 import DCT.game.World;
 
 public class GameState extends State {
-	
+
 	private World world;
 	private Facade facade;
 	private Player player;
@@ -29,7 +29,7 @@ public class GameState extends State {
 		this.world.render(g);
 		this.player.render(g);
 	}
-	
+
 	public World getWorld() {
 		return this.world;
 	}

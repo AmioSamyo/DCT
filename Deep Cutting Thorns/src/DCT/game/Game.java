@@ -35,20 +35,22 @@ public class Game implements Runnable {
 		this.height = height;
 		this.title = title;
 
-		this.facade = new Facade(this);
-
-		this.mouseManager = new MouseManager(this.facade);
-		this.keyManager = new KeyManager(this.facade);
+		this.mouseManager = new MouseManager();
+		this.keyManager = new KeyManager();
 	}
 
 	public void initialize() {
 		this.display = new Display(this.title, this.width, this.height);
 		this.display.getJFrame().addKeyListener(this.keyManager);
+
 		this.display.getJFrame().addMouseListener(this.mouseManager);
 		this.display.getJFrame().addMouseMotionListener(this.mouseManager);
+
 		this.display.getCanvas().addMouseListener(this.mouseManager);
 		this.display.getCanvas().addMouseMotionListener(this.mouseManager);
-		
+
+		this.facade = new Facade(this);
+
 		Assets.assetInitialize();
 
 		this.gameState = new GameState(this.worldPath, this.facade);
