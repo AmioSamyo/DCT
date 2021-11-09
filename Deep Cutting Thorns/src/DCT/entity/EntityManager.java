@@ -34,14 +34,14 @@ public class EntityManager {
 
 	public void update() {
 
-		this.entityList.forEach(Entity -> Entity.update());
+		this.entityList.forEach(e -> e.update());
 
 		this.entityList.sort(ruleSorter);
 	}
 
 	public void render(Graphics g) {
 
-		this.entityList.forEach(Entity -> Entity.render(g));
+		this.entityList.forEach(e -> e.render(g));
 	}
 
 	public void addEntity(Entity e) {
