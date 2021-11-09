@@ -1,5 +1,6 @@
 package DCT;
 
+import DCT.entity.EntityManager;
 import DCT.game.Game;
 import DCT.game.World;
 import DCT.gfx.Display;
@@ -30,6 +31,18 @@ public class Facade {
 
 	public State getCurrentState() {
 		return State.getCurrentState();
+	}
+	
+	public EntityManager getEntityManager() {
+		GameState example = new GameState("", this);
+		GameState current = (this.getCurrentState().getClass().getName() == example.getClass().getName())
+				? (GameState) this.getCurrentState()
+				: null;
+
+		if (current == null) {
+			return null;
+		}
+		return current.getEntityManager();
 	}
 
 	public World getWorld() {
