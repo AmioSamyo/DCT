@@ -52,5 +52,9 @@ public class EntityManager {
 
 		this.entityList.add(e);
 	}
+	
+	public Player getPlayer() {
+		return this.player;
+	}
 
 }
