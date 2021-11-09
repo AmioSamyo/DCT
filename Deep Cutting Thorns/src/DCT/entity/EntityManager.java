@@ -34,30 +34,26 @@ public class EntityManager {
 
 	public void update() {
 
-		for (int i = 0; i < this.entityList.size(); i++) {
-			this.entityList.get(i).update();
-		}
+		this.entityList.forEach(Entity -> Entity.update());
 
 		this.entityList.sort(ruleSorter);
 	}
 
 	public void render(Graphics g) {
 
-		for (int i = 0; i < this.entityList.size(); i++) {
-			this.entityList.get(i).render(g);
-		}
+		this.entityList.forEach(Entity -> Entity.render(g));
 	}
 
 	public void addEntity(Entity e) {
 
 		this.entityList.add(e);
 	}
-	
+
 	public Player getPlayer() {
 		return this.player;
 	}
-	
-	public ArrayList<Entity> getEntityList(){
+
+	public ArrayList<Entity> getEntityList() {
 		return this.entityList;
 	}
 
