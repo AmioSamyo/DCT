@@ -38,5 +38,9 @@ public class GameState extends State {
 	public World getWorld() {
 		return this.world;
 	}
+	
+	public EntityManager getEntityManager() {
+		return this.entityManager;
+	}
 
 }
