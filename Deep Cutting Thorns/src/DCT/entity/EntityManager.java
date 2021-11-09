@@ -56,5 +56,9 @@ public class EntityManager {
 	public Player getPlayer() {
 		return this.player;
 	}
+	
+	public ArrayList<Entity> getEntityList(){
+		return this.entityList;
+	}
 
 }
