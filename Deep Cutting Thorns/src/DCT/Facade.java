@@ -12,6 +12,8 @@ import DCT.state.State;
 public class Facade {
 
 	private Game game;
+	
+	private boolean debug = true;
 
 	public Facade(Game game) {
 		this.game = game;
@@ -34,27 +36,11 @@ public class Facade {
 	}
 	
 	public EntityManager getEntityManager() {
-		GameState example = new GameState("", this);
-		GameState current = (this.getCurrentState().getClass().getName() == example.getClass().getName())
-				? (GameState) this.getCurrentState()
-				: null;
-
-		if (current == null) {
-			return null;
-		}
-		return current.getEntityManager();
+		return this.getCurrentState().getEntityManager();
 	}
 
 	public World getWorld() {
-		GameState example = new GameState("", this);
-		GameState current = (this.getCurrentState().getClass().getName() == example.getClass().getName())
-				? (GameState) this.getCurrentState()
-				: null;
-
-		if (current == null) {
-			return null;
-		}
-		return current.getWorld();
+		return State.getCurrentState().getWorld();
 	}
 
 	public int getWidth() {
@@ -63,6 +49,10 @@ public class Facade {
 
 	public int getHeight() {
 		return this.game.getHeight();
+	}
+	
+	public boolean isDebugging() {
+		return this.debug;
 	}
 
 }

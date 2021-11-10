@@ -27,6 +27,8 @@ public class Player extends Creature {
 	}
 
 	private void initialize() {
+		
+		this.hitBox = new Rectangle(20, 20, 10, 10);
 
 		this.playerMoveDown = new Animation(ANIMATIONSPEED, Assets.playerAnimationDown);
 		this.playerMoveRight = new Animation(ANIMATIONSPEED, Assets.playerAnimationRight);

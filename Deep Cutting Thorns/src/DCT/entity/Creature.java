@@ -73,7 +73,13 @@ public abstract class Creature extends Entity {
 	}
 
 	protected boolean checkCollisionWithTile(int x, int y) {
-		return Tile.tiles[this.facade.getWorld().getTiles()[x / Tile.TILEWIDTH][y / Tile.TILEHEIGHT]].isSolid();
+		int xGrid = x / Tile.TILEWIDTH;
+		int yGrid = y / Tile.TILEHEIGHT;
+		
+		if(xGrid < 0 || xGrid >= this.facade.getWorld().getColumns() || yGrid < 0 || yGrid >= this.facade.getWorld().getRows()) {
+			return false;
+		}
+		return Tile.tiles[this.facade.getWorld().getTiles()[xGrid][yGrid]].isSolid();
 	}
 
 }
