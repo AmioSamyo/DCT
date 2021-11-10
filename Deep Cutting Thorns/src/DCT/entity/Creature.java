@@ -1,6 +1,7 @@
 package DCT.entity;
 
 import DCT.Facade;
+import DCT.tile.Tile;
 import DCT.utility.Rectangle;
 
 public abstract class Creature extends Entity {
@@ -25,9 +26,14 @@ public abstract class Creature extends Entity {
 	}
 
 	protected void MoveY() {
-		if (this.yMove > 0) {
-			this.position.setY(this.position.getY() + yMove);
-		} else if (this.yMove < 0) {
+		if (this.yMove < 0) {
+			int futureY = this.position.getY() + this.hitBox.getY() + this.yMove;
+
+			if (!this.checkCollisionWithTile(this.position.getX() + this.hitBox.getX(), futureY)
+					&& !this.checkCollisionWithTile(this.position.getX() + this.hitBox.getX() + this.hitBox.getWidth(), futureY)) {
+				this.position.setY(this.position.getY() + yMove);
+			}
+		} else if (this.yMove > 0) {
 			this.position.setY(this.position.getY() + yMove);
 		}
 	}
@@ -64,6 +70,10 @@ public abstract class Creature extends Entity {
 	protected void resetMovement() {
 		this.setXMove(0);
 		this.setYMove(0);
+	}
+
+	protected boolean checkCollisionWithTile(int x, int y) {
+		return Tile.tiles[this.facade.getWorld().getTiles()[x / Tile.TILEWIDTH][y / Tile.TILEHEIGHT]].isSolid();
 	}
 
 }
