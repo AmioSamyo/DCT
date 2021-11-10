@@ -7,21 +7,17 @@ import DCT.Facade;
 import DCT.gfx.Assets;
 
 public class Tree extends StaticEntity {
-	
-	private BufferedImage treeTile;	
+
+	private BufferedImage treeTile;
 	private int x, y;
 	private static final int TREEWIDTH = 64, TREEHEIGHT = 96;
 
-	public Tree(Facade facade, int x, int y, int width, int height) {
-		super(facade, x, y, width, height);
-		
-		initialize();
-	}
-	
-	private void initialize(){
+	public Tree(Facade facade, int x, int y) {
+		super(facade, x, y, TREEWIDTH, TREEHEIGHT);
+
 		this.treeTile = Assets.tree;
-		this.x = 100;
-		this.y = 100;
+		this.x = x;
+		this.y = y;
 	}
 
 	@Override
@@ -35,6 +31,6 @@ public class Tree extends StaticEntity {
 
 	@Override
 	public void die() {
-		
+
 	}
 }
