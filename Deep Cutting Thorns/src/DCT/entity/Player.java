@@ -43,8 +43,6 @@ public class Player extends Creature {
 			die();
 		}
 
-		playerMovement();
-
 		this.playerIdle.update();
 		this.playerMoveUp.update();
 		this.playerMoveRight.update();
@@ -52,6 +50,8 @@ public class Player extends Creature {
 		this.playerMoveDown.update();
 
 		this.currentAnimation.update();
+		
+		playerMovement();
 
 	}
 
