@@ -15,8 +15,13 @@ public abstract class Creature extends Entity {
 	}
 
 	protected void move() {
-		this.MoveY();
-		this.MoveX();
+		if (!this.checkEntityCollisions(0, this.yMove)) {
+			this.MoveY();
+		}
+
+		if (!this.checkEntityCollisions(this.xMove, 0)) {
+			this.MoveX();
+		}
 	}
 
 	protected void MoveY() {
