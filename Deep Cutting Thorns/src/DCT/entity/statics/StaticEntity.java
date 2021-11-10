@@ -14,17 +14,12 @@ public abstract class StaticEntity extends Entity {
 
 	@Override
 	public void update() {
-		
-	}
 
-	@Override
-	public void render(Graphics g) {
-		
 	}
 
 	@Override
 	public void die() {
-		
+
 	}
 
 }
