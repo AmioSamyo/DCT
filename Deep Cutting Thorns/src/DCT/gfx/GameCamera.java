@@ -12,11 +12,11 @@ public class GameCamera {
 	public GameCamera(Facade facade) {
 
 		this.facade = facade;
-		
+
 		this.xOffset = 0;
 		this.yOffset = 0;
 	}
-	
+
 	public int getXOffset() {
 		return this.xOffset;
 	}
