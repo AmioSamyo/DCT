@@ -13,8 +13,6 @@ public class Facade {
 
 	private Game game;
 
-	private boolean debug = true;
-
 	public Facade(Game game) {
 		this.game = game;
 	}
@@ -52,7 +50,7 @@ public class Facade {
 	}
 
 	public boolean isDebugging() {
-		return this.debug;
+		return this.getKeyManager().getDebugMode();
 	}
 
 }
