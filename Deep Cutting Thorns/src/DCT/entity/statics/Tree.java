@@ -15,8 +15,8 @@ public class Tree extends StaticEntity {
 	public Tree(Facade facade, int x, int y) {
 		super(facade, x, y, TREEWIDTH * SCALE, TREEHEIGHT * SCALE);
 
-		this.hitBox = new Rectangle((int) (TREEWIDTH * SCALE * 0.4), (int) (TREEHEIGHT * SCALE * 0.8+6),
-				(int) (TREEWIDTH * SCALE * 0.2), (int) (TREEHEIGHT * SCALE * 0.1-3));
+		this.hitBox = new Rectangle((int) (TREEWIDTH * SCALE * 0.4), (int) (TREEHEIGHT * SCALE * 0.82),
+				(int) (TREEWIDTH * SCALE * 0.2), (int) (TREEHEIGHT * SCALE * 0.08));
 
 		this.x = x;
 		this.y = y;
