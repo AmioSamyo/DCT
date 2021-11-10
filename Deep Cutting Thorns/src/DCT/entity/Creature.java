@@ -33,7 +33,8 @@ public abstract class Creature extends Entity {
 			int futureY = this.position.getY() + this.hitBox.getY() + this.yMove;
 
 			if (!this.checkCollisionWithTile(this.position.getX() + this.hitBox.getX(), futureY)
-					&& !this.checkCollisionWithTile(this.position.getX() + this.hitBox.getX() + this.hitBox.getWidth(), futureY)) {
+					&& !this.checkCollisionWithTile(this.position.getX() + this.hitBox.getX() + this.hitBox.getWidth(),
+							futureY)) {
 				this.position.setY(this.position.getY() + yMove);
 			}
 		} else if (this.yMove > 0) {
@@ -78,8 +79,9 @@ public abstract class Creature extends Entity {
 	protected boolean checkCollisionWithTile(int x, int y) {
 		int xGrid = x / Tile.TILEWIDTH;
 		int yGrid = y / Tile.TILEHEIGHT;
-		
-		if(xGrid < 0 || xGrid >= this.facade.getWorld().getColumns() || yGrid < 0 || yGrid >= this.facade.getWorld().getRows()) {
+
+		if (xGrid < 0 || xGrid >= this.facade.getWorld().getColumns() || yGrid < 0
+				|| yGrid >= this.facade.getWorld().getRows()) {
 			return false;
 		}
 		return Tile.tiles[this.facade.getWorld().getTiles()[xGrid][yGrid]].isSolid();

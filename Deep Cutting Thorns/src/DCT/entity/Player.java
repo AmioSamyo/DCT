@@ -1,6 +1,7 @@
 package DCT.entity;
 
 import java.awt.Graphics;
+import java.awt.Color;
 
 import DCT.Facade;
 import DCT.gfx.Animation;
@@ -27,8 +28,9 @@ public class Player extends Creature {
 	}
 
 	private void initialize() {
-		
-		this.hitBox = new Rectangle(20, 20, 10, 10);
+
+		this.hitBox = new Rectangle((int) (PLAYERWIDTH * SCALE * 0.3), (int) (PLAYERHEIGHT * SCALE * 0.6), (int) (PLAYERWIDTH * SCALE * 0.5),
+				(int) (PLAYERHEIGHT * SCALE * 0.3));
 
 		this.playerMoveDown = new Animation(ANIMATIONSPEED, Assets.playerAnimationDown);
 		this.playerMoveRight = new Animation(ANIMATIONSPEED, Assets.playerAnimationRight);
@@ -52,7 +54,7 @@ public class Player extends Creature {
 		this.playerMoveDown.update();
 
 		this.currentAnimation.update();
-		
+
 		playerMovement();
 
 	}
@@ -61,6 +63,8 @@ public class Player extends Creature {
 	public void render(Graphics g) {
 		g.drawImage(this.currentAnimation.getCurrentFrame(), this.position.getX(), this.position.getY(),
 				this.position.getWidth(), this.position.getHeight(), null);
+
+		super.render(g);
 	}
 
 	@Override

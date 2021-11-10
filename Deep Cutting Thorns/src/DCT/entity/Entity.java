@@ -21,7 +21,7 @@ public abstract class Entity {
 	public abstract void update();
 
 	public void render(Graphics g) {
-		if(this.facade.isDebugging()) {
+		if (this.facade.isDebugging()) {
 			Rectangle hitBox = this.getCollisionHitBox(0, 0);
 			g.setColor(Color.RED);
 			g.fillRect(hitBox.getX(), hitBox.getY(), this.hitBox.getWidth(), this.hitBox.getHeight());

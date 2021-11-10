@@ -12,7 +12,7 @@ import DCT.state.State;
 public class Facade {
 
 	private Game game;
-	
+
 	private boolean debug = true;
 
 	public Facade(Game game) {
@@ -34,7 +34,7 @@ public class Facade {
 	public State getCurrentState() {
 		return State.getCurrentState();
 	}
-	
+
 	public EntityManager getEntityManager() {
 		return this.getCurrentState().getEntityManager();
 	}
@@ -50,7 +50,7 @@ public class Facade {
 	public int getHeight() {
 		return this.game.getHeight();
 	}
-	
+
 	public boolean isDebugging() {
 		return this.debug;
 	}
