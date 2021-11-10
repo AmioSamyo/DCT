@@ -10,7 +10,7 @@ public class Tree extends StaticEntity {
 
 	private BufferedImage treeTile;
 	private int x, y;
-	private static final int TREEWIDTH = 64, TREEHEIGHT = 96;
+	private static final int TREEWIDTH = 64, TREEHEIGHT = 96, SCALE = 2;
 
 	public Tree(Facade facade, int x, int y) {
 		super(facade, x, y, TREEWIDTH, TREEHEIGHT);
@@ -26,7 +26,7 @@ public class Tree extends StaticEntity {
 
 	@Override
 	public void render(Graphics g) {
-		g.drawImage(treeTile, this.x, this.y, TREEWIDTH, TREEHEIGHT, null);
+		g.drawImage(treeTile, this.x, this.y, TREEWIDTH * SCALE, TREEHEIGHT * SCALE, null);
 	}
 
 	@Override
