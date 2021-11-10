@@ -32,29 +32,13 @@ public class Facade {
 	public State getCurrentState() {
 		return State.getCurrentState();
 	}
-	
-	public EntityManager getEntityManager() {
-		GameState example = new GameState("", this);
-		GameState current = (this.getCurrentState().getClass().getName() == example.getClass().getName())
-				? (GameState) this.getCurrentState()
-				: null;
 
-		if (current == null) {
-			return null;
-		}
-		return current.getEntityManager();
+	public EntityManager getEntityManager() {
+		return this.getCurrentState().getEntityManager();
 	}
 
 	public World getWorld() {
-		GameState example = new GameState("", this);
-		GameState current = (this.getCurrentState().getClass().getName() == example.getClass().getName())
-				? (GameState) this.getCurrentState()
-				: null;
-
-		if (current == null) {
-			return null;
-		}
-		return current.getWorld();
+		return State.getCurrentState().getWorld();
 	}
 
 	public int getWidth() {
@@ -63,6 +47,10 @@ public class Facade {
 
 	public int getHeight() {
 		return this.game.getHeight();
+	}
+
+	public boolean isDebugging() {
+		return this.getKeyManager().getDebugMode();
 	}
 
 }

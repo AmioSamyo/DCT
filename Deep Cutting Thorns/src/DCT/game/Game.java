@@ -88,6 +88,8 @@ public class Game implements Runnable {
 	}
 
 	public void run() {
+		
+		initialize();
 
 		int fps = 60;
 		int update = 0;
@@ -97,8 +99,6 @@ public class Game implements Runnable {
 
 		double updatePerSecond = 1000000000 / fps;
 		double delta = 0;
-
-		initialize();
 
 		while (this.running) {
 

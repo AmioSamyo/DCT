@@ -38,6 +38,10 @@ public class World {
 		return this.rows;
 	}
 
+	public int[][] getTiles() {
+		return this.tiles;
+	}
+
 	private void loadWorld(String path) {
 		String file = Utils.loadFileAsString(path);
 		String[] tokens = file.split("\\s+");

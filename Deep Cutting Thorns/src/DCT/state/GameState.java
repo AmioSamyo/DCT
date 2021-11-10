@@ -12,8 +12,6 @@ public class GameState extends State {
 
 	private World world;
 	private Facade facade;
-	
-	private EntityManager entityManager;
 
 	public GameState(String worldPath, Facade facade) {
 		this.facade = facade;
@@ -39,10 +37,6 @@ public class GameState extends State {
 
 	public World getWorld() {
 		return this.world;
-	}
-	
-	public EntityManager getEntityManager() {
-		return this.entityManager;
 	}
 
 }
