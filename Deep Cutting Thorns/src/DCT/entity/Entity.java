@@ -1,5 +1,6 @@
 package DCT.entity;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
@@ -19,7 +20,13 @@ public abstract class Entity {
 
 	public abstract void update();
 
-	public abstract void render(Graphics g);
+	public void render(Graphics g) {
+		if(this.facade.isDebugging()) {
+			Rectangle hitBox = this.getCollisionHitBox(0, 0);
+			g.setColor(Color.RED);
+			g.fillRect(hitBox.getX(), hitBox.getY(), this.hitBox.getWidth(), this.hitBox.getHeight());
+		}
+	}
 
 	public abstract void die();
 

@@ -17,15 +17,6 @@ public abstract class Creature extends Entity {
 		this.xMove = 0;
 		this.yMove = 0;
 	}
-	
-	@Override
-	public void render(Graphics g ) {
-		if(this.facade.isDebugging()) {
-			Rectangle hitBox = this.getCollisionHitBox(0, 0);
-			g.setColor(Color.RED);
-			g.fillRect(hitBox.getX(), hitBox.getY(), this.hitBox.getWidth(), this.hitBox.getHeight());
-		}
-	}
 
 	protected void move() {
 		if (!this.checkEntityCollisions(0, this.yMove)) {
