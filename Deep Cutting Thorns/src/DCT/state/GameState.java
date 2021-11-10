@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import DCT.Facade;
 import DCT.entity.EntityManager;
 import DCT.entity.Player;
+import DCT.entity.statics.Tree;
 import DCT.game.World;
 
 public class GameState extends State {
@@ -19,6 +20,7 @@ public class GameState extends State {
 		this.world = new World(worldPath);
 
 		this.entityManager = new EntityManager(this.facade, new Player(this.facade, 200, 200));
+		entityManager.addEntity(new Tree(this.facade, 400, 200));
 	}
 
 	@Override

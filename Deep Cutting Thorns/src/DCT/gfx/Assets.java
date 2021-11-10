@@ -8,6 +8,9 @@ public class Assets {
 
 	public static BufferedImage grass, flowerGrass, rockGrass;
 	public static BufferedImage wall;
+	
+	public static BufferedImage tree;
+	
 	public static BufferedImage[] playerAnimationDown, playerAnimationRight, playerAnimationUp, playerAnimationLeft;
 	public static BufferedImage[] playerAnimationIdle;
 
@@ -18,6 +21,7 @@ public class Assets {
 		grass = grassSheet.cropImage(new Rectangle(107, 33, 32, 32));
 		flowerGrass = grassSheet.cropImage(new Rectangle(107, 231, 32, 32));
 		rockGrass = grassSheet.cropImage(new Rectangle(140, 198, 32, 32));
+		tree = grassSheet.cropImage(new Rectangle(0, 102, 63, 87));
 
 		SpriteSheet wallSheet = new SpriteSheet(ImageLoader.imageLoad("rsc//walls tile.gif"));
 
