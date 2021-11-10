@@ -6,7 +6,7 @@ import DCT.Facade;
 import DCT.entity.Entity;
 import DCT.utility.Rectangle;
 
-public class StaticEntity extends Entity {
+public abstract class StaticEntity extends Entity {
 
 	public StaticEntity(Facade facade, int x, int y, int width, int height) {
 		super(facade, new Rectangle(x, y, width, height));

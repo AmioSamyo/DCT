@@ -1,9 +1,11 @@
 package DCT.entity.statics;
 
-public class Tree {
+import DCT.Facade;
 
-	public Tree() {
+public class Tree extends StaticEntity {
 
+	public Tree(Facade facade, int x, int y, int width, int height) {
+		super(facade, x, y, width, height);
 	}
 
 }
