@@ -4,6 +4,7 @@ import DCT.entity.EntityManager;
 import DCT.game.Game;
 import DCT.game.World;
 import DCT.gfx.Display;
+import DCT.gfx.GameCamera;
 import DCT.input.KeyManager;
 import DCT.input.MouseManager;
 import DCT.state.GameState;
@@ -39,6 +40,10 @@ public class Facade {
 
 	public World getWorld() {
 		return State.getCurrentState().getWorld();
+	}
+	
+	public GameCamera getGameCamera() {
+		return this.game.getGameCamera();
 	}
 
 	public int getWidth() {
