@@ -22,10 +22,16 @@ public class World {
 	public void render(Graphics g) {
 
 		int xStart = 0, yStart = 0;
-		int xEnd = 0, yEnd = 0;
+		int xEnd = this.columns, yEnd = this.rows;
 
-		for (int y = 0; y < this.rows; y++) {
-			for (int x = 0; x < this.columns; x++) {
+		xStart = Math.max(xStart, this.getXOffsetInTile());
+		xEnd = Math.min(xEnd, this.getXOffsetInTile());
+
+		yStart = Math.max(yStart, this.getYOffsetInTile());
+		yEnd = Math.min(yEnd, this.getYOffsetInTile());
+
+		for (int y = yStart; y < yEnd; y++) {
+			for (int x = xStart; x < xEnd; x++) {
 				Tile.tiles[this.tiles[x][y]].render(g, x * Tile.TILEWIDTH, y * Tile.TILEHEIGHT);
 			}
 		}
@@ -65,6 +71,14 @@ public class World {
 				this.tiles[x][y] = Utils.parseInt(tokens[(x + (y * this.columns)) + toBeSkipped]);
 			}
 		}
+	}
+
+	private int getXOffsetInTile() {
+		return this.facade.getGameCamera().getXOffset() / Tile.TILEWIDTH;
+	}
+
+	private int getYOffsetInTile() {
+		return this.facade.getGameCamera().getYOffset() / Tile.TILEHEIGHT;
 	}
 
 }
