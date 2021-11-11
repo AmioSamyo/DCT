@@ -2,6 +2,7 @@ package DCT.game;
 
 import java.awt.Graphics;
 
+import DCT.Facade;
 import DCT.tile.Tile;
 import DCT.utility.Utils;
 
@@ -10,11 +11,19 @@ public class World {
 	private int[][] tiles;
 	private int columns, rows;
 
-	public World(String path) {
+	private Facade facade;
+
+	public World(String path, Facade facade) {
 		this.loadWorld(path);
+
+		this.facade = facade;
 	}
 
 	public void render(Graphics g) {
+
+		int xStart = 0, yStart = 0;
+		int xEnd = 0, yEnd = 0;
+
 		for (int y = 0; y < this.rows; y++) {
 			for (int x = 0; x < this.columns; x++) {
 				Tile.tiles[this.tiles[x][y]].render(g, x * Tile.TILEWIDTH, y * Tile.TILEHEIGHT);
