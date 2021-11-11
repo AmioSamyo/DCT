@@ -19,7 +19,19 @@ public class GameCamera {
 	}
 
 	public void checkBlankSpace() {
-
+		if(this.xOffset < 0) {
+			this.xOffset = 0;
+		}
+		else if(this.xOffset > facade.getWidth()) {
+			this.xOffset = facade.getWidth();
+		}
+		
+		if(this.yOffset < 0) {
+			this.yOffset = 0;
+		}
+		else if(this.yOffset > facade.getHeight()) {
+			this.yOffset = facade.getHeight();
+		}
 	}
 
 	public void centerOnEntity(Entity e) {
