@@ -1,6 +1,7 @@
 package DCT.gfx;
 
 import DCT.Facade;
+import DCT.entity.Entity;
 
 public class GameCamera {
 
@@ -17,6 +18,19 @@ public class GameCamera {
 		this.yOffset = 0;
 	}
 
+	public void checkBlankSpace() {
+		
+	}
+	
+	public void centerOnEntity(Entity e) {
+		
+	}
+	
+	public void move(int xAmount, int yAmount) {
+		this.xOffset += xAmount;
+		this.yOffset += yAmount;
+	}
+	
 	public int getXOffset() {
 		return this.xOffset;
 	}
