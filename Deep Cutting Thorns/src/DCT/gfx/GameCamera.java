@@ -19,17 +19,15 @@ public class GameCamera {
 	}
 
 	public void checkBlankSpace() {
-		if(this.xOffset < 0) {
+		if (this.xOffset < 0) {
 			this.xOffset = 0;
-		}
-		else if(this.xOffset > facade.getWidth()) {
+		} else if (this.xOffset > facade.getWidth()) {
 			this.xOffset = facade.getWidth();
 		}
-		
-		if(this.yOffset < 0) {
+
+		if (this.yOffset < 0) {
 			this.yOffset = 0;
-		}
-		else if(this.yOffset > facade.getHeight()) {
+		} else if (this.yOffset > facade.getHeight()) {
 			this.yOffset = facade.getHeight();
 		}
 	}
@@ -37,11 +35,13 @@ public class GameCamera {
 	public void centerOnEntity(Entity e) {
 		this.xOffset = e.getPositionX() + (e.getPositionWidth() / 2) - (facade.getWidth() / 2);
 		this.yOffset = e.getPositionY() + (e.getPositionHeight() / 2) - (facade.getHeight() / 2);
+		checkBlankSpace();
 	}
 
 	public void move(int xAmount, int yAmount) {
 		this.xOffset += xAmount;
 		this.yOffset += yAmount;
+		checkBlankSpace();
 	}
 
 	public int getXOffset() {
