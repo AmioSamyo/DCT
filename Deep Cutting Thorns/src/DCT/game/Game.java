@@ -6,6 +6,7 @@ import java.awt.image.BufferStrategy;
 import DCT.Facade;
 import DCT.gfx.Assets;
 import DCT.gfx.Display;
+import DCT.gfx.GameCamera;
 import DCT.input.KeyManager;
 import DCT.input.MouseManager;
 import DCT.state.GameState;
@@ -28,6 +29,7 @@ public class Game implements Runnable {
 	private KeyManager keyManager;
 	private MouseManager mouseManager;
 	private Facade facade;
+	private GameCamera gameCamera;
 
 	public Game(String title, int width, int height) {
 		this.running = false;
@@ -50,6 +52,7 @@ public class Game implements Runnable {
 		this.display.getCanvas().addMouseMotionListener(this.mouseManager);
 
 		this.facade = new Facade(this);
+		this.gameCamera = new GameCamera(this.facade);
 
 		Assets.assetInitialize();
 
@@ -88,7 +91,7 @@ public class Game implements Runnable {
 	}
 
 	public void run() {
-		
+
 		initialize();
 
 		int fps = 60;
@@ -160,6 +163,10 @@ public class Game implements Runnable {
 
 	public Display getDisplay() {
 		return this.display;
+	}
+	
+	public GameCamera getGameCamera() {
+		return this.gameCamera;
 	}
 
 	public int getWidth() {

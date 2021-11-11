@@ -2,6 +2,7 @@ package DCT.game;
 
 import java.awt.Graphics;
 
+import DCT.Facade;
 import DCT.tile.Tile;
 import DCT.utility.Utils;
 
@@ -10,13 +11,27 @@ public class World {
 	private int[][] tiles;
 	private int columns, rows;
 
-	public World(String path) {
+	private Facade facade;
+
+	public World(String path, Facade facade) {
 		this.loadWorld(path);
+
+		this.facade = facade;
 	}
 
 	public void render(Graphics g) {
-		for (int y = 0; y < this.rows; y++) {
-			for (int x = 0; x < this.columns; x++) {
+
+		int xStart = 0, yStart = 0;
+		int xEnd = this.columns, yEnd = this.rows;
+
+		xStart = Math.max(xStart, this.getXOffsetInTile());
+		xEnd = Math.min(xEnd, this.getXOffsetInTile());
+
+		yStart = Math.max(yStart, this.getYOffsetInTile());
+		yEnd = Math.min(yEnd, this.getYOffsetInTile());
+
+		for (int y = yStart; y < yEnd; y++) {
+			for (int x = xStart; x < xEnd; x++) {
 				Tile.tiles[this.tiles[x][y]].render(g, x * Tile.TILEWIDTH, y * Tile.TILEHEIGHT);
 			}
 		}
@@ -56,6 +71,14 @@ public class World {
 				this.tiles[x][y] = Utils.parseInt(tokens[(x + (y * this.columns)) + toBeSkipped]);
 			}
 		}
+	}
+
+	private int getXOffsetInTile() {
+		return this.facade.getGameCamera().getXOffset() / Tile.TILEWIDTH;
+	}
+
+	private int getYOffsetInTile() {
+		return this.facade.getGameCamera().getYOffset() / Tile.TILEHEIGHT;
 	}
 
 }
