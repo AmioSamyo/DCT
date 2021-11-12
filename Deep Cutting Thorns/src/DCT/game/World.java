@@ -30,10 +30,6 @@ public class World {
 		yStart = Math.max(0, this.getYOffsetInTile());
 		yEnd = Math.min(this.rows, this.getYEnd());
 
-		System.out.println("XOffset : " + this.facade.getGameCamera().getXOffset());
-		System.out.println("XStart : " + xStart);
-		System.out.println("XEnd : " + xEnd);
-
 		for (int y = yStart; y < yEnd; y++) {
 			for (int x = xStart; x < xEnd; x++) {
 				Tile.tiles[this.tiles[x][y]].render(g, this.getXTile(x), this.getYTile(y));
