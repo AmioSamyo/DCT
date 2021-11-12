@@ -1,7 +1,6 @@
 package DCT.entity.statics;
 
 import java.awt.Graphics;
-import java.awt.image.BufferedImage;
 
 import DCT.Facade;
 import DCT.gfx.Assets;
@@ -9,7 +8,6 @@ import DCT.utility.Rectangle;
 
 public class Tree extends StaticEntity {
 
-	private int x, y;
 	private static final int TREEWIDTH = 64, TREEHEIGHT = 96, SCALE = 3;
 
 	public Tree(Facade facade, int x, int y) {
@@ -17,9 +15,6 @@ public class Tree extends StaticEntity {
 
 		this.hitBox = new Rectangle((int) (TREEWIDTH * SCALE * 0.4), (int) (TREEHEIGHT * SCALE * 0.82),
 				(int) (TREEWIDTH * SCALE * 0.2), (int) (TREEHEIGHT * SCALE * 0.08));
-
-		this.x = x;
-		this.y = y;
 	}
 
 	@Override
@@ -28,7 +23,8 @@ public class Tree extends StaticEntity {
 
 	@Override
 	public void render(Graphics g) {
-		g.drawImage(Assets.tree, this.x, this.y, TREEWIDTH * SCALE, TREEHEIGHT * SCALE, null);
+		g.drawImage(Assets.tree, this.xMoveWithCamera(), this.yMoveWithCamera(), TREEWIDTH * SCALE, TREEHEIGHT * SCALE,
+				null);
 		super.render(g);
 	}
 

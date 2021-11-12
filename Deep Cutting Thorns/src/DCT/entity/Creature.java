@@ -1,8 +1,5 @@
 package DCT.entity;
 
-import java.awt.Color;
-import java.awt.Graphics;
-
 import DCT.Facade;
 import DCT.tile.Tile;
 import DCT.utility.Rectangle;

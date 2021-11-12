@@ -7,7 +7,8 @@ import DCT.utility.Rectangle;
 public class Assets {
 
 	public static BufferedImage grass, flowerGrass, rockGrass;
-	public static BufferedImage wall;
+	public static BufferedImage wall, downWall, upperColumns, upperWall;
+	public static BufferedImage jar, rocks;
 	
 	public static BufferedImage tree;
 	
@@ -22,10 +23,16 @@ public class Assets {
 		flowerGrass = grassSheet.cropImage(new Rectangle(107, 231, 32, 32));
 		rockGrass = grassSheet.cropImage(new Rectangle(140, 198, 32, 32));
 		tree = grassSheet.cropImage(new Rectangle(0, 102, 63, 87));
+		wall = grassSheet.cropImage(new Rectangle(206, 99, 32, 32));
+		upperColumns = grassSheet.cropImage(new Rectangle(239, 0, 32, 32));
+		upperWall = grassSheet.cropImage(new Rectangle(206, 66, 32, 32));
+		downWall = grassSheet.cropImage(new Rectangle(206, 33, 32, 32));
 
-		SpriteSheet wallSheet = new SpriteSheet(ImageLoader.imageLoad("rsc//walls tile.gif"));
-
-		wall = wallSheet.cropImage(new Rectangle(32, 0, 32, 32));
+		//SpriteSheet wallSheet = new SpriteSheet(ImageLoader.imageLoad("rsc//walls tile.gif"));
+		SpriteSheet desertSheet = new SpriteSheet(ImageLoader.imageLoad("rsc\\DesertObjectPack#1 .png"));
+		
+		jar = desertSheet.cropImage(new Rectangle(240, 0, 260, 260));
+		rocks = desertSheet.cropImage(new  Rectangle(1070, 0, 276, 280));
 
 		SpriteSheet playerSheet = new SpriteSheet(ImageLoader.imageLoad("rsc\\goblin.png"));
 		int playerAnimWidth = 704 / 11;

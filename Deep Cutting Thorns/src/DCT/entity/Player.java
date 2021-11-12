@@ -1,7 +1,6 @@
 package DCT.entity;
 
 import java.awt.Graphics;
-import java.awt.Color;
 
 import DCT.Facade;
 import DCT.gfx.Animation;
@@ -112,14 +111,6 @@ public class Player extends Creature {
 		} else {
 			this.currentAnimation = this.playerIdle;
 		}
-	}
-
-	private int xMoveWithCamera() {
-		return this.position.getX() - this.facade.getGameCamera().getXOffset();
-	}
-
-	private int yMoveWithCamera() {
-		return this.position.getY() - this.facade.getGameCamera().getYOffset();
 	}
 
 }

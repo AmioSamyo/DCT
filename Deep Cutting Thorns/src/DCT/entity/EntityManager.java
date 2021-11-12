@@ -4,11 +4,8 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-import DCT.Facade;
-
 public class EntityManager {
 
-	private Facade facade;
 	private Player player;
 
 	private ArrayList<Entity> entityList;
@@ -23,9 +20,7 @@ public class EntityManager {
 		}
 	};
 
-	public EntityManager(Facade facade, Player player) {
-
-		this.facade = facade;
+	public EntityManager(Player player) {
 		this.player = player;
 
 		this.entityList = new ArrayList<Entity>();
