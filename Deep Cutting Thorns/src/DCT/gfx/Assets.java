@@ -8,6 +8,7 @@ public class Assets {
 
 	public static BufferedImage grass, flowerGrass, rockGrass;
 	public static BufferedImage wall, downWall, upperColumns, upperWall;
+	public static BufferedImage jar, rocks;
 	
 	public static BufferedImage tree;
 	
@@ -28,6 +29,10 @@ public class Assets {
 		downWall = grassSheet.cropImage(new Rectangle(206, 33, 32, 32));
 
 		//SpriteSheet wallSheet = new SpriteSheet(ImageLoader.imageLoad("rsc//walls tile.gif"));
+		SpriteSheet desertSheet = new SpriteSheet(ImageLoader.imageLoad("rsc\\DesertObjectPack#1 .png"));
+		
+		jar = desertSheet.cropImage(new Rectangle(240, 0, 260, 260));
+		rocks = desertSheet.cropImage(new  Rectangle(1070, 0, 270, 280));
 
 		SpriteSheet playerSheet = new SpriteSheet(ImageLoader.imageLoad("rsc\\goblin.png"));
 		int playerAnimWidth = 704 / 11;
