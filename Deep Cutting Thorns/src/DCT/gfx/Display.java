@@ -43,6 +43,7 @@ public class Display {
 		this.frame.setResizable(false);
 		this.frame.setVisible(true);
 		this.frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		this.frame.setIconImage(ImageLoader.imageLoad("rsc\\torce.png"));
 		return this.frame;
 	}
 
