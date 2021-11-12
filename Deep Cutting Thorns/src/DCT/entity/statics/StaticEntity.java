@@ -1,7 +1,5 @@
 package DCT.entity.statics;
 
-import java.awt.Graphics;
-
 import DCT.Facade;
 import DCT.entity.Entity;
 import DCT.utility.Rectangle;

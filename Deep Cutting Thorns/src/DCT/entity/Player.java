@@ -1,7 +1,6 @@
 package DCT.entity;
 
 import java.awt.Graphics;
-import java.awt.Color;
 
 import DCT.Facade;
 import DCT.gfx.Animation;
