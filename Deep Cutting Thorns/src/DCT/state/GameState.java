@@ -17,7 +17,7 @@ public class GameState extends State {
 		this.facade = facade;
 		this.world = new World(worldPath, this.facade);
 
-		this.entityManager = new EntityManager(this.facade, new Player(this.facade, 200, 200));
+		this.entityManager = new EntityManager(new Player(this.facade, 200, 200));
 		this.entityManager.addEntity(new Tree(this.facade, 400, 200));
 	}
 
