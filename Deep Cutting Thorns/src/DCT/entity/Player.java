@@ -55,13 +55,13 @@ public class Player extends Creature {
 
 		this.currentAnimation.update();
 
-		playerMovement();
+		this.playerMovement();
 
 	}
 
 	@Override
 	public void render(Graphics g) {
-		g.drawImage(this.currentAnimation.getCurrentFrame(), this.position.getX(), this.position.getY(),
+		g.drawImage(this.currentAnimation.getCurrentFrame(), this.xMoveWithCamera(), this.yMoveWithCamera(),
 				this.position.getWidth(), this.position.getHeight(), null);
 
 		super.render(g);
@@ -81,6 +81,8 @@ public class Player extends Creature {
 		this.move();
 		this.chooseCurrentAnimation();
 		this.resetMovement();
+
+		this.facade.getGameCamera().centerOnEntity(this);
 	}
 
 	private void getInput() {
@@ -110,6 +112,14 @@ public class Player extends Creature {
 		} else {
 			this.currentAnimation = this.playerIdle;
 		}
+	}
+
+	private int xMoveWithCamera() {
+		return this.position.getX() - this.facade.getGameCamera().getXOffset();
+	}
+
+	private int yMoveWithCamera() {
+		return this.position.getY() - this.facade.getGameCamera().getYOffset();
 	}
 
 }

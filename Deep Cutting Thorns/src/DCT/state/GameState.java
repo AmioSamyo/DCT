@@ -15,23 +15,24 @@ public class GameState extends State {
 
 	public GameState(String worldPath, Facade facade) {
 		this.facade = facade;
-		this.world = new World(worldPath);
+		this.world = new World(worldPath, this.facade);
 
 		this.entityManager = new EntityManager(this.facade, new Player(this.facade, 200, 200));
-		entityManager.addEntity(new Tree(this.facade, 400, 200));
+		this.entityManager.addEntity(new Tree(this.facade, 400, 200));
 	}
 
 	@Override
 	public void update() {
+	
 		this.world.update();
-		
+
 		this.entityManager.update();
 	}
 
 	@Override
 	public void render(Graphics g) {
 		this.world.render(g);
-		
+
 		this.entityManager.render(g);
 	}
 
