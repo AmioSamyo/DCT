@@ -13,6 +13,9 @@ public class Tile {
 	public static Tile flowerGrassTile = new FlowerGrassTile(1);
 	public static Tile rockGrassTile = new RockGrassTile(2);
 	public static Tile wallTile = new WallTile(3);
+	public static Tile upperColumns = new UpperColumnsTile(4);
+	public static Tile upperWall = new UpperWallTile(5);
+	public static Tile downWall = new DownWallTile(6);
 
 	private int id = 0;
 	private boolean solid = false;
