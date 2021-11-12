@@ -30,6 +30,10 @@ public class World {
 		yStart = Math.max(0, this.getYOffsetInTile());
 		yEnd = Math.min(this.rows, this.getYEnd());
 
+		System.out.println("XOffset : " + this.facade.getGameCamera().getXOffset());
+		System.out.println("XStart : " + xStart);
+		System.out.println("XEnd : " + xEnd);
+
 		for (int y = yStart; y < yEnd; y++) {
 			for (int x = xStart; x < xEnd; x++) {
 				Tile.tiles[this.tiles[x][y]].render(g, this.getXTile(x), this.getYTile(y));
@@ -82,17 +86,17 @@ public class World {
 	}
 
 	private int getXEnd() {
-		return this.getXOffsetInTile() + 1 + this.facade.getWidth() / Tile.TILEWIDTH;
+		return this.getXOffsetInTile() + 2 + this.facade.getWidth() / Tile.TILEWIDTH;
 	}
 
 	private int getYEnd() {
-		return this.getYOffsetInTile() + 1 + this.facade.getHeight() / Tile.TILEHEIGHT;
+		return this.getYOffsetInTile() + 2 + this.facade.getHeight() / Tile.TILEHEIGHT;
 	}
-	
+
 	private int getXTile(int column) {
 		return column * Tile.TILEWIDTH - this.facade.getGameCamera().getXOffset();
 	}
-	
+
 	private int getYTile(int row) {
 		return row * Tile.TILEHEIGHT - this.facade.getGameCamera().getYOffset();
 	}
