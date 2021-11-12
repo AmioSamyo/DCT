@@ -18,12 +18,16 @@ public class GameState extends State {
 		this.world = new World(worldPath, this.facade);
 
 		this.entityManager = new EntityManager(new Player(this.facade, 200, 200));
-		this.entityManager.addEntity(new Tree(this.facade, 400, 200));
+		for (int j = 0; j < 5; j++) {
+			for (int i = 0; i < 12; i++) {
+				this.entityManager.addEntity(new Tree(this.facade, i * 200, 300 * j));
+			}
+		}
 	}
 
 	@Override
 	public void update() {
-	
+
 		this.world.update();
 
 		this.entityManager.update();
