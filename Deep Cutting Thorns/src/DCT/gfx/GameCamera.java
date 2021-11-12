@@ -33,8 +33,8 @@ public class GameCamera {
 	}
 
 	public void centerOnEntity(Entity e) {
-		this.xOffset = e.getPositionX() + (e.getPositionWidth() / 2) - (facade.getWidth() / 2);
-		this.yOffset = e.getPositionY() + (e.getPositionHeight() / 2) - (facade.getHeight() / 2);
+		this.xOffset = (int) (e.getPositionX() + (e.getPositionWidth() / 2) - (facade.getWidth() / 2));
+		this.yOffset = (int) (e.getPositionY() + (e.getPositionHeight() / 2) - (facade.getHeight() / 2));
 		this.checkBlankSpace();
 	}
 
