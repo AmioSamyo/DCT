@@ -21,14 +21,11 @@ public class World {
 
 	public void render(Graphics g) {
 
-		int xStart = 0, yStart = 0;
-		int xEnd = this.columns, yEnd = this.rows;
+		int xStart = Math.max(0, this.getXOffsetInTile());
+		int xEnd = Math.min(this.columns, this.getXEnd());
 
-		xStart = Math.max(0, this.getXOffsetInTile());
-		xEnd = Math.min(this.columns, this.getXEnd());
-
-		yStart = Math.max(0, this.getYOffsetInTile());
-		yEnd = Math.min(this.rows, this.getYEnd());
+		int yStart = Math.max(0, this.getYOffsetInTile());
+		int yEnd = Math.min(this.rows, this.getYEnd());
 
 		for (int y = yStart; y < yEnd; y++) {
 			for (int x = xStart; x < xEnd; x++) {
