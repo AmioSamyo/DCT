@@ -24,7 +24,7 @@ public abstract class Entity {
 		if (this.facade.isDebugging()) {
 			Rectangle hitBox = this.getCollisionHitBox(0, 0);
 			g.setColor(Color.RED);
-			g.fillRect(getXMoveHitbox(hitBox), getYMoveHitbox(hitBox), this.hitBox.getWidth(), this.hitBox.getHeight());
+			g.fillRect(this.getXMoveHitbox(hitBox), this.getYMoveHitbox(hitBox), this.hitBox.getWidth(), this.hitBox.getHeight());
 		}
 	}
 
