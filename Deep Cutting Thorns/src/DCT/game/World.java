@@ -93,7 +93,7 @@ public class World {
 		return column * Tile.TILEWIDTH - this.facade.getGameCamera().getXOffset();
 	}
 
-	private int getYTile(int raw) {
-		return raw * Tile.TILEHEIGHT - this.facade.getGameCamera().getYOffset();
+	private int getYTile(int row) {
+		return row * Tile.TILEHEIGHT - this.facade.getGameCamera().getYOffset();
 	}
 }
