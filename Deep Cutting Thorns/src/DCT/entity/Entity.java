@@ -24,7 +24,9 @@ public abstract class Entity {
 		if (this.facade.isDebugging()) {
 			Rectangle hitBox = this.getCollisionHitBox(0, 0);
 			g.setColor(Color.RED);
-			g.fillRect(hitBox.getX(), hitBox.getY(), this.hitBox.getWidth(), this.hitBox.getHeight());
+			g.fillRect(getXMoveHitbox(hitBox),
+					getYMoveHitbox(hitBox), this.hitBox.getWidth(),
+					this.hitBox.getHeight());
 		}
 	}
 
@@ -74,5 +76,13 @@ public abstract class Entity {
 	public Rectangle getCollisionHitBox(int xOffSet, int yOffSet) {
 		return new Rectangle(this.getPositionX() + this.hitBox.getX() + xOffSet,
 				this.getPositionY() + this.hitBox.getY() + yOffSet, this.hitBox.getWidth(), this.hitBox.getHeight());
+	}
+	
+	private int getXMoveHitbox(Rectangle hitBox) {
+		return hitBox.getX() - this.facade.getGameCamera().getXOffset();
+	}
+	
+	private int getYMoveHitbox(Rectangle hitBox) {
+		return hitBox.getY() - this.facade.getGameCamera().getYOffset();
 	}
 }
