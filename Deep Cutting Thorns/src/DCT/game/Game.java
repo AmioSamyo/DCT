@@ -164,7 +164,7 @@ public class Game implements Runnable {
 	public Display getDisplay() {
 		return this.display;
 	}
-	
+
 	public GameCamera getGameCamera() {
 		return this.gameCamera;
 	}

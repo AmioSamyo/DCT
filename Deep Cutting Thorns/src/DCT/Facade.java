@@ -41,7 +41,7 @@ public class Facade {
 	public World getWorld() {
 		return State.getCurrentState().getWorld();
 	}
-	
+
 	public GameCamera getGameCamera() {
 		return this.game.getGameCamera();
 	}
