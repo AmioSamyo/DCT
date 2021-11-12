@@ -6,6 +6,7 @@ import DCT.Facade;
 import DCT.entity.EntityManager;
 import DCT.entity.Player;
 import DCT.entity.statics.Jar;
+import DCT.entity.statics.Rocks;
 import DCT.entity.statics.Tree;
 import DCT.game.World;
 
@@ -19,12 +20,15 @@ public class GameState extends State {
 		this.world = new World(worldPath, this.facade);
 
 		this.entityManager = new EntityManager(new Player(this.facade, 200, 200));
-		/*
-		 * for (int j = 0; j < 5; j++) { for (int i = 0; i < 12; i++) {
-		 * this.entityManager.addEntity(new Tree(this.facade, i * 200, 300 * j)); } }
-		 */
-		
-		this.entityManager.addEntity(new Jar(this.facade, 180, 320));
+
+		for (int j = 0; j < 5; j++) {
+			for (int i = 2; i < 12; i++) {
+				this.entityManager.addEntity(new Tree(this.facade, i * 200, 300 * j));
+			}
+		}
+
+		this.entityManager.addEntity(new Jar(this.facade, 140, 280));
+		this.entityManager.addEntity(new Rocks(this.facade, 180, 420));
 	}
 
 	@Override

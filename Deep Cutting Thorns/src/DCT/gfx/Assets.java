@@ -32,7 +32,7 @@ public class Assets {
 		SpriteSheet desertSheet = new SpriteSheet(ImageLoader.imageLoad("rsc\\DesertObjectPack#1 .png"));
 		
 		jar = desertSheet.cropImage(new Rectangle(240, 0, 260, 260));
-		rocks = desertSheet.cropImage(new  Rectangle(1070, 0, 270, 280));
+		rocks = desertSheet.cropImage(new  Rectangle(1070, 0, 276, 280));
 
 		SpriteSheet playerSheet = new SpriteSheet(ImageLoader.imageLoad("rsc\\goblin.png"));
 		int playerAnimWidth = 704 / 11;
