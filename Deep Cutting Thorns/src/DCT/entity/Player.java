@@ -114,12 +114,4 @@ public class Player extends Creature {
 		}
 	}
 
-	private int xMoveWithCamera() {
-		return this.position.getX() - this.facade.getGameCamera().getXOffset();
-	}
-
-	private int yMoveWithCamera() {
-		return this.position.getY() - this.facade.getGameCamera().getYOffset();
-	}
-
 }

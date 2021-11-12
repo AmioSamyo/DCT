@@ -76,6 +76,14 @@ public abstract class Entity {
 				this.getPositionY() + this.hitBox.getY() + yOffSet, this.hitBox.getWidth(), this.hitBox.getHeight());
 	}
 
+	protected int xMoveWithCamera() {
+		return this.position.getX() - this.facade.getGameCamera().getXOffset();
+	}
+
+	protected int yMoveWithCamera() {
+		return this.position.getY() - this.facade.getGameCamera().getYOffset();
+	}
+
 	private int getXMoveHitbox(Rectangle hitBox) {
 		return hitBox.getX() - this.facade.getGameCamera().getXOffset();
 	}
