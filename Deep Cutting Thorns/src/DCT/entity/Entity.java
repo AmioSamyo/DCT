@@ -16,6 +16,8 @@ public abstract class Entity {
 
 	protected boolean debugMode;
 
+	protected Color debuggingColor = Color.RED;
+
 	public Entity(Facade facade, Rectangle position) {
 		this.facade = facade;
 		this.position = position;
@@ -28,7 +30,7 @@ public abstract class Entity {
 	public void render(Graphics g) {
 		if (this.isDebugging()) {
 			Rectangle hitBox = this.getCollisionHitBox(0, 0);
-			g.setColor(Color.RED);
+			g.setColor(this.debuggingColor);
 			g.fillRect(this.getXMoveHitbox(hitBox), this.getYMoveHitbox(hitBox), this.hitBox.getWidth(),
 					this.hitBox.getHeight());
 		}
@@ -87,10 +89,14 @@ public abstract class Entity {
 	}
 
 	protected boolean isDebugging() {
-		if(this.facade.getKeyManager().keyJustPressed(KeyEvent.VK_P)) {
+		if (this.facade.getKeyManager().keyJustPressed(KeyEvent.VK_P)) {
 			this.debugMode = !this.debugMode;
 		}
 		return this.debugMode;
+	}
+
+	protected void setDebuggingColor(Color debuggingColor) {
+		this.debuggingColor = debuggingColor;
 	}
 
 	protected int yMoveWithCamera() {
