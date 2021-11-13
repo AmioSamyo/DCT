@@ -5,9 +5,14 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 
 import DCT.Facade;
+import DCT.gfx.Assets;
 import DCT.utility.Rectangle;
 
 public abstract class Entity {
+
+	protected static final int MAX_HEALTH = 100;
+
+	protected int health = MAX_HEALTH;
 
 	protected Facade facade;
 	protected Rectangle position;
@@ -21,10 +26,14 @@ public abstract class Entity {
 	public abstract void update();
 
 	public void render(Graphics g) {
+
+		this.showHealthBar(g);
+
 		if (this.facade.isDebugging()) {
 			Rectangle hitBox = this.getCollisionHitBox(0, 0);
 			g.setColor(Color.RED);
-			g.fillRect(this.getXMoveHitbox(hitBox), this.getYMoveHitbox(hitBox), this.hitBox.getWidth(), this.hitBox.getHeight());
+			g.fillRect(this.getXMoveHitbox(hitBox), this.getYMoveHitbox(hitBox), this.hitBox.getWidth(),
+					this.hitBox.getHeight());
 		}
 	}
 
@@ -74,6 +83,17 @@ public abstract class Entity {
 	public Rectangle getCollisionHitBox(int xOffSet, int yOffSet) {
 		return new Rectangle(this.getPositionX() + this.hitBox.getX() + xOffSet,
 				this.getPositionY() + this.hitBox.getY() + yOffSet, this.hitBox.getWidth(), this.hitBox.getHeight());
+	}
+
+	protected void showHealthBar(Graphics g) {
+		if (this.health < MAX_HEALTH && this.health >= 0) {
+			float rangeHealthBar = (float) (MAX_HEALTH - 1) / ((float) Assets.healthBars.length - 1);
+			int currentHealthBarToShow = (int) ((float) (MAX_HEALTH - this.health) / rangeHealthBar);
+			g.drawImage(Assets.healthBars[currentHealthBarToShow],
+					this.xMoveWithCamera() + this.getPositionWidth() / 2 - 290 / 5 / 2,
+					this.yMoveWithCamera() + this.hitBox.getY(), 290 / 5, 70 / 5, null);
+		}
+		this.health = 50;
 	}
 
 	protected int xMoveWithCamera() {
