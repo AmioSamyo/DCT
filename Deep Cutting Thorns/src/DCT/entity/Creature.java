@@ -102,4 +102,23 @@ public abstract class Creature extends Entity {
 		return Tile.tiles[this.facade.getWorld().getTiles()[xGrid][yGrid]].isSolid();
 	}
 
+	protected boolean isMovingUp() {
+		return this.yMove < 0;
+	}
+
+	protected boolean isMovingDown() {
+		return this.yMove > 0;
+	}
+
+	protected boolean isMovingLeft() {
+		return this.xMove < 0;
+	}
+
+	protected boolean isMovingRight() {
+		return this.xMove > 0;
+	}
+	
+	protected boolean isNotMoving() {
+		return this.xMove == 0 && this.yMove == 0;
+	}
 }

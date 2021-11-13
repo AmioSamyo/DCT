@@ -124,39 +124,30 @@ public class Player extends Creature {
 	}
 
 	private void chooseCurrentAnimation() {
-		if (this.yMove < 0) {
-			this.currentAnimation = this.playerMoveUp;
-			this.sprintAnimation();
+		if (this.isMovingUp()) {
+			this.setAnimation(this.playerMoveUp, this.playerSprintUp);
 		}
-		if (this.yMove > 0) {
-			this.currentAnimation = this.playerMoveDown;
-			this.sprintAnimation();
+		if (this.isMovingDown()) {
+			this.setAnimation(this.playerMoveDown, this.playerSprintDown);
 		}
-		if (this.xMove < 0) {
-			this.currentAnimation = this.playerMoveLeft;
-			this.sprintAnimation();
+		if (this.isMovingLeft()) {
+			this.setAnimation(this.playerMoveLeft, this.playerSprintLeft);
 		}
-		if (this.xMove > 0) {
-			this.currentAnimation = this.playerMoveRight;
-			this.sprintAnimation();
+		if (this.isMovingRight()) {
+			this.setAnimation(this.playerMoveRight, this.playerSprintRight);
+		}
+		if (this.isNotMoving()) {
+			this.currentAnimation = this.playerIdle;
 		}
 
 	}
 
-	private void sprintAnimation() {
+	private void setAnimation(Animation anim, Animation animSprint) {
 		if (this.facade.getKeyManager().getSprint()) {
-			if (this.yMove < 0) {
-				this.currentAnimation = this.playerSprintUp;
-			}
-			if (this.yMove > 0) {
-				this.currentAnimation = this.playerSprintDown;
-			}
-			if (this.xMove < 0) {
-				this.currentAnimation = this.playerSprintLeft;
-			}
-			if (this.xMove > 0) {
-				this.currentAnimation = this.playerSprintRight;
-			}
+			this.currentAnimation = animSprint;
+		}
+		else {
+			this.currentAnimation = anim;
 		}
 	}
 }
