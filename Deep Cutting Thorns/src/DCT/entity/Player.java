@@ -1,5 +1,6 @@
 package DCT.entity;
 
+import java.awt.Color;
 import java.awt.Graphics;
 
 import DCT.Facade;
@@ -38,6 +39,7 @@ public class Player extends Creature {
 		this.playerIdle = new Animation(ANIMATIONSPEED, Assets.playerAnimationIdle);
 
 		this.currentAnimation = this.playerIdle;
+		this.setDebuggingColor(Color.PINK);
 	}
 
 	@Override
@@ -62,7 +64,6 @@ public class Player extends Creature {
 	public void render(Graphics g) {
 		g.drawImage(this.currentAnimation.getCurrentFrame(), this.xMoveWithCamera(), this.yMoveWithCamera(),
 				this.position.getWidth(), this.position.getHeight(), null);
-
 		super.render(g);
 	}
 
