@@ -1,5 +1,7 @@
 package DCT;
 
+import java.awt.event.KeyEvent;
+
 import DCT.entity.EntityManager;
 import DCT.game.Game;
 import DCT.game.World;
@@ -12,9 +14,12 @@ import DCT.state.State;
 public class Facade {
 
 	private Game game;
+	private boolean debugMode;
 
 	public Facade(Game game) {
 		this.game = game;
+
+		this.debugMode = false;
 	}
 
 	public KeyManager getKeyManager() {
@@ -53,4 +58,10 @@ public class Facade {
 		return this.game.getHeight();
 	}
 
+	public boolean isDebugging() {
+		if (this.getKeyManager().keyJustPressed(KeyEvent.VK_P)) {
+			this.debugMode = !this.debugMode;
+		}
+		return this.debugMode;
+	}
 }
