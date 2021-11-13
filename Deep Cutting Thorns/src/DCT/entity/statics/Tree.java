@@ -1,5 +1,6 @@
 package DCT.entity.statics;
 
+import java.awt.Color;
 import java.awt.Graphics;
 
 import DCT.Facade;
@@ -15,6 +16,8 @@ public class Tree extends StaticEntity {
 
 		this.hitBox = new Rectangle((int) (TREEWIDTH * SCALE * 0.4), (int) (TREEHEIGHT * SCALE * 0.82),
 				(int) (TREEWIDTH * SCALE * 0.2), (int) (TREEHEIGHT * SCALE * 0.08));
+
+		this.setDebuggingColor(new Color(128, 128, 128));
 	}
 
 	@Override
