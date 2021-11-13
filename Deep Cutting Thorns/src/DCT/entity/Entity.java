@@ -3,6 +3,7 @@ package DCT.entity;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.awt.event.KeyEvent;
 
 import DCT.Facade;
 import DCT.utility.Rectangle;
@@ -13,18 +14,23 @@ public abstract class Entity {
 	protected Rectangle position;
 	protected Rectangle hitBox;
 
+	protected boolean debugMode;
+
 	public Entity(Facade facade, Rectangle position) {
 		this.facade = facade;
 		this.position = position;
+
+		this.debugMode = false;
 	}
 
 	public abstract void update();
 
 	public void render(Graphics g) {
-		if (this.facade.isDebugging()) {
+		if (this.isDebugging()) {
 			Rectangle hitBox = this.getCollisionHitBox(0, 0);
 			g.setColor(Color.RED);
-			g.fillRect(this.getXMoveHitbox(hitBox), this.getYMoveHitbox(hitBox), this.hitBox.getWidth(), this.hitBox.getHeight());
+			g.fillRect(this.getXMoveHitbox(hitBox), this.getYMoveHitbox(hitBox), this.hitBox.getWidth(),
+					this.hitBox.getHeight());
 		}
 	}
 
@@ -78,6 +84,13 @@ public abstract class Entity {
 
 	protected int xMoveWithCamera() {
 		return this.position.getX() - this.facade.getGameCamera().getXOffset();
+	}
+
+	protected boolean isDebugging() {
+		if(this.facade.getKeyManager().keyJustPressed(KeyEvent.VK_P)) {
+			this.debugMode = !this.debugMode;
+		}
+		return this.debugMode;
 	}
 
 	protected int yMoveWithCamera() {
