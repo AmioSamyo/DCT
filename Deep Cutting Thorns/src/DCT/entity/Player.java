@@ -12,11 +12,12 @@ public class Player extends Creature {
 	private int currentHealth;
 
 	private Animation playerMoveDown, playerMoveRight, playerMoveUp, playerMoveLeft, playerIdle;
+	private Animation playerSprintDown, playerSprintRight, playerSprintUp, playerSprintLeft;
 	private Animation currentAnimation;
 
 	private static final int PLAYERWIDTH = 704 / 11, PLAYERHEIGHT = 320 / 5;
 	private static final int SCALE = 2;
-	private static final int ANIMATIONSPEED = 100;
+	private static final int ANIMATIONSPEED = 100, ANIMATIONSPRINTSPEED = 60;
 	private static final int SPRINTSPEED = 5;
 
 	public Player(Facade facade, int x, int y) {
@@ -38,6 +39,11 @@ public class Player extends Creature {
 		this.playerMoveLeft = new Animation(ANIMATIONSPEED, Assets.playerAnimationLeft);
 		this.playerIdle = new Animation(ANIMATIONSPEED, Assets.playerAnimationIdle);
 
+		this.playerSprintDown = new Animation(ANIMATIONSPRINTSPEED, Assets.playerAnimationDown);
+		this.playerSprintRight = new Animation(ANIMATIONSPRINTSPEED, Assets.playerAnimationRight);
+		this.playerSprintUp = new Animation(ANIMATIONSPRINTSPEED, Assets.playerAnimationUp);
+		this.playerSprintLeft = new Animation(ANIMATIONSPRINTSPEED, Assets.playerAnimationLeft);
+
 		this.currentAnimation = this.playerIdle;
 	}
 
@@ -52,6 +58,11 @@ public class Player extends Creature {
 		this.playerMoveRight.update();
 		this.playerMoveLeft.update();
 		this.playerMoveDown.update();
+
+		this.playerSprintUp.update();
+		this.playerSprintRight.update();
+		this.playerSprintLeft.update();
+		this.playerSprintDown.update();
 
 		this.currentAnimation.update();
 
@@ -114,13 +125,29 @@ public class Player extends Creature {
 
 	private void chooseCurrentAnimation() {
 		if (this.xMove < 0) {
-			this.currentAnimation = this.playerMoveLeft;
+			if (this.facade.getKeyManager().getSprint()) {
+				this.currentAnimation = this.playerSprintLeft;
+			} else {
+				this.currentAnimation = this.playerMoveLeft;
+			}
 		} else if (this.xMove > 0) {
-			this.currentAnimation = this.playerMoveRight;
+			if (this.facade.getKeyManager().getSprint()) {
+				this.currentAnimation = this.playerSprintRight;
+			} else {
+				this.currentAnimation = this.playerMoveRight;
+			}
 		} else if (this.yMove < 0) {
-			this.currentAnimation = this.playerMoveUp;
+			if (this.facade.getKeyManager().getSprint()) {
+				this.currentAnimation = this.playerSprintUp;
+			} else {
+				this.currentAnimation = this.playerMoveUp;
+			}
 		} else if (this.yMove > 0) {
-			this.currentAnimation = this.playerMoveDown;
+			if (this.facade.getKeyManager().getSprint()) {
+				this.currentAnimation = this.playerSprintDown;
+			} else {
+				this.currentAnimation = this.playerMoveDown;
+			}
 		} else {
 			this.currentAnimation = this.playerIdle;
 		}
