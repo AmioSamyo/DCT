@@ -14,7 +14,7 @@ public class Assets {
 
 	public static BufferedImage[] playerAnimationDown, playerAnimationRight, playerAnimationUp, playerAnimationLeft;
 	public static BufferedImage[] playerAnimationIdle;
-	public static BufferedImage[] healthBars;
+	public static BufferedImage[] healthBars, playerDeadAnimation;
 
 	public static void assetInitialize() {
 
@@ -45,6 +45,7 @@ public class Assets {
 		playerAnimationUp = new BufferedImage[5];
 		playerAnimationLeft = new BufferedImage[5];
 		playerAnimationIdle = new BufferedImage[4];
+		playerDeadAnimation = new BufferedImage[1];
 
 		for (int i = 0; i < 5; i++) {
 			playerAnimationDown[i] = playerSheet.cropImage(
@@ -56,6 +57,10 @@ public class Assets {
 			playerAnimationLeft[i] = playerSheet.cropImage(
 					new Rectangle(i * playerAnimWidth, playerAnimHeight * 3, playerAnimWidth, playerAnimHeight));
 		}
+
+		playerDeadAnimation[0] = playerSheet
+				.cropImage(new Rectangle(4 * playerAnimWidth, playerAnimHeight * 4, playerAnimWidth, playerAnimHeight));
+
 		idleLoading(playerSheet);
 
 		healthBarLoading();

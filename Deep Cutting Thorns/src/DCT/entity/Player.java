@@ -11,7 +11,7 @@ public class Player extends Creature {
 
 	private int currentHealth;
 
-	private Animation playerMoveDown, playerMoveRight, playerMoveUp, playerMoveLeft, playerIdle;
+	private Animation playerMoveDown, playerMoveRight, playerMoveUp, playerMoveLeft, playerIdle, deadAnimation;
 	private Animation currentAnimation;
 
 	private static final int PLAYERWIDTH = 704 / 11, PLAYERHEIGHT = 320 / 5;
@@ -26,6 +26,17 @@ public class Player extends Creature {
 		initialize();
 	}
 
+	@Override
+	protected void showHealthBar(Graphics g) {
+		float rangeHealthBar = (float) (MAX_HEALTH - 1) / ((float) Assets.healthBars.length - 1);
+		int currentHealthBarToShow = (int) ((float) (MAX_HEALTH - this.health) / rangeHealthBar);
+		if (currentHealthBarToShow < 0)
+			currentHealthBarToShow = 0;
+		if (currentHealthBarToShow > 28)
+			currentHealthBarToShow = 28;
+		g.drawImage(Assets.healthBars[currentHealthBarToShow], 20, 20, (int) (390 * 0.75), (int) (70 * 0.75), null);
+	}
+
 	private void initialize() {
 
 		this.hitBox = new Rectangle((int) (PLAYERWIDTH * SCALE * 0.35), (int) (PLAYERHEIGHT * SCALE * 0.7),
@@ -36,14 +47,15 @@ public class Player extends Creature {
 		this.playerMoveUp = new Animation(ANIMATIONSPEED, Assets.playerAnimationUp);
 		this.playerMoveLeft = new Animation(ANIMATIONSPEED, Assets.playerAnimationLeft);
 		this.playerIdle = new Animation(ANIMATIONSPEED, Assets.playerAnimationIdle);
+		this.deadAnimation = new Animation(1, Assets.playerDeadAnimation);
 
 		this.currentAnimation = this.playerIdle;
 	}
 
 	@Override
 	public void update() {
-		if (currentHealth <= 0) {
-			die();
+		if (this.health <= 0) {
+			this.die();
 		}
 
 		this.playerIdle.update();
@@ -54,7 +66,9 @@ public class Player extends Creature {
 
 		this.currentAnimation.update();
 
-		this.playerMovement();
+		if (this.health > 0) {
+			this.playerMovement();
+		}
 
 	}
 
@@ -68,7 +82,7 @@ public class Player extends Creature {
 
 	@Override
 	public void die() {
-
+		this.currentAnimation = deadAnimation;
 	}
 
 	public int getCurrentHealth() {
