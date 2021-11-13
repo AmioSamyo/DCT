@@ -17,7 +17,7 @@ public class Jar extends StaticEntity {
 		this.hitBox = new Rectangle((int) (JARWIDTH * SCALE * 0.4), (int) (JARHEIGHT * SCALE * 0.62),
 				(int) (JARWIDTH * SCALE * 0.2), (int) (JARHEIGHT * SCALE * 0.08));
 
-		this.setDebuggingColor(new Color(0, 204, 102));
+		this.setDebuggingColor(new Color(102, 255, 178));
 
 	}
 
