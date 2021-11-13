@@ -124,33 +124,39 @@ public class Player extends Creature {
 	}
 
 	private void chooseCurrentAnimation() {
-		if (this.xMove < 0) {
-			if (this.facade.getKeyManager().getSprint()) {
-				this.currentAnimation = this.playerSprintLeft;
-			} else {
-				this.currentAnimation = this.playerMoveLeft;
-			}
-		} else if (this.xMove > 0) {
-			if (this.facade.getKeyManager().getSprint()) {
-				this.currentAnimation = this.playerSprintRight;
-			} else {
-				this.currentAnimation = this.playerMoveRight;
-			}
-		} else if (this.yMove < 0) {
-			if (this.facade.getKeyManager().getSprint()) {
-				this.currentAnimation = this.playerSprintUp;
-			} else {
-				this.currentAnimation = this.playerMoveUp;
-			}
-		} else if (this.yMove > 0) {
-			if (this.facade.getKeyManager().getSprint()) {
-				this.currentAnimation = this.playerSprintDown;
-			} else {
-				this.currentAnimation = this.playerMoveDown;
-			}
-		} else {
-			this.currentAnimation = this.playerIdle;
+		if (this.yMove < 0) {
+			this.currentAnimation = this.playerMoveUp;
+			this.sprintAnimation();
 		}
+		if (this.yMove > 0) {
+			this.currentAnimation = this.playerMoveDown;
+			this.sprintAnimation();
+		}
+		if (this.xMove < 0) {
+			this.currentAnimation = this.playerMoveLeft;
+			this.sprintAnimation();
+		}
+		if (this.xMove > 0) {
+			this.currentAnimation = this.playerMoveRight;
+			this.sprintAnimation();
+		}
+
 	}
 
+	private void sprintAnimation() {
+		if (this.facade.getKeyManager().getSprint()) {
+			if (this.yMove < 0) {
+				this.currentAnimation = this.playerSprintUp;
+			}
+			if (this.yMove > 0) {
+				this.currentAnimation = this.playerSprintDown;
+			}
+			if (this.xMove < 0) {
+				this.currentAnimation = this.playerSprintLeft;
+			}
+			if (this.xMove > 0) {
+				this.currentAnimation = this.playerSprintRight;
+			}
+		}
+	}
 }
