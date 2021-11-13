@@ -40,7 +40,6 @@ public class Tile {
 
 	public void render(Graphics g, int x, int y) {
 		g.drawImage(this.texture, x, y, TILEWIDTH, TILEHEIGHT, null);
-		//this.drawDebugging(g, x, y);
 	}
 
 	public int getId() {
@@ -54,7 +53,7 @@ public class Tile {
 	public void drawDebugging(Graphics g, int x, int y) {
 		if (this.isSolid()) {
 			g.setColor(this.debuggingColor);
-			g.fillRect(x, y, Tile.TILEWIDTH-10, Tile.TILEHEIGHT-10);
+			g.fillRect(x, y, Tile.TILEWIDTH - 10, Tile.TILEHEIGHT - 10);
 		}
 	}
 
