@@ -17,6 +17,7 @@ public class Player extends Creature {
 	private static final int PLAYERWIDTH = 704 / 11, PLAYERHEIGHT = 320 / 5;
 	private static final int SCALE = 2;
 	private static final int ANIMATIONSPEED = 100;
+	private static final int SPRINTSPEED = 5;
 
 	public Player(Facade facade, int x, int y) {
 
@@ -86,15 +87,27 @@ public class Player extends Creature {
 
 	private void getInput() {
 		if (this.facade.getKeyManager().getUp()) {
+			if (this.facade.getKeyManager().getSprint()) {
+				this.addYMove(-SPRINTSPEED);
+			}
 			this.addYMove(-this.speed);
 		}
 		if (this.facade.getKeyManager().getDown()) {
+			if (this.facade.getKeyManager().getSprint()) {
+				this.addYMove(SPRINTSPEED);
+			}
 			this.addYMove(this.speed);
 		}
 		if (this.facade.getKeyManager().getLeft()) {
+			if (this.facade.getKeyManager().getSprint()) {
+				this.addXMove(-SPRINTSPEED);
+			}
 			this.addXMove(-this.speed);
 		}
 		if (this.facade.getKeyManager().getRight()) {
+			if (this.facade.getKeyManager().getSprint()) {
+				this.addXMove(SPRINTSPEED);
+			}
 			this.addXMove(this.speed);
 		}
 	}
