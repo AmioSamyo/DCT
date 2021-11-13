@@ -126,7 +126,13 @@ public class Player extends Creature {
 			this.addXMove(speed);
 		}
 	}
-	
+
+	private void roll() {
+		if (this.facade.getKeyManager().getRoll()) {
+			
+		}
+	}
+
 	private void chooseCurrentAnimation() {
 		if (this.isMovingUp()) {
 			this.setAnimation(this.playerMoveUp, this.playerSprintUp);
