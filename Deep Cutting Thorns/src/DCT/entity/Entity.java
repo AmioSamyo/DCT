@@ -3,6 +3,7 @@ package DCT.entity;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.awt.event.KeyEvent;
 
 import DCT.Facade;
 import DCT.gfx.Assets;
@@ -18,9 +19,12 @@ public abstract class Entity {
 	protected Rectangle position;
 	protected Rectangle hitBox;
 
+	protected Color debuggingColor = Color.RED;
+
 	public Entity(Facade facade, Rectangle position) {
 		this.facade = facade;
 		this.position = position;
+
 	}
 
 	public abstract void update();
@@ -31,7 +35,7 @@ public abstract class Entity {
 
 		if (this.facade.isDebugging()) {
 			Rectangle hitBox = this.getCollisionHitBox(0, 0);
-			g.setColor(Color.RED);
+			g.setColor(this.debuggingColor);
 			g.fillRect(this.getXMoveHitbox(hitBox), this.getYMoveHitbox(hitBox), this.hitBox.getWidth(),
 					this.hitBox.getHeight());
 		}
@@ -97,6 +101,10 @@ public abstract class Entity {
 
 	protected int xMoveWithCamera() {
 		return this.position.getX() - this.facade.getGameCamera().getXOffset();
+	}
+
+	protected void setDebuggingColor(Color debuggingColor) {
+		this.debuggingColor = debuggingColor;
 	}
 
 	protected int yMoveWithCamera() {
