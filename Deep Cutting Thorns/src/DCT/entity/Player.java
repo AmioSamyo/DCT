@@ -98,31 +98,35 @@ public class Player extends Creature {
 
 	private void getInput() {
 		if (this.facade.getKeyManager().getUp()) {
-			if (this.facade.getKeyManager().getSprint()) {
-				this.addYMove(-SPRINTSPEED);
-			}
-			this.addYMove(-this.speed);
+			this.setYSpeed(-this.speed, -SPRINTSPEED);
 		}
 		if (this.facade.getKeyManager().getDown()) {
-			if (this.facade.getKeyManager().getSprint()) {
-				this.addYMove(SPRINTSPEED);
-			}
-			this.addYMove(this.speed);
+			this.setYSpeed(this.speed, SPRINTSPEED);
 		}
 		if (this.facade.getKeyManager().getLeft()) {
-			if (this.facade.getKeyManager().getSprint()) {
-				this.addXMove(-SPRINTSPEED);
-			}
-			this.addXMove(-this.speed);
+			this.setXSpeed(-this.speed, -SPRINTSPEED);
 		}
 		if (this.facade.getKeyManager().getRight()) {
-			if (this.facade.getKeyManager().getSprint()) {
-				this.addXMove(SPRINTSPEED);
-			}
-			this.addXMove(this.speed);
+			this.setXSpeed(this.speed, SPRINTSPEED);
 		}
 	}
 
+	private void setYSpeed(int speed, int sprintSpeed) {
+		if (this.facade.getKeyManager().getSprint()) {
+			this.addYMove(sprintSpeed);
+		} else {
+			this.addYMove(speed);
+		}
+	}
+
+	private void setXSpeed(int speed, int sprintSpeed) {
+		if (this.facade.getKeyManager().getSprint()) {
+			this.addXMove(sprintSpeed);
+		} else {
+			this.addXMove(speed);
+		}
+	}
+	
 	private void chooseCurrentAnimation() {
 		if (this.isMovingUp()) {
 			this.setAnimation(this.playerMoveUp, this.playerSprintUp);
@@ -145,8 +149,7 @@ public class Player extends Creature {
 	private void setAnimation(Animation anim, Animation animSprint) {
 		if (this.facade.getKeyManager().getSprint()) {
 			this.currentAnimation = animSprint;
-		}
-		else {
+		} else {
 			this.currentAnimation = anim;
 		}
 	}
