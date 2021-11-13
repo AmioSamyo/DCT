@@ -39,7 +39,7 @@ public class Player extends Creature {
 		this.playerIdle = new Animation(ANIMATIONSPEED, Assets.playerAnimationIdle);
 
 		this.currentAnimation = this.playerIdle;
-		this.setDebuggingColor(Color.PINK);
+		this.setDebuggingColor(new Color(255, 102, 255));
 	}
 
 	@Override
