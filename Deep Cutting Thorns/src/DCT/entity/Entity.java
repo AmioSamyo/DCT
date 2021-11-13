@@ -93,7 +93,6 @@ public abstract class Entity {
 					this.xMoveWithCamera() + this.getPositionWidth() / 2 - 290 / 5 / 2,
 					this.yMoveWithCamera() + this.hitBox.getY(), 290 / 5, 70 / 5, null);
 		}
-		this.health = 50;
 	}
 
 	protected int xMoveWithCamera() {
