@@ -26,30 +26,30 @@ public class Bat extends Creature {
 
 	private void initialize() {
 
-		this.hitBox = new Rectangle((int) (this.position.getX()), (int) ( this.position.getY()),
+		this.hitBox = new Rectangle((int) (0), (int) (0),
 				(int) (BATWIDTH * SCALE ), (int) (BATHEIGHT * SCALE ));
-		
 		this.setDebuggingColor(new Color(51, 255, 255));
 
-		this.batUp = new Animation(ANIMATIONSPEED, Assets.batAnimationUp);
-		this.batLeft = new Animation(ANIMATIONSPEED, Assets.batAnimationLeft);
 		this.batDown = new Animation(ANIMATIONSPEED, Assets.batAnimationDown);
+		this.batLeft = new Animation(ANIMATIONSPEED, Assets.batAnimationLeft);
+		this.batUp = new Animation(ANIMATIONSPEED, Assets.batAnimationUp);
 		this.batRight = new Animation(ANIMATIONSPEED, Assets.batAnimationRight);
 
-		this.currentAnimation = this.batUp;
+		this.currentAnimation = this.batDown;
 	}
 
 	@Override
 	public void update() {
-		this.batUp.update();
+		this.batDown.update();
 
 	}
 
 	@Override
 	public void render(Graphics g) {
-		g.drawImage(this.batUp.getCurrentFrame(), this.xMoveWithCamera(), this.yMoveWithCamera(), BATWIDTH * SCALE,
+		g.drawImage(this.currentAnimation.getCurrentFrame(), this.xMoveWithCamera(), this.yMoveWithCamera(), BATWIDTH * SCALE,
 				BATHEIGHT * SCALE, null);
-	
+		super.render(g);
+
 	}
 
 }
