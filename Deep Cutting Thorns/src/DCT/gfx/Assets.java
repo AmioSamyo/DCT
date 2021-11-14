@@ -13,7 +13,7 @@ public class Assets {
 	public static BufferedImage tree;
 	
 	public static BufferedImage[] playerAnimationDown, playerAnimationRight, playerAnimationUp, playerAnimationLeft;
-	public static BufferedImage[] playerAnimationIdle;
+	public static BufferedImage[] playerAnimationIdle, playerAnimationRoll;
 
 	public static void assetInitialize() {
 
@@ -43,6 +43,7 @@ public class Assets {
 		playerAnimationUp = new BufferedImage[5];
 		playerAnimationLeft = new BufferedImage[5];
 		playerAnimationIdle = new BufferedImage[4];
+		playerAnimationRoll = new BufferedImage[1];
 
 		for (int i = 0; i < 5; i++) {
 			playerAnimationDown[i] = playerSheet.cropImage(
@@ -55,6 +56,7 @@ public class Assets {
 					new Rectangle(i * playerAnimWidth, playerAnimHeight * 3, playerAnimWidth, playerAnimHeight));
 		}
 		idleLoading(playerSheet);
+		playerAnimationRoll[1] = desertSheet.cropImage(new  Rectangle(1070, 0, 276, 280));
 	}
 
 	private static void idleLoading(SpriteSheet playerSheet) {
