@@ -28,7 +28,7 @@ public class Player extends Creature {
 	}
 
 	@Override
-	protected void showHealthBar(Graphics g) {
+	public void showHealthBar(Graphics g) {
 		float rangeHealthBar = (float) (MAX_HEALTH - 1) / ((float) Assets.healthBars.length - 1);
 		int currentHealthBarToShow = (int) ((float) (MAX_HEALTH - this.health) / rangeHealthBar);
 		if (currentHealthBarToShow < 0)

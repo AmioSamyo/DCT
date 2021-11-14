@@ -16,6 +16,8 @@ public class Assets {
 	public static BufferedImage[] playerAnimationIdle;
 	public static BufferedImage[] healthBars, playerDeadAnimation;
 
+	public static BufferedImage[] batAnimationUp, batAnimationDown, batAnimationLeft, batAnimationRight;
+
 	public static void assetInitialize() {
 
 		SpriteSheet grassSheet = new SpriteSheet(ImageLoader.imageLoad("rsc//32x32_map_Da_Tagliare.png"));
@@ -64,6 +66,27 @@ public class Assets {
 		idleLoading(playerSheet);
 
 		healthBarLoading();
+
+		SpriteSheet batSheet = new SpriteSheet(ImageLoader.imageLoad("rsc\\BatSprite.png"));
+
+		batAnimationUp = new BufferedImage[3];
+		batAnimationDown = new BufferedImage[3];
+		batAnimationLeft = new BufferedImage[3];
+		batAnimationRight = new BufferedImage[3];
+
+		int batAnimWidth = 25;
+		int batAnimHeight = 25;
+
+		for (int i = 0; i < 3; i++) {
+			batAnimationUp[i] = batSheet
+					.cropImage(new Rectangle((i + 1) * batAnimWidth, batAnimHeight * 0, batAnimWidth, batAnimHeight));
+			batAnimationLeft[i] = batSheet
+					.cropImage(new Rectangle((i + 1) * batAnimWidth, batAnimHeight * 2, batAnimWidth, batAnimHeight));
+			batAnimationDown[i] = batSheet
+					.cropImage(new Rectangle((i + 1) * batAnimWidth, batAnimHeight * 1, batAnimWidth, batAnimHeight));
+			batAnimationRight[i] = batSheet
+					.cropImage(new Rectangle((i + 1) * batAnimWidth, batAnimHeight * 3, batAnimWidth, batAnimHeight));
+		}
 	}
 
 	private static void idleLoading(SpriteSheet playerSheet) {
