@@ -41,6 +41,9 @@ public class Bat extends Creature {
 	@Override
 	public void update() {
 		this.batDown.update();
+		this.batUp.update();
+		this.batLeft.update();
+		this.batRight.update();
 
 	}
 
