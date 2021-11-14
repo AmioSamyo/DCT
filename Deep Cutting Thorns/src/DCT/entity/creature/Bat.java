@@ -13,8 +13,8 @@ public class Bat extends Creature {
 	private Animation batUp, batLeft, batDown, batRight;
 	private Animation currentAnimation;
 
-	private final static int BATHEIGHT = 25;
-	private final static int BATWIDTH = 25;
+	private final static int BATHEIGHT = 32;
+	private final static int BATWIDTH = 24;
 	private final static int SCALE = 2;
 	private static final int ANIMATIONSPEED = 100;
 
@@ -27,7 +27,8 @@ public class Bat extends Creature {
 	private void initialize() {
 
 		this.hitBox = new Rectangle((int) (this.position.getX()), (int) ( this.position.getY()),
-				(int) (BATWIDTH * SCALE * 0.6), (int) (BATHEIGHT * SCALE * 0.6));
+				(int) (BATWIDTH * SCALE ), (int) (BATHEIGHT * SCALE ));
+		
 		this.setDebuggingColor(new Color(51, 255, 255));
 
 		this.batUp = new Animation(ANIMATIONSPEED, Assets.batAnimationUp);
