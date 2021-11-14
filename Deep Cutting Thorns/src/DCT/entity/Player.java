@@ -1,6 +1,7 @@
 package DCT.entity;
 
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
 
 import DCT.Facade;
 import DCT.gfx.Animation;
@@ -166,7 +167,7 @@ public class Player extends Creature {
 		if (this.isNotMoving()) {
 			this.currentAnimation = this.playerIdle;
 		}
-		if (this.facade.getKeyManager().getRoll()) {
+		if (this.isRolling()) {
 			this.currentAnimation = this.playerRoll;
 		}
 
@@ -181,6 +182,9 @@ public class Player extends Creature {
 	}
 	
 	private boolean isRolling() {
-		return this.facade.getKeyManager().getRoll();
+		if (this.facade.getKeyManager().keyJustPressedTimed(KeyEvent.VK_SPACE, 1000)) {
+			return true;
+		}
+		return false;
 	}
 }

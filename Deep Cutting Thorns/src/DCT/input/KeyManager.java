@@ -5,9 +5,12 @@ import java.awt.event.KeyListener;
 
 public class KeyManager implements KeyListener {
 
-	private boolean up, down, left, right, sprint, roll;
+	private boolean up, down, left, right, sprint;
 	private boolean debugMode;
 	private boolean[] keys, justPressed, justPressedTimed, cantPress;
+
+	// timer
+	private long nowTime, lastTime, timer;
 
 	public KeyManager() {
 
@@ -16,6 +19,8 @@ public class KeyManager implements KeyListener {
 		this.justPressedTimed = new boolean[keys.length];
 		this.cantPress = new boolean[keys.length];
 
+		this.lastTime = System.nanoTime();
+		this.timer = 0;
 	}
 
 	public void update() {
@@ -38,7 +43,6 @@ public class KeyManager implements KeyListener {
 		this.left = this.keys[KeyEvent.VK_A];
 		this.right = this.keys[KeyEvent.VK_D];
 		this.sprint = this.keys[KeyEvent.VK_SHIFT];
-		this.roll = this.justPressedTimed[KeyEvent.VK_SPACE];
 
 		this.debugMode = this.keys[KeyEvent.VK_P];
 
@@ -78,12 +82,17 @@ public class KeyManager implements KeyListener {
 
 		return this.justPressed[keyCode];
 	}
-	
+
 	public boolean keyJustPressedTimed(int keyCode, int milliTime) {
 		if (keyCode < 0 || keyCode >= this.keys.length) {
 			return false;
 		}
-		return this.justPressedTimed[keyCode, milliTime];
+		do {
+			nowTime = System.nanoTime();
+			timer += (nowTime - lastTime);
+			lastTime = nowTime;
+			return this.justPressedTimed[keyCode];
+		} while (timer <= 1000000 * milliTime);
 	}
 
 	public boolean getUp() {
@@ -105,12 +114,8 @@ public class KeyManager implements KeyListener {
 	public boolean getDebugMode() {
 		return this.debugMode;
 	}
-	
+
 	public boolean getSprint() {
 		return this.sprint;
-	}
-	
-	public boolean getRoll() {
-		return this.roll;
 	}
 }
