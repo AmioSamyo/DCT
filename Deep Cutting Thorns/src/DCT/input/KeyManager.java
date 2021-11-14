@@ -37,7 +37,7 @@ public class KeyManager implements KeyListener {
 		this.left = this.keys[KeyEvent.VK_A];
 		this.right = this.keys[KeyEvent.VK_D];
 		this.sprint = this.keys[KeyEvent.VK_SHIFT];
-		this.roll = this.keys[KeyEvent.VK_SPACE];
+		this.roll = this.justPressed[KeyEvent.VK_SPACE];
 
 		this.debugMode = this.keys[KeyEvent.VK_P];
 

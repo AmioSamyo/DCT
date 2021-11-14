@@ -56,7 +56,7 @@ public class Assets {
 					new Rectangle(i * playerAnimWidth, playerAnimHeight * 3, playerAnimWidth, playerAnimHeight));
 		}
 		idleLoading(playerSheet);
-		playerAnimationRoll[1] = desertSheet.cropImage(new  Rectangle(1070, 0, 276, 280));
+		playerAnimationRoll[0] = desertSheet.cropImage(new  Rectangle(1070, 0, 276, 280));
 	}
 
 	private static void idleLoading(SpriteSheet playerSheet) {

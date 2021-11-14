@@ -13,6 +13,7 @@ public class Player extends Creature {
 
 	private Animation playerMoveDown, playerMoveRight, playerMoveUp, playerMoveLeft, playerIdle;
 	private Animation playerSprintDown, playerSprintRight, playerSprintUp, playerSprintLeft;
+	private Animation playerRoll;
 	private Animation currentAnimation;
 
 	private static final int PLAYERWIDTH = 704 / 11, PLAYERHEIGHT = 320 / 5;
@@ -43,6 +44,8 @@ public class Player extends Creature {
 		this.playerSprintRight = new Animation(ANIMATIONSPRINTSPEED, Assets.playerAnimationRight);
 		this.playerSprintUp = new Animation(ANIMATIONSPRINTSPEED, Assets.playerAnimationUp);
 		this.playerSprintLeft = new Animation(ANIMATIONSPRINTSPEED, Assets.playerAnimationLeft);
+		
+		this.playerRoll = new Animation(0, Assets.playerAnimationRoll);
 
 		this.currentAnimation = this.playerIdle;
 	}
@@ -63,6 +66,8 @@ public class Player extends Creature {
 		this.playerSprintRight.update();
 		this.playerSprintLeft.update();
 		this.playerSprintDown.update();
+		
+		this.playerRoll.update();
 
 		this.currentAnimation.update();
 
@@ -128,7 +133,7 @@ public class Player extends Creature {
 	}
 
 	private void roll() {
-		if (this.facade.getKeyManager().getRoll()) {
+		if (this.isRolling()) {
 			
 		}
 	}
@@ -149,6 +154,9 @@ public class Player extends Creature {
 		if (this.isNotMoving()) {
 			this.currentAnimation = this.playerIdle;
 		}
+		if (this.facade.getKeyManager().getRoll()) {
+			this.currentAnimation = this.playerRoll;
+		}
 
 	}
 
@@ -158,5 +166,9 @@ public class Player extends Creature {
 		} else {
 			this.currentAnimation = anim;
 		}
+	}
+	
+	private boolean isRolling() {
+		return this.facade.getKeyManager().getRoll();
 	}
 }
