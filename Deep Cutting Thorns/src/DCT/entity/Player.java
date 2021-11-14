@@ -19,7 +19,7 @@ public class Player extends Creature {
 	private static final int PLAYERWIDTH = 704 / 11, PLAYERHEIGHT = 320 / 5;
 	private static final int SCALE = 2;
 	private static final int ANIMATIONSPEED = 100, ANIMATIONSPRINTSPEED = 60;
-	private static final int SPRINTSPEED = 5;
+	private static final int SPRINTSPEED = 8, ROLLSPEED = 10;
 
 	public Player(Facade facade, int x, int y) {
 
@@ -114,6 +114,7 @@ public class Player extends Creature {
 		if (this.facade.getKeyManager().getRight()) {
 			this.setXSpeed(this.speed, SPRINTSPEED);
 		}
+		this.roll();
 	}
 
 	private void setYSpeed(int speed, int sprintSpeed) {
@@ -134,7 +135,18 @@ public class Player extends Creature {
 
 	private void roll() {
 		if (this.isRolling()) {
-			
+			if (this.facade.getKeyManager().getUp()) {
+				this.setYSpeed(-this.speed*ROLLSPEED, -SPRINTSPEED*ROLLSPEED);
+			}
+			if (this.facade.getKeyManager().getDown()) {
+				this.setYSpeed(this.speed*ROLLSPEED, SPRINTSPEED*ROLLSPEED);
+			}
+			if (this.facade.getKeyManager().getLeft()) {
+				this.setXSpeed(-this.speed*ROLLSPEED, -SPRINTSPEED*ROLLSPEED);
+			}
+			if (this.facade.getKeyManager().getRight()) {
+				this.setXSpeed(this.speed*ROLLSPEED, SPRINTSPEED*ROLLSPEED);
+			}
 		}
 	}
 
