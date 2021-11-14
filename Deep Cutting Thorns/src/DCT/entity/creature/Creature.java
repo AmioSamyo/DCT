@@ -1,6 +1,7 @@
-package DCT.entity;
+package DCT.entity.creature;
 
 import DCT.Facade;
+import DCT.entity.Entity;
 import DCT.tile.Tile;
 import DCT.utility.Rectangle;
 

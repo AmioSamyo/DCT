@@ -1,4 +1,4 @@
-package DCT.entity;
+package DCT.entity.creature;
 
 import java.awt.Color;
 import java.awt.Graphics;

@@ -4,7 +4,7 @@ import java.awt.Graphics;
 
 import DCT.Facade;
 import DCT.entity.EntityManager;
-import DCT.entity.Player;
+import DCT.entity.creature.Player;
 import DCT.entity.statics.Jar;
 import DCT.entity.statics.Rocks;
 import DCT.entity.statics.Tree;
