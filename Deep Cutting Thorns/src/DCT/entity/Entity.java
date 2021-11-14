@@ -111,11 +111,11 @@ public abstract class Entity {
 		return this.position.getY() - this.facade.getGameCamera().getYOffset();
 	}
 
-	private int getXMoveHitbox(Rectangle hitBox) {
+	protected int getXMoveHitbox(Rectangle hitBox) {
 		return hitBox.getX() - this.facade.getGameCamera().getXOffset();
 	}
 
-	private int getYMoveHitbox(Rectangle hitBox) {
+	protected int getYMoveHitbox(Rectangle hitBox) {
 		return hitBox.getY() - this.facade.getGameCamera().getYOffset();
 	}
 }

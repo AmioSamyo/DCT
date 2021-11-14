@@ -37,6 +37,7 @@ public class EntityManager {
 	public void render(Graphics g) {
 
 		this.entityList.forEach(e -> e.render(g));
+		this.player.showHealthBar(g);
 	}
 
 	public void addEntity(Entity e) {
