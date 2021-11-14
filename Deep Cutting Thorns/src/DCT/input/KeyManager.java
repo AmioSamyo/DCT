@@ -7,12 +7,13 @@ public class KeyManager implements KeyListener {
 
 	private boolean up, down, left, right, sprint, roll;
 	private boolean debugMode;
-	private boolean[] keys, justPressed, cantPress;
+	private boolean[] keys, justPressed, justPressedTimed, cantPress;
 
 	public KeyManager() {
 
 		this.keys = new boolean[256];
 		this.justPressed = new boolean[keys.length];
+		this.justPressedTimed = new boolean[keys.length];
 		this.cantPress = new boolean[keys.length];
 
 	}
@@ -37,7 +38,7 @@ public class KeyManager implements KeyListener {
 		this.left = this.keys[KeyEvent.VK_A];
 		this.right = this.keys[KeyEvent.VK_D];
 		this.sprint = this.keys[KeyEvent.VK_SHIFT];
-		this.roll = this.justPressed[KeyEvent.VK_SPACE];
+		this.roll = this.justPressedTimed[KeyEvent.VK_SPACE];
 
 		this.debugMode = this.keys[KeyEvent.VK_P];
 
@@ -76,6 +77,13 @@ public class KeyManager implements KeyListener {
 		}
 
 		return this.justPressed[keyCode];
+	}
+	
+	public boolean keyJustPressedTimed(int keyCode, int milliTime) {
+		if (keyCode < 0 || keyCode >= this.keys.length) {
+			return false;
+		}
+		return this.justPressedTimed[keyCode, milliTime];
 	}
 
 	public boolean getUp() {
