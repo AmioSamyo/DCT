@@ -63,10 +63,11 @@ public class Facade {
 	}
 
 	public boolean isDebugging() {
-		if (this.getKeyManager().keyJustPressed(KeyEvent.VK_P)) {
-			this.debugMode = !this.debugMode;
-		}
 		return this.debugMode;
+	}
+	
+	public void lightDebugMode() {
+		this.debugMode = !this.debugMode;
 	}
 	
 	public void setGamePause(boolean b) {
