@@ -27,16 +27,6 @@ public class Player extends Creature {
 		initialize();
 	}
 
-	@Override
-	public void showHealthBar(Graphics g) {
-		float rangeHealthBar = (float) (MAX_HEALTH - 1) / ((float) Assets.healthBars.length - 1);
-		int currentHealthBarToShow = (int) ((float) (MAX_HEALTH - this.health) / rangeHealthBar);
-		if (currentHealthBarToShow < 0)
-			currentHealthBarToShow = 0;
-		if (currentHealthBarToShow > 28)
-			currentHealthBarToShow = 28;
-		g.drawImage(Assets.healthBars[currentHealthBarToShow], 20, 20, (int) (390 * 0.75), (int) (70 * 0.75), null);
-	}
 
 	private void initialize() {
 
@@ -82,6 +72,17 @@ public class Player extends Creature {
 		this.drawHitBox(g);
 	}
 
+	@Override
+	public void showHealthBar(Graphics g) {
+		float rangeHealthBar = (float) (MAX_HEALTH - 1) / ((float) Assets.healthBars.length - 1);
+		int currentHealthBarToShow = (int) ((float) (MAX_HEALTH - this.health) / rangeHealthBar);
+		if (currentHealthBarToShow < 0)
+			currentHealthBarToShow = 0;
+		if (currentHealthBarToShow > 28)
+			currentHealthBarToShow = 28;
+		g.drawImage(Assets.healthBars[currentHealthBarToShow], 20, 20, (int) (390 * 0.75), (int) (70 * 0.75), null);
+	}
+	
 	@Override
 	public void die() {
 		this.currentAnimation = deadAnimation;

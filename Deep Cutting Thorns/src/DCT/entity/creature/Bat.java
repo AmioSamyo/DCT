@@ -30,19 +30,22 @@ public class Bat extends Creature {
 				(int) (BATWIDTH * SCALE * 0.5), (int) (BATHEIGHT * SCALE * 0.5));
 
 		this.setDebuggingColor(new Color(255, 255, 51));
+		this.DiameterAggro = 400;
 
 		this.batDown = new Animation(ANIMATIONSPEED, Assets.batAnimationDown);
 		this.batLeft = new Animation(ANIMATIONSPEED, Assets.batAnimationLeft);
 		this.batUp = new Animation(ANIMATIONSPEED, Assets.batAnimationUp);
 		this.batRight = new Animation(ANIMATIONSPEED, Assets.batAnimationRight);
 
-		this.DiameterAggro = 400;
-
 		this.currentAnimation = this.batDown;
 	}
 
 	@Override
 	public void update() {
+		
+		if (this.health <= 0) {
+			this.die();
+		}
 
 		this.batDown.update();
 		this.batUp.update();
@@ -61,7 +64,6 @@ public class Bat extends Creature {
 				BATWIDTH * SCALE, BATHEIGHT * SCALE, null);
 
 		super.render(g);
-
 		this.drawRangeAggro(g);
 
 	}
