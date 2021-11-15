@@ -24,7 +24,7 @@ public class UIImageButton extends UIObject {
 	@Override
 	public void render(Graphics g) {
 		if (this.isHovering()) {
-			g.drawImage(this.images[17], this.getPositionX(), this.getPositionY(), this.getPositionWidth(),
+			g.drawImage(this.images[1], this.getPositionX(), this.getPositionY(), this.getPositionWidth(),
 					this.getPositionHeight(), null);
 		} else {
 			g.drawImage(this.images[0], this.getPositionX(), this.getPositionY(), this.getPositionWidth(),

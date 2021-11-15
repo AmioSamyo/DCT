@@ -19,7 +19,7 @@ public class PauseState extends State {
 		this.uiManager = new UIManager(this.facade);
 		this.facade.getMouseManager().setUIManager(this.uiManager);
 		
-		this.uiManager.addUIObject(new UIImageButton(new Rectangle(300, 300, 300, 100), Assets.healthBars, new IClickListener() {
+		this.uiManager.addUIObject(new UIImageButton(new Rectangle(this.facade.getWidth()/2 - 150, this.facade.getHeight()/2 - 50, 300, 100), Assets.healthBars, new IClickListener() {
 			@Override
 			public void onClick() {
 				facade.getMouseManager().setUIManager(null);
