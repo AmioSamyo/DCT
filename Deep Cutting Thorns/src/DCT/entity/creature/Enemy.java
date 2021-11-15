@@ -9,17 +9,34 @@ import DCT.utility.Rectangle;
 public class Enemy extends Creature {
 
 	protected boolean playerInAggro = false;
-	
+
+	protected int xStart, yStart;
+
 	public Enemy(Facade facade, Rectangle position) {
 		super(facade, position);
 		
+		this.xStart = this.getPositionX() - this.getPositionWidth() / 2;
+		this.yStart = this.getPositionY() - this.getPositionHeight() / 2;
+
 	}
 
 	@Override
 	public void update() {
 		
+		this.playerInAggro();
+		this.moveIfNotAggro();
+		this.moveToPlayer();
+		this.move();
+
+		this.resetMovement();
 	}
-	
+
+	@Override
+	public void render(Graphics g) {
+		super.render(g);
+		this.drawRangeAggro(g);
+	}
+
 	protected void drawRangeAggro(Graphics g) {
 		if (this.facade.getDebugMode()) {
 			Rectangle StartBatEye = new Rectangle(
@@ -70,28 +87,58 @@ public class Enemy extends Creature {
 			int A = x - x1;
 			int B = y - y1;
 
-			if (A < 0) {
-				this.xMove = -this.speed;
+			if (Math.abs(A) < this.speed) {
+				this.xMove = 0;
 			} else {
+				if (A < 0) {
+					this.xMove = -this.speed;
+				}
 				if (A > 0) {
-
 					this.xMove = this.speed;
 				}
 			}
-			if (B < 0) {
-				this.yMove = -this.speed;
+			if (Math.abs(B) < this.speed) {
+				this.yMove = 0;
 			} else {
+				if (B < 0) {
+					this.yMove = -this.speed;
+				}
 				if (B > 0) {
 					this.yMove = this.speed;
 				}
 			}
-			
-			
-			this.move();
-			
-			this.resetMovement();
 		}
 	}
-	
 
+	protected void moveIfNotAggro() {
+		if (!this.playerInAggro) {
+			int x1 = this.getPositionX() - this.getPositionWidth() / 2;
+			int y1 = this.getPositionY() - this.getPositionHeight() / 2;
+
+			int A = this.xStart - x1;
+			int B = this.yStart - y1;
+
+			if (Math.abs(A) < this.speed) {
+				this.xMove = 0;
+			} else {
+				if (A < 0) {
+					this.xMove = -this.speed;
+				}
+				if (A > 0) {
+					this.xMove = this.speed;
+				}
+			}
+			if (Math.abs(B) < this.speed) {
+				this.yMove = 0;
+			} else {
+				if (B < 0) {
+					this.yMove = -this.speed;
+				}
+				if (B > 0) {
+					this.yMove = this.speed;
+				}
+			}
+		}
+		
+	}
 }

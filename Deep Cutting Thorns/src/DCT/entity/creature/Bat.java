@@ -53,8 +53,7 @@ public class Bat extends Enemy {
 
 		this.currentAnimation.update();
 
-		this.playerInAggro();
-		this.moveToPlayer();
+		super.update();
 
 	}
 
@@ -65,7 +64,6 @@ public class Bat extends Enemy {
 				BATWIDTH * SCALE, BATHEIGHT * SCALE, null);
 
 		super.render(g);
-		this.drawRangeAggro(g);
 
 	}
 
