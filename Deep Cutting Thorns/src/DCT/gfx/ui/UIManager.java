@@ -1,9 +1,44 @@
 package DCT.gfx.ui;
 
+import java.util.ArrayList;
+import java.awt.Graphics;
+import java.awt.event.MouseEvent;
+
+import DCT.Facade;
+
 public class UIManager {
 
-	public UIManager() {
-		// TODO Auto-generated constructor stub
+	private Facade facade;
+	private ArrayList<UIObject> uiObjects;
+
+	public UIManager(Facade facade) {
+		this.facade = facade;
+		this.uiObjects = new ArrayList<UIObject>();
 	}
+	
+	public void addUIObject(UIObject o) {
+		this.uiObjects.add(o);
+	}
+	
+	public void onMouseRelease(MouseEvent e) {
+		this.uiObjects.forEach(o -> o.onMouseRelease());
+	}
+	
+	public void onMouseMove(MouseEvent e) {
+		this.uiObjects.forEach(o -> o.onMouseMove(e));
+	}
+
+	public void removeUIObject(UIObject o) {
+		this.uiObjects.remove(o);
+	}
+	
+	public void render(Graphics g) {
+		this.uiObjects.forEach(o -> o.render(g));
+	}
+	
+	public void update() {
+		this.uiObjects.forEach(o -> o.update());
+	}
+	
 
 }
