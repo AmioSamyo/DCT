@@ -13,6 +13,9 @@ public class Bat extends Creature {
 	private Animation batUp, batLeft, batDown, batRight;
 	private Animation currentAnimation;
 
+	private int rangeAggro;
+	private boolean playerInAggro;
+
 	private final static int BATHEIGHT = 32;
 	private final static int BATWIDTH = 24;
 	private final static int SCALE = 2;
@@ -29,12 +32,14 @@ public class Bat extends Creature {
 		this.hitBox = new Rectangle((int) (BATWIDTH * SCALE * 0.3), (int) (BATHEIGHT * SCALE * 0.3),
 				(int) (BATWIDTH * SCALE * 0.5), (int) (BATHEIGHT * SCALE * 0.5));
 
-		this.setDebuggingColor(new Color(200, 60, 60));
+		this.setDebuggingColor(new Color(255, 255, 51));
 
 		this.batDown = new Animation(ANIMATIONSPEED, Assets.batAnimationDown);
 		this.batLeft = new Animation(ANIMATIONSPEED, Assets.batAnimationLeft);
 		this.batUp = new Animation(ANIMATIONSPEED, Assets.batAnimationUp);
 		this.batRight = new Animation(ANIMATIONSPEED, Assets.batAnimationRight);
+
+		this.rangeAggro = 400;
 
 		this.currentAnimation = this.batDown;
 	}
@@ -56,7 +61,19 @@ public class Bat extends Creature {
 				BATWIDTH * SCALE, BATHEIGHT * SCALE, null);
 
 		super.render(g);
+		if(this.facade.getDebugMode()) {
+		this.drawRangeAggro(g);
+		}
 
+	}
+
+	private void drawRangeAggro(Graphics g) {
+
+		Rectangle StartBatEye = new Rectangle((int) (this.position.getX() - this.rangeAggro / 2 + BATWIDTH / 2),
+				(int) (this.position.getY() - this.rangeAggro / 2 + BATHEIGHT / 2), 0, 0);
+
+		g.drawOval(this.getXMoveHitbox(StartBatEye), this.getYMoveHitbox(StartBatEye), this.rangeAggro,
+				this.rangeAggro);
 	}
 
 }
