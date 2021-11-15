@@ -33,9 +33,10 @@ public class Bat extends Creature {
 		this.animationMoveLeft = new Animation(ANIMATIONSPEED, Assets.batAnimationLeft);
 		this.animationMoveUp = new Animation(ANIMATIONSPEED, Assets.batAnimationUp);
 		this.animationMoveRight = new Animation(ANIMATIONSPEED, Assets.batAnimationRight);
+		this.animationIdle = this.animationMoveDown;
 
 		this.currentAnimation = this.animationMoveDown;
-		
+
 	}
 
 	@Override
@@ -49,7 +50,7 @@ public class Bat extends Creature {
 		this.animationMoveUp.update();
 		this.animationMoveLeft.update();
 		this.animationMoveRight.update();
-		
+
 		this.currentAnimation.update();
 
 		this.playerInAggro();
@@ -66,6 +67,11 @@ public class Bat extends Creature {
 		super.render(g);
 		this.drawRangeAggro(g);
 
+	}
+
+	@Override
+	protected void chooseCurrentAnimation() {
+		this.currentAnimation = this.animationIdle;
 	}
 
 }

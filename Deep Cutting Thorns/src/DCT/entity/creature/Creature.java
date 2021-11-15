@@ -27,19 +27,6 @@ public abstract class Creature extends Entity {
 		this.yMove = 0;
 	}
 
-	protected void chooseCurrentAnimation() {
-		if (this.xMove < 0) {
-			this.currentAnimation = this.animationMoveLeft;
-		} else if (this.xMove > 0) {
-			this.currentAnimation = this.animationMoveRight;
-		} else if (this.yMove < 0) {
-			this.currentAnimation = this.animationMoveUp;
-		} else if (this.yMove > 0) {
-			this.currentAnimation = this.animationMoveDown;
-		} else {
-			this.currentAnimation = this.animationIdle;
-		}
-	}
 
 	protected void move() {
 		if (!this.checkEntityCollisions(0, this.yMove)) {
@@ -194,9 +181,22 @@ public abstract class Creature extends Entity {
 				}
 			}
 			this.move();
-			this.chooseCurrentAnimation();
 			
 			this.resetMovement();
+		}
+	}
+	
+	protected void chooseCurrentAnimation() {
+		if (this.xMove < 0) {
+			this.currentAnimation = this.animationMoveLeft;
+		} else if (this.xMove > 0) {
+			this.currentAnimation = this.animationMoveRight;
+		} else if (this.yMove < 0) {
+			this.currentAnimation = this.animationMoveUp;
+		} else if (this.yMove > 0) {
+			this.currentAnimation = this.animationMoveDown;
+		} else {
+			this.currentAnimation = this.animationIdle;
 		}
 	}
 }
