@@ -10,9 +10,6 @@ import DCT.utility.Rectangle;
 
 public class Bat extends Creature {
 
-	private Animation batUp, batLeft, batDown, batRight;
-	private Animation currentAnimation;
-
 	private final static int BATHEIGHT = 32;
 	private final static int BATWIDTH = 24;
 	private final static int SCALE = 2;
@@ -32,12 +29,13 @@ public class Bat extends Creature {
 		this.setDebuggingColor(new Color(255, 255, 51));
 		this.DiameterAggro = 400;
 
-		this.batDown = new Animation(ANIMATIONSPEED, Assets.batAnimationDown);
-		this.batLeft = new Animation(ANIMATIONSPEED, Assets.batAnimationLeft);
-		this.batUp = new Animation(ANIMATIONSPEED, Assets.batAnimationUp);
-		this.batRight = new Animation(ANIMATIONSPEED, Assets.batAnimationRight);
+		this.animationMoveDown = new Animation(ANIMATIONSPEED, Assets.batAnimationDown);
+		this.animationMoveLeft = new Animation(ANIMATIONSPEED, Assets.batAnimationLeft);
+		this.animationMoveUp = new Animation(ANIMATIONSPEED, Assets.batAnimationUp);
+		this.animationMoveRight = new Animation(ANIMATIONSPEED, Assets.batAnimationRight);
 
-		this.currentAnimation = this.batDown;
+		this.currentAnimation = this.animationMoveDown;
+		
 	}
 
 	@Override
@@ -47,10 +45,10 @@ public class Bat extends Creature {
 			this.die();
 		}
 
-		this.batDown.update();
-		this.batUp.update();
-		this.batLeft.update();
-		this.batRight.update();
+		this.animationMoveDown.update();
+		this.animationMoveUp.update();
+		this.animationMoveLeft.update();
+		this.animationMoveRight.update();
 
 		this.playerInAggro();
 		this.moveToPlayer();

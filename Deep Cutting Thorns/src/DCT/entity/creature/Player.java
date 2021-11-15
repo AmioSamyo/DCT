@@ -10,11 +10,6 @@ import DCT.utility.Rectangle;
 
 public class Player extends Creature {
 
-	private int currentHealth;
-
-	private Animation playerMoveDown, playerMoveRight, playerMoveUp, playerMoveLeft, playerIdle, deadAnimation;
-	private Animation currentAnimation;
-
 	private static final int PLAYERWIDTH = 704 / 11, PLAYERHEIGHT = 320 / 5;
 	private static final int SCALE = 2;
 	private static final int ANIMATIONSPEED = 100;
@@ -27,20 +22,19 @@ public class Player extends Creature {
 		initialize();
 	}
 
-
 	private void initialize() {
 
 		this.hitBox = new Rectangle((int) (PLAYERWIDTH * SCALE * 0.35), (int) (PLAYERHEIGHT * SCALE * 0.7),
 				(int) (PLAYERWIDTH * SCALE * 0.35), (int) (PLAYERHEIGHT * SCALE * 0.16));
 
-		this.playerMoveDown = new Animation(ANIMATIONSPEED, Assets.playerAnimationDown);
-		this.playerMoveRight = new Animation(ANIMATIONSPEED, Assets.playerAnimationRight);
-		this.playerMoveUp = new Animation(ANIMATIONSPEED, Assets.playerAnimationUp);
-		this.playerMoveLeft = new Animation(ANIMATIONSPEED, Assets.playerAnimationLeft);
-		this.playerIdle = new Animation(ANIMATIONSPEED, Assets.playerAnimationIdle);
-		this.deadAnimation = new Animation(1, Assets.playerDeadAnimation);
+		this.animationMoveDown = new Animation(ANIMATIONSPEED, Assets.playerAnimationDown);
+		this.animationMoveRight = new Animation(ANIMATIONSPEED, Assets.playerAnimationRight);
+		this.animationMoveUp = new Animation(ANIMATIONSPEED, Assets.playerAnimationUp);
+		this.animationMoveLeft = new Animation(ANIMATIONSPEED, Assets.playerAnimationLeft);
+		this.animationIdle = new Animation(ANIMATIONSPEED, Assets.playerAnimationIdle);
+		this.animationDead = new Animation(1, Assets.playerDeadAnimation);
 
-		this.currentAnimation = this.playerIdle;
+		this.currentAnimation = this.animationIdle;
 		this.setDebuggingColor(new Color(255, 102, 255));
 	}
 
@@ -50,11 +44,11 @@ public class Player extends Creature {
 			this.die();
 		}
 
-		this.playerIdle.update();
-		this.playerMoveUp.update();
-		this.playerMoveRight.update();
-		this.playerMoveLeft.update();
-		this.playerMoveDown.update();
+		this.animationIdle.update();
+		this.animationMoveUp.update();
+		this.animationMoveRight.update();
+		this.animationMoveLeft.update();
+		this.animationMoveDown.update();
 
 		this.currentAnimation.update();
 
@@ -68,7 +62,7 @@ public class Player extends Creature {
 	public void render(Graphics g) {
 		g.drawImage(this.currentAnimation.getCurrentFrame(), this.xMoveWithCamera(), this.yMoveWithCamera(),
 				this.position.getWidth(), this.position.getHeight(), null);
-		
+
 		this.drawHitBox(g);
 	}
 
@@ -82,10 +76,10 @@ public class Player extends Creature {
 			currentHealthBarToShow = 28;
 		g.drawImage(Assets.healthBars[currentHealthBarToShow], 20, 20, (int) (390 * 0.75), (int) (70 * 0.75), null);
 	}
-	
+
 	@Override
 	public void die() {
-		this.currentAnimation = deadAnimation;
+		this.currentAnimation = animationDead;
 	}
 
 	public int getCurrentHealth() {
@@ -113,20 +107,6 @@ public class Player extends Creature {
 		}
 		if (this.facade.getKeyManager().getRight()) {
 			this.addXMove(this.speed);
-		}
-	}
-
-	private void chooseCurrentAnimation() {
-		if (this.xMove < 0) {
-			this.currentAnimation = this.playerMoveLeft;
-		} else if (this.xMove > 0) {
-			this.currentAnimation = this.playerMoveRight;
-		} else if (this.yMove < 0) {
-			this.currentAnimation = this.playerMoveUp;
-		} else if (this.yMove > 0) {
-			this.currentAnimation = this.playerMoveDown;
-		} else {
-			this.currentAnimation = this.playerIdle;
 		}
 	}
 
