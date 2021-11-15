@@ -14,7 +14,7 @@ public class Bat extends Creature {
 	private Animation currentAnimation;
 
 	private int rangeAggro;
-	private boolean playerInAggro;
+	private boolean playerInAggro = false;
 
 	private final static int BATHEIGHT = 32;
 	private final static int BATWIDTH = 24;
@@ -52,6 +52,9 @@ public class Bat extends Creature {
 		this.batLeft.update();
 		this.batRight.update();
 
+		this.playerInAggro();
+		this.MoveToPlayer();
+
 	}
 
 	@Override
@@ -61,8 +64,37 @@ public class Bat extends Creature {
 				BATWIDTH * SCALE, BATHEIGHT * SCALE, null);
 
 		super.render(g);
-		if(this.facade.getDebugMode()) {
-		this.drawRangeAggro(g);
+		if (this.facade.getDebugMode()) {
+			this.drawRangeAggro(g);
+		}
+
+	}
+
+	private void MoveToPlayer() {
+		if (this.playerInAggro)
+			System.out.println("Player in Aggro");
+	}
+
+	private void playerInAggro() {
+		int x = this.facade.getEntityManager().getPlayer().getPositionX()
+				+ this.facade.getEntityManager().getPlayer().getPositionWidth() / 2;
+		int y = this.facade.getEntityManager().getPlayer().getPositionY()
+				+ this.facade.getEntityManager().getPlayer().getPositionHeight() / 2;
+
+		int x1 = this.getPositionX() - BATWIDTH / 2;
+		int y1 = this.getPositionY() - BATHEIGHT / 2;
+
+
+		int X = x - x1;
+		int Y = y - y1;
+
+		int A = X - this.rangeAggro / 2;
+		int B = Y - this.rangeAggro / 2;
+
+		if (A < 0 && B < 0) {
+			this.playerInAggro = true;
+		} else {
+			this.playerInAggro = false;
 		}
 
 	}
