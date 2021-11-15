@@ -8,10 +8,11 @@ import DCT.utility.Rectangle;
 public abstract class UIObject {
 
 	protected Rectangle position;
-	protected boolean hovering = false;
+	protected boolean hovering;
 
 	public UIObject(Rectangle dimensions) {
 		this.position = dimensions;
+		this.hovering = false;
 	}
 
 	public abstract void update();
@@ -21,11 +22,7 @@ public abstract class UIObject {
 	public abstract void onClick();
 
 	public void onMouseMove(MouseEvent e) {
-		if (this.position.contains(e.getX(), e.getY())) {
-			this.setHovering(true);
-		} else {
-			this.setHovering(false);
-		}
+		this.setHovering(this.position.contains(e.getX(), e.getY()));
 	}
 
 	public void onMouseRelease() {

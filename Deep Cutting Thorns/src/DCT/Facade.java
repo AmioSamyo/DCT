@@ -21,6 +21,10 @@ public class Facade {
 
 		this.debugMode = false;
 	}
+	
+	public Game getGame() {
+		return this.game;
+	}
 
 	public KeyManager getKeyManager() {
 		return this.game.getKeyManager();
@@ -63,6 +67,10 @@ public class Facade {
 			this.debugMode = !this.debugMode;
 		}
 		return this.debugMode;
+	}
+	
+	public void setGamePause(boolean b) {
+		this.game.setPausing(b);
 	}
 
 	public boolean pauseGame() {

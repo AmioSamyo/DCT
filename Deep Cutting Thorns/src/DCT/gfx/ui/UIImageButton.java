@@ -15,7 +15,7 @@ public class UIImageButton extends UIObject {
 		this.images = images;
 		this.clicker = clicker;
 	}
-	
+
 	@Override
 	public void onClick() {
 		this.clicker.onClick();
@@ -23,8 +23,8 @@ public class UIImageButton extends UIObject {
 
 	@Override
 	public void render(Graphics g) {
-		if (hovering) {
-			g.drawImage(this.images[1], this.getPositionX(), this.getPositionY(), this.getPositionWidth(),
+		if (this.isHovering()) {
+			g.drawImage(this.images[17], this.getPositionX(), this.getPositionY(), this.getPositionWidth(),
 					this.getPositionHeight(), null);
 		} else {
 			g.drawImage(this.images[0], this.getPositionX(), this.getPositionY(), this.getPositionWidth(),
@@ -34,8 +34,6 @@ public class UIImageButton extends UIObject {
 
 	@Override
 	public void update() {
-		// TODO Auto-generated method stub
-
 	}
 
 }

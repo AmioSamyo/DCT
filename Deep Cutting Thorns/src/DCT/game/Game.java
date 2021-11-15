@@ -59,6 +59,7 @@ public class Game implements Runnable {
 		Assets.assetInitialize();
 
 		this.gameState = new GameState(this.worldPath, this.facade);
+		this.pauseState = null;
 		State.setCurrentState(gameState);
 
 	}
@@ -68,10 +69,13 @@ public class Game implements Runnable {
 		this.keyManager.update();
 
 		if (this.facade.pauseGame()) {
-			this.pauseState = new PauseState(this.facade);
-			State.setCurrentState((State) new PauseState(this.facade));
+			if (this.pauseState == null) {
+				this.pauseState = new PauseState(this.facade);
+			}
+			State.setCurrentState(this.pauseState);
 		} else {
 			State.setCurrentState(this.gameState);
+			this.pauseState = null;
 		}
 
 		if (State.getCurrentState() != null) {
@@ -192,5 +196,9 @@ public class Game implements Runnable {
 
 	public void setPausing(boolean b) {
 		this.pausing = b;
+	}
+
+	public State getGameState() {
+		return this.gameState;
 	}
 }
