@@ -21,7 +21,7 @@ public class PauseState extends State {
 		this.facade.getMouseManager().setUIManager(this.uiManager);
 		
 		//RESUME BUTTON
-		this.uiManager.addUIObject(new UIImageButton(new Rectangle(this.facade.getWidth()/2 - 150, this.facade.getHeight()/2 - 50, 300, 100), Assets.healthBars, new IClickListener() {
+		this.uiManager.addUIObject(new UIImageButton(new Rectangle(this.facade.getWidth()/2 - 75, this.facade.getHeight()/2 - 75, 150, 150), Assets.resumeButton, new IClickListener() {
 			@Override
 			public void onClick() {
 				facade.getMouseManager().setUIManager(null);
@@ -30,7 +30,7 @@ public class PauseState extends State {
 		}));
 		
 		//DEBUG MODE
-		this.uiManager.addUIObject(new UIImageButton(new Rectangle(this.facade.getWidth()/2 - 150, this.facade.getHeight()/2 + 150, 300, 100), Assets.healthBars, new IClickListener() {
+		this.uiManager.addUIObject(new UIImageButton(new Rectangle(this.facade.getWidth()/2 - 75, this.facade.getHeight()/2 - 75 + 180, 150, 150), Assets.debugButton, new IClickListener() {
 			@Override
 			public void onClick() {
 				facade.getMouseManager().setUIManager(null);
