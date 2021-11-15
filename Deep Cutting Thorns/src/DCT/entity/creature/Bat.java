@@ -53,7 +53,7 @@ public class Bat extends Creature {
 		this.batRight.update();
 
 		this.playerInAggro();
-		this.MoveToPlayer();
+		this.batMovement();
 
 	}
 
@@ -66,6 +66,15 @@ public class Bat extends Creature {
 		super.render(g);
 		this.drawRangeAggro(g);
 
+	}
+	
+	private void batMovement() {
+		if(this.playerInAggro) {
+			this.xMove=this.speed;
+			this.move();
+			this.resetMovement();
+		}
+		
 	}
 
 }

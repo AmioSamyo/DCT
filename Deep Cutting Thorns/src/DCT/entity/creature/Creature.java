@@ -131,8 +131,8 @@ public abstract class Creature extends Entity {
 		int x1 = this.getPositionX() - this.getPositionWidth() / 2;
 		int y1 = this.getPositionY() - this.getPositionHeight() / 2;
 
-		int X = x - x1;
-		int Y = y - y1;
+		int X = Math.abs(x - x1);
+		int Y = Math.abs(y - y1);
 
 		int A = X - this.DiameterAggro / 2;
 		int B = Y - this.DiameterAggro / 2;
