@@ -11,10 +11,11 @@ public class Enemy extends Creature {
 	protected boolean playerInAggro = false;
 
 	protected int xStart, yStart;
+	protected boolean getStart = true;
 
 	public Enemy(Facade facade, Rectangle position) {
 		super(facade, position);
-		
+
 		this.xStart = this.getPositionX() - this.getPositionWidth() / 2;
 		this.yStart = this.getPositionY() - this.getPositionHeight() / 2;
 
@@ -22,7 +23,7 @@ public class Enemy extends Creature {
 
 	@Override
 	public void update() {
-		
+
 		this.playerInAggro();
 		this.moveIfNotAggro();
 		this.moveToPlayer();
@@ -52,20 +53,17 @@ public class Enemy extends Creature {
 	}
 
 	protected void playerInAggro() {
-		int x = this.facade.getEntityManager().getPlayer().getPositionX()
-				+ this.facade.getEntityManager().getPlayer().getPositionWidth() / 2;
-		int y = this.facade.getEntityManager().getPlayer().getPositionY()
-				+ this.facade.getEntityManager().getPlayer().getPositionHeight() / 2;
 
-		int x1 = this.getPositionX() - this.getPositionWidth() / 2;
-		int y1 = this.getPositionY() - this.getPositionHeight() / 2;
+		int deltaX = Math.abs(this.facade.getEntityManager().getPlayer().getPositionX()
+				+ this.facade.getEntityManager().getPlayer().getPositionWidth() / 2 - this.getPositionX()
+				- this.getPositionWidth() / 2);
+		int deltaY = Math.abs(this.facade.getEntityManager().getPlayer().getPositionY()
+				+ this.facade.getEntityManager().getPlayer().getPositionHeight() / 2 - this.getPositionY()
+				- this.getPositionHeight() / 2);
 
-		int X = Math.abs(x - x1);
-		int Y = Math.abs(y - y1);
+		int distanceToPlayer = (int) Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
 
-		int A = (int) Math.sqrt(Y * Y + X * X);
-
-		if (A < this.DiameterAggro / 2) {
+		if (distanceToPlayer < this.DiameterAggro / 2) {
 			this.playerInAggro = true;
 		} else {
 			this.playerInAggro = false;
@@ -76,34 +74,31 @@ public class Enemy extends Creature {
 	protected void moveToPlayer() {
 		if (this.playerInAggro) {
 
-			int x = this.facade.getEntityManager().getPlayer().getPositionX()
-					+ this.facade.getEntityManager().getPlayer().getPositionWidth() / 2;
-			int y = this.facade.getEntityManager().getPlayer().getPositionY()
-					+ this.facade.getEntityManager().getPlayer().getPositionHeight() / 2;
+			int deltaX = this.facade.getEntityManager().getPlayer().getPositionX()
+					+ this.facade.getEntityManager().getPlayer().getPositionWidth() / 2 - this.getPositionX()
+					- this.getPositionWidth() / 2;
+			;
+			int deltaY = this.facade.getEntityManager().getPlayer().getPositionY()
+					+ this.facade.getEntityManager().getPlayer().getPositionHeight() / 2 - this.getPositionY()
+					- this.getPositionHeight() / 2;
 
-			int x1 = this.getPositionX() - this.getPositionWidth() / 2;
-			int y1 = this.getPositionY() - this.getPositionHeight() / 2;
-
-			int A = x - x1;
-			int B = y - y1;
-
-			if (Math.abs(A) < this.speed) {
+			if (Math.abs(deltaX) < this.speed) {
 				this.xMove = 0;
 			} else {
-				if (A < 0) {
+				if (deltaX < 0) {
 					this.xMove = -this.speed;
 				}
-				if (A > 0) {
+				if (deltaX > 0) {
 					this.xMove = this.speed;
 				}
 			}
-			if (Math.abs(B) < this.speed) {
+			if (Math.abs(deltaY) < this.speed) {
 				this.yMove = 0;
 			} else {
-				if (B < 0) {
+				if (deltaY < 0) {
 					this.yMove = -this.speed;
 				}
-				if (B > 0) {
+				if (deltaY > 0) {
 					this.yMove = this.speed;
 				}
 			}
@@ -112,33 +107,34 @@ public class Enemy extends Creature {
 
 	protected void moveIfNotAggro() {
 		if (!this.playerInAggro) {
-			int x1 = this.getPositionX() - this.getPositionWidth() / 2;
-			int y1 = this.getPositionY() - this.getPositionHeight() / 2;
+			getStart();
+		}
+	}
 
-			int A = this.xStart - x1;
-			int B = this.yStart - y1;
+	protected void getStart() {
+		int deltaX = this.xStart - this.getPositionX() - this.getPositionWidth() / 2;
+		int deltaY = this.yStart - this.getPositionY() - this.getPositionHeight() / 2;
 
-			if (Math.abs(A) < this.speed) {
-				this.xMove = 0;
-			} else {
-				if (A < 0) {
-					this.xMove = -this.speed;
-				}
-				if (A > 0) {
-					this.xMove = this.speed;
-				}
+		if (Math.abs(deltaX) < this.speed) {
+			this.xMove = 0;
+			getStart = true;
+		} else {
+			if (deltaX < 0) {
+				this.xMove = -this.speed;
 			}
-			if (Math.abs(B) < this.speed) {
-				this.yMove = 0;
-			} else {
-				if (B < 0) {
-					this.yMove = -this.speed;
-				}
-				if (B > 0) {
-					this.yMove = this.speed;
-				}
+			if (deltaX > 0) {
+				this.xMove = this.speed;
 			}
 		}
-		
+		if (Math.abs(deltaY) < this.speed) {
+			this.yMove = 0;
+		} else {
+			if (deltaY < 0) {
+				this.yMove = -this.speed;
+			}
+			if (deltaY > 0) {
+				this.yMove = this.speed;
+			}
+		}
 	}
 }
