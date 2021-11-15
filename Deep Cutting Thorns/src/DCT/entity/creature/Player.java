@@ -86,6 +86,10 @@ public class Player extends Creature {
 		return this.currentHealth;
 	}
 
+	public void addHealth(int value) {
+		this.health += value;
+	}
+
 	private void playerMovement() {
 		this.getInput();
 		this.move();

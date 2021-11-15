@@ -37,6 +37,8 @@ public class Bat extends Enemy {
 
 		this.currentAnimation = this.animationMoveDown;
 
+		this.rangeOfAttack = this.speed;
+
 	}
 
 	@Override

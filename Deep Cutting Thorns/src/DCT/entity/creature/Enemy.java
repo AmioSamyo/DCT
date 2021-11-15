@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 import DCT.Facade;
+import DCT.entity.Entity;
 import DCT.utility.Rectangle;
 
 public class Enemy extends Creature {
@@ -11,6 +12,7 @@ public class Enemy extends Creature {
 	protected boolean playerInAggro = false;
 
 	protected int xStart, yStart;
+	protected int rangeOfAttack;
 	protected boolean getStart = true;
 
 	public Enemy(Facade facade, Rectangle position) {
@@ -23,11 +25,12 @@ public class Enemy extends Creature {
 
 	@Override
 	public void update() {
-
-		this.playerInAggro();
-		this.move();
-
-		this.resetMovement();
+		if (this.health > 0) {
+			this.playerInAggro();
+			this.move();
+			this.attack();
+			this.resetMovement();
+		}
 	}
 
 	@Override
@@ -41,6 +44,7 @@ public class Enemy extends Creature {
 		this.moveIfNotAggro();
 		this.moveToPlayer();
 		super.move();
+		this.chooseCurrentAnimation();
 	}
 
 	protected void drawRangeAggro(Graphics g) {
@@ -184,6 +188,19 @@ public class Enemy extends Creature {
 			if (deltaY > 0) {
 				this.yMove = this.speed;
 			}
+		}
+	}
+
+	protected void attack() {
+		Rectangle playerPosition=new Rectangle(this.facade.getEntityManager().getPlayer().getPositionX(),
+				this.facade.getEntityManager().getPlayer().getPositionY(),
+				this.facade.getEntityManager().getPlayer().getPositionWidth(),
+				this.facade.getEntityManager().getPlayer().getPositionHeight());
+				
+		boolean intersect=this.position.intersects(playerPosition);
+		
+		if(intersect) {
+			this.facade.getEntityManager().getPlayer().addHealth(-1);
 		}
 	}
 }
