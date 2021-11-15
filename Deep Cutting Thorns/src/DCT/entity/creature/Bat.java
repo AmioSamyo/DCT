@@ -8,7 +8,7 @@ import DCT.gfx.Animation;
 import DCT.gfx.Assets;
 import DCT.utility.Rectangle;
 
-public class Bat extends Creature {
+public class Bat extends Enemy {
 
 	private final static int BATHEIGHT = 32;
 	private final static int BATWIDTH = 24;
@@ -67,11 +67,6 @@ public class Bat extends Creature {
 		super.render(g);
 		this.drawRangeAggro(g);
 
-	}
-
-	@Override
-	protected void chooseCurrentAnimation() {
-		this.currentAnimation = this.animationIdle;
 	}
 
 }

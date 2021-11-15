@@ -14,7 +14,7 @@ public abstract class Creature extends Entity {
 	protected int xMove, yMove;
 	protected int DiameterAggro;
 	protected int speed = 3;
-	protected boolean playerInAggro = false;
+
 	protected int currentHealth;
 
 	protected Animation animationMoveDown, animationMoveRight, animationMoveUp, animationMoveLeft;
@@ -27,6 +27,56 @@ public abstract class Creature extends Entity {
 		this.yMove = 0;
 	}
 
+	@Override
+	public void die() {
+		this.speed = 0;
+	}
+
+	public void setXMove(int speed) {
+		this.xMove = speed;
+	}
+
+	public void setYMove(int speed) {
+		this.yMove = speed;
+	}
+
+	public void addYMove(int speed) {
+		this.setYMove(this.yMove + speed);
+	}
+
+	public void addXMove(int speed) {
+		this.setXMove(this.xMove + speed);
+	}
+
+	protected void resetMovement() {
+		this.setXMove(0);
+		this.setYMove(0);
+	}
+
+	protected boolean checkCollisionWithTile(int x, int y) {
+		int xGrid = x / Tile.TILEWIDTH;
+		int yGrid = y / Tile.TILEHEIGHT;
+
+		if (xGrid < 0 || xGrid >= this.facade.getWorld().getColumns() || yGrid < 0
+				|| yGrid >= this.facade.getWorld().getRows()) {
+			return false;
+		}
+		return Tile.tiles[this.facade.getWorld().getTiles()[xGrid][yGrid]].isSolid();
+	}
+
+	protected void chooseCurrentAnimation() {
+		if (this.xMove < 0) {
+			this.currentAnimation = this.animationMoveLeft;
+		} else if (this.xMove > 0) {
+			this.currentAnimation = this.animationMoveRight;
+		} else if (this.yMove < 0) {
+			this.currentAnimation = this.animationMoveUp;
+		} else if (this.yMove > 0) {
+			this.currentAnimation = this.animationMoveDown;
+		} else {
+			this.currentAnimation = this.animationIdle;
+		}
+	}
 
 	protected void move() {
 		if (!this.checkEntityCollisions(0, this.yMove)) {
@@ -78,125 +128,4 @@ public abstract class Creature extends Entity {
 		}
 	}
 
-	@Override
-	public void die() {
-		this.speed = 0;
-	}
-
-	public void setXMove(int speed) {
-		this.xMove = speed;
-	}
-
-	public void setYMove(int speed) {
-		this.yMove = speed;
-	}
-
-	public void addYMove(int speed) {
-		this.setYMove(this.yMove + speed);
-	}
-
-	public void addXMove(int speed) {
-		this.setXMove(this.xMove + speed);
-	}
-
-	protected void resetMovement() {
-		this.setXMove(0);
-		this.setYMove(0);
-	}
-
-	protected boolean checkCollisionWithTile(int x, int y) {
-		int xGrid = x / Tile.TILEWIDTH;
-		int yGrid = y / Tile.TILEHEIGHT;
-
-		if (xGrid < 0 || xGrid >= this.facade.getWorld().getColumns() || yGrid < 0
-				|| yGrid >= this.facade.getWorld().getRows()) {
-			return false;
-		}
-		return Tile.tiles[this.facade.getWorld().getTiles()[xGrid][yGrid]].isSolid();
-	}
-
-	protected void drawRangeAggro(Graphics g) {
-		if (this.facade.getDebugMode()) {
-			Rectangle StartBatEye = new Rectangle(
-					(int) (this.position.getX() - this.DiameterAggro / 2 + this.getPositionWidth() / 2),
-					(int) (this.position.getY() - this.DiameterAggro / 2 + this.getPositionHeight() / 2), 0, 0);
-			if (this.playerInAggro) {
-				g.setColor(Color.RED);
-			}
-
-			g.drawOval(this.getXMoveHitbox(StartBatEye), this.getYMoveHitbox(StartBatEye), this.DiameterAggro,
-					this.DiameterAggro);
-		}
-	}
-
-	protected void playerInAggro() {
-		int x = this.facade.getEntityManager().getPlayer().getPositionX()
-				+ this.facade.getEntityManager().getPlayer().getPositionWidth() / 2;
-		int y = this.facade.getEntityManager().getPlayer().getPositionY()
-				+ this.facade.getEntityManager().getPlayer().getPositionHeight() / 2;
-
-		int x1 = this.getPositionX() - this.getPositionWidth() / 2;
-		int y1 = this.getPositionY() - this.getPositionHeight() / 2;
-
-		int X = Math.abs(x - x1);
-		int Y = Math.abs(y - y1);
-
-		int A = (int) Math.sqrt(Y * Y + X * X);
-
-		if (A < this.DiameterAggro / 2) {
-			this.playerInAggro = true;
-		} else {
-			this.playerInAggro = false;
-		}
-
-	}
-
-	protected void moveToPlayer() {
-		if (this.playerInAggro) {
-
-			int x = this.facade.getEntityManager().getPlayer().getPositionX()
-					+ this.facade.getEntityManager().getPlayer().getPositionWidth() / 2;
-			int y = this.facade.getEntityManager().getPlayer().getPositionY()
-					+ this.facade.getEntityManager().getPlayer().getPositionHeight() / 2;
-
-			int x1 = this.getPositionX() - this.getPositionWidth() / 2;
-			int y1 = this.getPositionY() - this.getPositionHeight() / 2;
-
-			int A = x - x1;
-			int B = y - y1;
-
-			if (A < 0) {
-				this.xMove = -this.speed;
-			} else {
-				if (A > 0) {
-
-					this.xMove = this.speed;
-				}
-			}
-			if (B < 0) {
-				this.yMove = -this.speed;
-			} else {
-				if (B > 0) {
-					this.yMove = this.speed;
-				}
-			}
-			this.move();
-			
-			this.resetMovement();
-		}
-	}
-	
-	protected void chooseCurrentAnimation() {
-		if (this.xMove < 0) {
-			this.currentAnimation = this.animationMoveLeft;
-		} else if (this.xMove > 0) {
-			this.currentAnimation = this.animationMoveRight;
-		} else if (this.yMove < 0) {
-			this.currentAnimation = this.animationMoveUp;
-		} else if (this.yMove > 0) {
-			this.currentAnimation = this.animationMoveDown;
-		} else {
-			this.currentAnimation = this.animationIdle;
-		}
-	}
 }
