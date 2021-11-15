@@ -13,9 +13,6 @@ public class Bat extends Creature {
 	private Animation batUp, batLeft, batDown, batRight;
 	private Animation currentAnimation;
 
-	private int rangeAggro;
-	private boolean playerInAggro = false;
-
 	private final static int BATHEIGHT = 32;
 	private final static int BATWIDTH = 24;
 	private final static int SCALE = 2;
@@ -39,7 +36,7 @@ public class Bat extends Creature {
 		this.batUp = new Animation(ANIMATIONSPEED, Assets.batAnimationUp);
 		this.batRight = new Animation(ANIMATIONSPEED, Assets.batAnimationRight);
 
-		this.rangeAggro = 400;
+		this.DiameterAggro = 400;
 
 		this.currentAnimation = this.batDown;
 	}
@@ -64,48 +61,9 @@ public class Bat extends Creature {
 				BATWIDTH * SCALE, BATHEIGHT * SCALE, null);
 
 		super.render(g);
-		if (this.facade.getDebugMode()) {
-			this.drawRangeAggro(g);
-		}
 
-	}
+		this.drawRangeAggro(g);
 
-	private void MoveToPlayer() {
-		if (this.playerInAggro)
-			System.out.println("Player in Aggro");
-	}
-
-	private void playerInAggro() {
-		int x = this.facade.getEntityManager().getPlayer().getPositionX()
-				+ this.facade.getEntityManager().getPlayer().getPositionWidth() / 2;
-		int y = this.facade.getEntityManager().getPlayer().getPositionY()
-				+ this.facade.getEntityManager().getPlayer().getPositionHeight() / 2;
-
-		int x1 = this.getPositionX() - BATWIDTH / 2;
-		int y1 = this.getPositionY() - BATHEIGHT / 2;
-
-
-		int X = x - x1;
-		int Y = y - y1;
-
-		int A = X - this.rangeAggro / 2;
-		int B = Y - this.rangeAggro / 2;
-
-		if (A < 0 && B < 0) {
-			this.playerInAggro = true;
-		} else {
-			this.playerInAggro = false;
-		}
-
-	}
-
-	private void drawRangeAggro(Graphics g) {
-
-		Rectangle StartBatEye = new Rectangle((int) (this.position.getX() - this.rangeAggro / 2 + BATWIDTH / 2),
-				(int) (this.position.getY() - this.rangeAggro / 2 + BATHEIGHT / 2), 0, 0);
-
-		g.drawOval(this.getXMoveHitbox(StartBatEye), this.getYMoveHitbox(StartBatEye), this.rangeAggro,
-				this.rangeAggro);
 	}
 
 }

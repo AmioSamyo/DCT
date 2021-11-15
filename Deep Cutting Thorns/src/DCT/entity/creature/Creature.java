@@ -1,5 +1,8 @@
 package DCT.entity.creature;
 
+import java.awt.Color;
+import java.awt.Graphics;
+
 import DCT.Facade;
 import DCT.entity.Entity;
 import DCT.tile.Tile;
@@ -8,7 +11,9 @@ import DCT.utility.Rectangle;
 public abstract class Creature extends Entity {
 
 	protected int xMove, yMove;
+	protected int DiameterAggro;
 	protected int speed = 3;
+	protected boolean playerInAggro = false;
 
 	public Creature(Facade facade, Rectangle position) {
 		super(facade, position);
@@ -101,6 +106,50 @@ public abstract class Creature extends Entity {
 			return false;
 		}
 		return Tile.tiles[this.facade.getWorld().getTiles()[xGrid][yGrid]].isSolid();
+	}
+
+	protected void drawRangeAggro(Graphics g) {
+		if (this.facade.getDebugMode()) {
+			Rectangle StartBatEye = new Rectangle(
+					(int) (this.position.getX() - this.DiameterAggro / 2 + this.getPositionWidth() / 2),
+					(int) (this.position.getY() - this.DiameterAggro / 2 + this.getPositionHeight() / 2), 0, 0);
+			if (this.playerInAggro) {
+				g.setColor(Color.RED);
+			}
+
+			g.drawOval(this.getXMoveHitbox(StartBatEye), this.getYMoveHitbox(StartBatEye), this.DiameterAggro,
+					this.DiameterAggro);
+		}
+	}
+
+	protected void playerInAggro() {
+		int x = this.facade.getEntityManager().getPlayer().getPositionX()
+				+ this.facade.getEntityManager().getPlayer().getPositionWidth() / 2;
+		int y = this.facade.getEntityManager().getPlayer().getPositionY()
+				+ this.facade.getEntityManager().getPlayer().getPositionHeight() / 2;
+
+		int x1 = this.getPositionX() - this.getPositionWidth() / 2;
+		int y1 = this.getPositionY() - this.getPositionHeight() / 2;
+
+		int X = x - x1;
+		int Y = y - y1;
+
+		int A = X - this.DiameterAggro / 2;
+		int B = Y - this.DiameterAggro / 2;
+
+		if (A < 0 && B < 0) {
+			this.playerInAggro = true;
+		} else {
+			this.playerInAggro = false;
+		}
+
+	}
+
+	protected void MoveToPlayer() {
+		if (this.playerInAggro) {
+
+		}
+
 	}
 
 }
