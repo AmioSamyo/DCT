@@ -134,10 +134,9 @@ public abstract class Creature extends Entity {
 		int X = Math.abs(x - x1);
 		int Y = Math.abs(y - y1);
 
-		int A = X - this.DiameterAggro / 2;
-		int B = Y - this.DiameterAggro / 2;
+		int A=(int) Math.sqrt(Y*Y+X*X);
 
-		if (A < 0 && B < 0) {
+		if (A<this.DiameterAggro/2) {
 			this.playerInAggro = true;
 		} else {
 			this.playerInAggro = false;
