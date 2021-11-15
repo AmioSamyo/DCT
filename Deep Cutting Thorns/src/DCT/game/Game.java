@@ -10,7 +10,7 @@ import DCT.gfx.GameCamera;
 import DCT.input.KeyManager;
 import DCT.input.MouseManager;
 import DCT.state.GameState;
-import DCT.state.SettingState;
+import DCT.state.PauseState;
 import DCT.state.State;
 
 public class Game implements Runnable {
@@ -68,8 +68,8 @@ public class Game implements Runnable {
 		this.keyManager.update();
 		
 		if(this.facade.pauseGame()) {
-			this.pauseState = new SettingState(this.facade);
-			State.setCurrentState((State) new SettingState(this.facade));
+			this.pauseState = new PauseState(this.facade);
+			State.setCurrentState((State) new PauseState(this.facade));
 		} else {
 			State.setCurrentState(this.gameState);
 		}

@@ -66,7 +66,7 @@ public class Facade {
 	}
 	
 	public boolean pauseGame() {
-		if (this.getKeyManager().keyJustPressed(KeyEvent.VK_V)) {
+		if (this.getKeyManager().keyJustPressed(KeyEvent.VK_ESCAPE)) {
 			this.game.setPausing(!this.game.getPausing());
 		}
 		
