@@ -134,9 +134,9 @@ public abstract class Creature extends Entity {
 		int X = Math.abs(x - x1);
 		int Y = Math.abs(y - y1);
 
-		int A=(int) Math.sqrt(Y*Y+X*X);
+		int A = (int) Math.sqrt(Y * Y + X * X);
 
-		if (A<this.DiameterAggro/2) {
+		if (A < this.DiameterAggro / 2) {
 			this.playerInAggro = true;
 		} else {
 			this.playerInAggro = false;
@@ -144,9 +144,41 @@ public abstract class Creature extends Entity {
 
 	}
 
-	protected void MoveToPlayer() {
+	protected void moveToPlayer() {
 		if (this.playerInAggro) {
 
+			int x = this.facade.getEntityManager().getPlayer().getPositionX()
+					+ this.facade.getEntityManager().getPlayer().getPositionWidth() / 2;
+			int y = this.facade.getEntityManager().getPlayer().getPositionY()
+					+ this.facade.getEntityManager().getPlayer().getPositionHeight() / 2;
+
+			int x1 = this.getPositionX() - this.getPositionWidth() / 2;
+			int y1 = this.getPositionY() - this.getPositionHeight() / 2;
+
+			int A = x - x1;
+			int B = y - y1;
+
+			if (A < 0) {
+				this.xMove = -this.speed;
+			} else {
+				if (A > 0) {
+
+					this.xMove = this.speed;
+				} else {
+					this.xMove = 0;
+				}
+			}
+			if (B < 0) {
+				this.yMove = -this.speed;
+			} else {
+				if (B > 0) {
+					this.yMove = this.speed;
+				} else {
+					this.yMove = 0;
+				}
+			}
+			this.move();
+			this.resetMovement();
 		}
 
 	}

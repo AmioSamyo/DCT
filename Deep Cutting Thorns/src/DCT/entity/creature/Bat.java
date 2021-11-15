@@ -42,7 +42,7 @@ public class Bat extends Creature {
 
 	@Override
 	public void update() {
-		
+
 		if (this.health <= 0) {
 			this.die();
 		}
@@ -53,7 +53,7 @@ public class Bat extends Creature {
 		this.batRight.update();
 
 		this.playerInAggro();
-		this.batMovement();
+		this.moveToPlayer();
 
 	}
 
@@ -66,15 +66,6 @@ public class Bat extends Creature {
 		super.render(g);
 		this.drawRangeAggro(g);
 
-	}
-	
-	private void batMovement() {
-		if(this.playerInAggro) {
-			this.xMove=this.speed;
-			this.move();
-			this.resetMovement();
-		}
-		
 	}
 
 }
