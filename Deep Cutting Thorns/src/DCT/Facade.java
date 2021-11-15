@@ -64,4 +64,12 @@ public class Facade {
 		}
 		return this.debugMode;
 	}
+	
+	public boolean pauseGame() {
+		if (this.getKeyManager().keyJustPressed(KeyEvent.VK_V)) {
+			this.game.setPausing(!this.game.getPausing());
+		}
+		
+		return this.game.getPausing();
+	}
 }
