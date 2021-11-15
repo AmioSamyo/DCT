@@ -5,8 +5,8 @@ import java.awt.Graphics;
 import DCT.Facade;
 import DCT.gfx.Assets;
 
-public class PauseState extends State{
-	
+public class PauseState extends State {
+
 	private Facade facade;
 
 	public PauseState(Facade facade) {

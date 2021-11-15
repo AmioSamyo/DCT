@@ -66,8 +66,8 @@ public class Game implements Runnable {
 	public void update() {
 
 		this.keyManager.update();
-		
-		if(this.facade.pauseGame()) {
+
+		if (this.facade.pauseGame()) {
 			this.pauseState = new PauseState(this.facade);
 			State.setCurrentState((State) new PauseState(this.facade));
 		} else {
@@ -185,11 +185,11 @@ public class Game implements Runnable {
 	public int getHeight() {
 		return this.height;
 	}
-	
+
 	public boolean getPausing() {
 		return this.pausing;
 	}
-	
+
 	public void setPausing(boolean b) {
 		this.pausing = b;
 	}
