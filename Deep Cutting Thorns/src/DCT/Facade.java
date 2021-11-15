@@ -58,10 +58,13 @@ public class Facade {
 		return this.game.getHeight();
 	}
 
-	public boolean isDebugging() {
+	public void isDebugging() {
 		if (this.getKeyManager().keyJustPressed(KeyEvent.VK_P)) {
 			this.debugMode = !this.debugMode;
 		}
+	}
+	
+	public boolean getDebugMode() {
 		return this.debugMode;
 	}
 }

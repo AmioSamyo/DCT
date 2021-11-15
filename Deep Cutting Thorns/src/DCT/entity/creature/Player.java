@@ -79,7 +79,7 @@ public class Player extends Creature {
 		g.drawImage(this.currentAnimation.getCurrentFrame(), this.xMoveWithCamera(), this.yMoveWithCamera(),
 				this.position.getWidth(), this.position.getHeight(), null);
 		
-		if (this.facade.isDebugging()) {
+		if (this.facade.getDebugMode()) {
 			Rectangle hitBox = this.getCollisionHitBox(0, 0);
 			g.setColor(this.debuggingColor);
 			g.fillRect(this.getXMoveHitbox(hitBox), this.getYMoveHitbox(hitBox), this.hitBox.getWidth(),
