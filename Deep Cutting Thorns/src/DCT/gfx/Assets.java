@@ -85,17 +85,17 @@ public class Assets {
 		batAnimationDown[1] = batSheet.cropImage(new Rectangle(63, 4, batAnimWidth, batAnimHeight));
 		batAnimationDown[2] = batSheet.cropImage(new Rectangle(95, 0, batAnimWidth, batAnimHeight));
 
-		batAnimationLeft[0] = batSheet.cropImage(new Rectangle(32, 31, batAnimWidth, batAnimHeight));
-		batAnimationLeft[1] = batSheet.cropImage(new Rectangle(64, 31, batAnimWidth, batAnimHeight));
-		batAnimationLeft[2] = batSheet.cropImage(new Rectangle(95, 37, batAnimWidth, batAnimHeight));
+		batAnimationRight[0] = batSheet.cropImage(new Rectangle(32, 31, batAnimWidth, batAnimHeight));
+		batAnimationRight[1] = batSheet.cropImage(new Rectangle(64, 31, batAnimWidth, batAnimHeight));
+		batAnimationRight[2] = batSheet.cropImage(new Rectangle(95, 37, batAnimWidth, batAnimHeight));
 
 		batAnimationUp[0] = batSheet.cropImage(new Rectangle(32, 68, batAnimWidth, batAnimHeight));
 		batAnimationUp[1] = batSheet.cropImage(new Rectangle(64, 68, batAnimWidth, batAnimHeight));
 		batAnimationUp[2] = batSheet.cropImage(new Rectangle(95, 64, batAnimWidth, batAnimHeight));
 
-		batAnimationRight[0] = batSheet.cropImage(new Rectangle(32, 95, batAnimWidth, batAnimHeight));
-		batAnimationRight[1] = batSheet.cropImage(new Rectangle(64, 95, batAnimWidth, batAnimHeight));
-		batAnimationRight[2] = batSheet.cropImage(new Rectangle(95, 100, batAnimWidth, batAnimHeight));
+		batAnimationLeft[0] = batSheet.cropImage(new Rectangle(32, 95, batAnimWidth, batAnimHeight));
+		batAnimationLeft[1] = batSheet.cropImage(new Rectangle(64, 95, batAnimWidth, batAnimHeight));
+		batAnimationLeft[2] = batSheet.cropImage(new Rectangle(95, 100, batAnimWidth, batAnimHeight));
 	}
 
 	private static void idleLoading(SpriteSheet playerSheet) {

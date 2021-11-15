@@ -194,6 +194,8 @@ public abstract class Creature extends Entity {
 				}
 			}
 			this.move();
+			this.chooseCurrentAnimation();
+			
 			this.resetMovement();
 		}
 	}

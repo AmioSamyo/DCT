@@ -13,7 +13,7 @@ public class Bat extends Creature {
 	private final static int BATHEIGHT = 32;
 	private final static int BATWIDTH = 24;
 	private final static int SCALE = 2;
-	private static final int ANIMATIONSPEED = 100;
+	private static final int ANIMATIONSPEED = 150;
 
 	public Bat(Facade facade, int x, int y) {
 		super(facade, new Rectangle(x, y, BATWIDTH, BATHEIGHT));
@@ -49,6 +49,8 @@ public class Bat extends Creature {
 		this.animationMoveUp.update();
 		this.animationMoveLeft.update();
 		this.animationMoveRight.update();
+		
+		this.currentAnimation.update();
 
 		this.playerInAggro();
 		this.moveToPlayer();
