@@ -33,7 +33,7 @@ public abstract class Entity {
 
 		this.showHealthBar(g);
 
-		if (this.facade.isDebugging()) {
+		if (true) {
 			Rectangle hitBox = this.getCollisionHitBox(0, 0);
 			g.setColor(this.debuggingColor);
 			g.fillRect(this.getXMoveHitbox(hitBox), this.getYMoveHitbox(hitBox), this.hitBox.getWidth(),

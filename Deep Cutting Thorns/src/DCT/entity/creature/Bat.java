@@ -26,9 +26,9 @@ public class Bat extends Creature {
 
 	private void initialize() {
 
-		this.hitBox = new Rectangle((int) (0), (int) (0),
-				(int) (BATWIDTH * SCALE ), (int) (BATHEIGHT * SCALE ));
-		this.setDebuggingColor(new Color(51, 255, 255));
+		this.hitBox = new Rectangle((int) (0), (int) (0), (int) (BATWIDTH * SCALE), (int) (BATHEIGHT * SCALE));
+		
+		this.setDebuggingColor(Color.WHITE);
 
 		this.batDown = new Animation(ANIMATIONSPEED, Assets.batAnimationDown);
 		this.batLeft = new Animation(ANIMATIONSPEED, Assets.batAnimationLeft);
@@ -40,6 +40,7 @@ public class Bat extends Creature {
 
 	@Override
 	public void update() {
+
 		this.batDown.update();
 		this.batUp.update();
 		this.batLeft.update();
@@ -49,8 +50,8 @@ public class Bat extends Creature {
 
 	@Override
 	public void render(Graphics g) {
-		g.drawImage(this.currentAnimation.getCurrentFrame(), this.xMoveWithCamera(), this.yMoveWithCamera(), BATWIDTH * SCALE,
-				BATHEIGHT * SCALE, null);
+		g.drawImage(this.currentAnimation.getCurrentFrame(), this.xMoveWithCamera(), this.yMoveWithCamera(),
+				BATWIDTH * SCALE, BATHEIGHT * SCALE, null);
 		super.render(g);
 
 	}
