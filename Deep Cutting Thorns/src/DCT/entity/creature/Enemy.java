@@ -25,8 +25,6 @@ public class Enemy extends Creature {
 	public void update() {
 
 		this.playerInAggro();
-		this.moveIfNotAggro();
-		this.moveToPlayer();
 		this.move();
 
 		this.resetMovement();
@@ -36,6 +34,13 @@ public class Enemy extends Creature {
 	public void render(Graphics g) {
 		super.render(g);
 		this.drawRangeAggro(g);
+	}
+
+	@Override
+	protected void move() {
+		this.moveIfNotAggro();
+		this.moveToPlayer();
+		super.move();
 	}
 
 	protected void drawRangeAggro(Graphics g) {
@@ -108,6 +113,50 @@ public class Enemy extends Creature {
 	protected void moveIfNotAggro() {
 		if (!this.playerInAggro) {
 			getStart();
+			watcherMove();
+		}
+
+	}
+
+	protected void watcherMove() {
+		if (this.getStart) {
+			int xCurrent = this.getPositionX() + this.getPositionWidth() / 2;
+			int yCurrent = this.getPositionY() + this.getPositionHeight() / 2;
+			int xDir, yDir;
+			xDir = (int) (Math.random() * 2);
+			yDir = (int) (Math.random() * 2);
+			int deltaX = this.xStart - xCurrent;
+			int deltaY = this.yStart - yCurrent;
+			if (xCurrent < 0 || xCurrent > this.facade.getWidth() || yCurrent < 0
+					|| yCurrent > this.facade.getHeight()) {
+				this.getStart = false;
+				this.getStart();
+				return;
+			}
+			if (Math.abs(deltaX) > this.speed * 20 || Math.abs(deltaY) > this.speed * 20) {
+				this.getStart = false;
+				this.getStart();
+				return;
+			}
+			if (xDir == 0) {
+				this.xMove = 0;
+			}
+			if (xDir == 1) {
+				this.xMove = this.speed;
+			}
+			if (xDir == 2) {
+				this.xMove = -this.speed;
+			}
+			if (yDir == 0) {
+				this.yMove = 0;
+			}
+			if (yDir == 1) {
+				this.yMove = this.speed;
+			}
+			if (yDir == 2) {
+				this.yMove = -this.speed;
+			}
+
 		}
 	}
 
@@ -117,7 +166,7 @@ public class Enemy extends Creature {
 
 		if (Math.abs(deltaX) < this.speed) {
 			this.xMove = 0;
-			getStart = true;
+			this.getStart = true;
 		} else {
 			if (deltaX < 0) {
 				this.xMove = -this.speed;
