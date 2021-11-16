@@ -3,9 +3,12 @@ package DCT.entity;
 import DCT.Facade;
 import DCT.tile.Tile;
 import DCT.utility.Rectangle;
+import DCT.utility.Vector;
 
 public abstract class Creature extends Entity {
-
+	
+	public Vector previousDirection;
+	
 	protected int xMove, yMove;
 	protected int speed = 3;
 
@@ -23,6 +26,7 @@ public abstract class Creature extends Entity {
 		if (!this.checkEntityCollisions(this.xMove, 0)) {
 			this.MoveX();
 		}
+		this.previousDirection = new Vector(this.xMove, this.yMove);
 	}
 
 	protected void MoveY() {
