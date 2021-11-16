@@ -14,6 +14,12 @@ public class Rectangle {
 		this.height = height;
 	}
 
+	public boolean contains(int x, int y) {
+		boolean checkX = (this.x < x ) && (this.x + this.width > x);
+		boolean checkY = (this.y < y ) && (this.y + this.height > y);
+		return checkX && checkY;
+	}
+
 	public boolean intersects(Rectangle r) {
 		return !(r.getX() > this.getX() + this.getWidth() || r.getX() + r.getWidth() < this.getX()
 				|| r.getY() > this.getY() + this.getHeight() || r.getY() + r.getHeight() < this.getY());

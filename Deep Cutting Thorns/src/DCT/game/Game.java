@@ -10,11 +10,12 @@ import DCT.gfx.GameCamera;
 import DCT.input.KeyManager;
 import DCT.input.MouseManager;
 import DCT.state.GameState;
+import DCT.state.PauseState;
 import DCT.state.State;
 
 public class Game implements Runnable {
 
-	private boolean running;
+	private boolean running, pausing;
 	private int width;
 	private int height;
 
@@ -25,7 +26,7 @@ public class Game implements Runnable {
 	private BufferStrategy bufferStrategy;
 
 	private Display display;
-	private State gameState;
+	private State gameState, pauseState;
 	private KeyManager keyManager;
 	private MouseManager mouseManager;
 	private Facade facade;
@@ -33,6 +34,7 @@ public class Game implements Runnable {
 
 	public Game(String title, int width, int height) {
 		this.running = false;
+		this.pausing = false;
 		this.width = width;
 		this.height = height;
 		this.title = title;
@@ -57,6 +59,7 @@ public class Game implements Runnable {
 		Assets.assetInitialize();
 
 		this.gameState = new GameState(this.worldPath, this.facade);
+		this.pauseState = null;
 		State.setCurrentState(gameState);
 
 	}
@@ -64,6 +67,16 @@ public class Game implements Runnable {
 	public void update() {
 
 		this.keyManager.update();
+
+		if (this.facade.pauseGame()) {
+			if (this.pauseState == null) {
+				this.pauseState = new PauseState(this.facade);
+			}
+			State.setCurrentState(this.pauseState);
+		} else {
+			State.setCurrentState(this.gameState);
+			this.pauseState = null;
+		}
 
 		if (State.getCurrentState() != null) {
 			State.getCurrentState().update();
@@ -175,5 +188,17 @@ public class Game implements Runnable {
 
 	public int getHeight() {
 		return this.height;
+	}
+
+	public boolean getPausing() {
+		return this.pausing;
+	}
+
+	public void setPausing(boolean b) {
+		this.pausing = b;
+	}
+
+	public State getGameState() {
+		return this.gameState;
 	}
 }

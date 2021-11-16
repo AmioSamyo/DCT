@@ -3,10 +3,14 @@ package DCT.input;
 import java.awt.event.MouseEvent;
 import javax.swing.event.MouseInputListener;
 
+import DCT.gfx.ui.UIManager;
+
 public class MouseManager implements MouseInputListener {
 
 	private int mouseX, mouseY;
 	private boolean leftClicked, leftPressed, rightClicked, rightPressed;
+
+	private UIManager uiManager;
 
 	public MouseManager() {
 		this.leftClicked = false;
@@ -50,6 +54,9 @@ public class MouseManager implements MouseInputListener {
 		} else if (e.getButton() != MouseEvent.NOBUTTON && e.getButton() != MouseEvent.BUTTON2) {
 			this.rightPressed = false;
 		}
+
+		if (this.uiManager != null)
+			this.uiManager.onMouseRelease(e);
 	}
 
 	@Override
@@ -71,6 +78,13 @@ public class MouseManager implements MouseInputListener {
 	public void mouseMoved(MouseEvent e) {
 		this.mouseX = e.getX();
 		this.mouseY = e.getY();
+		
+		if(this.uiManager != null)
+			this.uiManager.onMouseMove(e);
+	}
+
+	public void setUIManager(UIManager uiManager) {
+		this.uiManager = uiManager;
 	}
 
 	public int getMouseX() {

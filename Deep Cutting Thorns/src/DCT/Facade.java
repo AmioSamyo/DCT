@@ -21,6 +21,10 @@ public class Facade {
 
 		this.debugMode = false;
 	}
+	
+	public Game getGame() {
+		return this.game;
+	}
 
 	public KeyManager getKeyManager() {
 		return this.game.getKeyManager();
@@ -59,9 +63,22 @@ public class Facade {
 	}
 
 	public boolean isDebugging() {
-		if (this.getKeyManager().keyJustPressed(KeyEvent.VK_P)) {
-			this.debugMode = !this.debugMode;
-		}
 		return this.debugMode;
+	}
+	
+	public void lightDebugMode() {
+		this.debugMode = !this.debugMode;
+	}
+	
+	public void setGamePause(boolean b) {
+		this.game.setPausing(b);
+	}
+
+	public boolean pauseGame() {
+		if (this.getKeyManager().keyJustPressed(KeyEvent.VK_ESCAPE)) {
+			this.game.setPausing(!this.game.getPausing());
+		}
+
+		return this.game.getPausing();
 	}
 }
