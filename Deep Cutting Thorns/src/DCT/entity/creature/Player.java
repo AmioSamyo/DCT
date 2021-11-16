@@ -79,7 +79,7 @@ public class Player extends Creature {
 
 	@Override
 	public void die() {
-		this.currentAnimation = animationDead;
+		this.currentAnimation = this.animationDead;
 	}
 
 	public int getCurrentHealth() {

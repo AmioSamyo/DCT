@@ -200,7 +200,7 @@ public class Enemy extends Creature {
 		boolean intersect=this.position.intersects(playerPosition);
 		
 		if(intersect) {
-			this.facade.getEntityManager().getPlayer().addHealth(-1);
+			this.facade.getEntityManager().getPlayer().addHealth(0);
 		}
 	}
 }

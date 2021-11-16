@@ -34,6 +34,7 @@ public class Bat extends Enemy {
 		this.animationMoveUp = new Animation(ANIMATIONSPEED, Assets.batAnimationUp);
 		this.animationMoveRight = new Animation(ANIMATIONSPEED, Assets.batAnimationRight);
 		this.animationIdle = this.animationMoveDown;
+		this.animationDead=new Animation(ANIMATIONSPEED,Assets.batAnimationDead);
 
 		this.currentAnimation = this.animationMoveDown;
 
@@ -67,6 +68,11 @@ public class Bat extends Enemy {
 
 		super.render(g);
 
+	}
+	
+	@Override
+	public void die() {
+		this.currentAnimation = this.animationDead;
 	}
 
 }

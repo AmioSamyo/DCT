@@ -17,6 +17,7 @@ public class Assets {
 	public static BufferedImage[] healthBars, playerDeadAnimation;
 
 	public static BufferedImage[] batAnimationUp, batAnimationDown, batAnimationLeft, batAnimationRight;
+	public static BufferedImage[] batAnimationDead;
 
 	public static void assetInitialize() {
 
@@ -73,6 +74,7 @@ public class Assets {
 		batAnimationUp = new BufferedImage[3];
 		batAnimationLeft = new BufferedImage[3];
 		batAnimationRight = new BufferedImage[3];
+		batAnimationDead = new BufferedImage[1];
 
 		setBatTile(batSheet);
 	}
@@ -96,6 +98,8 @@ public class Assets {
 		batAnimationLeft[0] = batSheet.cropImage(new Rectangle(32, 95, batAnimWidth, batAnimHeight));
 		batAnimationLeft[1] = batSheet.cropImage(new Rectangle(64, 95, batAnimWidth, batAnimHeight));
 		batAnimationLeft[2] = batSheet.cropImage(new Rectangle(95, 100, batAnimWidth, batAnimHeight));
+
+		batAnimationDead[0] = batSheet.cropImage(new Rectangle(0, 104, batAnimWidth, batAnimHeight));
 	}
 
 	private static void idleLoading(SpriteSheet playerSheet) {
