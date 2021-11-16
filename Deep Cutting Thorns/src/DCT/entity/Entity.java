@@ -3,28 +3,41 @@ package DCT.entity;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.awt.event.KeyEvent;
 
 import DCT.Facade;
+import DCT.gfx.Assets;
 import DCT.utility.Rectangle;
 
 public abstract class Entity {
+
+	protected static final int MAX_HEALTH = 100;
+
+	protected int health = MAX_HEALTH;
 
 	protected Facade facade;
 	protected Rectangle position;
 	protected Rectangle hitBox;
 
+	protected Color debuggingColor = Color.RED;
+
 	public Entity(Facade facade, Rectangle position) {
 		this.facade = facade;
 		this.position = position;
+
 	}
 
 	public abstract void update();
 
 	public void render(Graphics g) {
+
+		this.showHealthBar(g);
+
 		if (this.facade.isDebugging()) {
 			Rectangle hitBox = this.getCollisionHitBox(0, 0);
-			g.setColor(Color.RED);
-			g.fillRect(this.getXMoveHitbox(hitBox), this.getYMoveHitbox(hitBox), this.hitBox.getWidth(), this.hitBox.getHeight());
+			g.setColor(this.debuggingColor);
+			g.fillRect(this.getXMoveHitbox(hitBox), this.getYMoveHitbox(hitBox), this.hitBox.getWidth(),
+					this.hitBox.getHeight());
 		}
 	}
 
@@ -76,19 +89,33 @@ public abstract class Entity {
 				this.getPositionY() + this.hitBox.getY() + yOffSet, this.hitBox.getWidth(), this.hitBox.getHeight());
 	}
 
+	protected void showHealthBar(Graphics g) {
+		if (this.health < MAX_HEALTH && this.health >= 0) {
+			float rangeHealthBar = (float) (MAX_HEALTH - 1) / ((float) Assets.healthBars.length - 1);
+			int currentHealthBarToShow = (int) ((float) (MAX_HEALTH - this.health) / rangeHealthBar);
+			g.drawImage(Assets.healthBars[currentHealthBarToShow],
+					this.xMoveWithCamera() + this.getPositionWidth() / 2 - 290 / 5 / 2,
+					this.yMoveWithCamera() + this.hitBox.getY(), 290 / 5, 70 / 5, null);
+		}
+	}
+
 	protected int xMoveWithCamera() {
 		return this.position.getX() - this.facade.getGameCamera().getXOffset();
+	}
+
+	protected void setDebuggingColor(Color debuggingColor) {
+		this.debuggingColor = debuggingColor;
 	}
 
 	protected int yMoveWithCamera() {
 		return this.position.getY() - this.facade.getGameCamera().getYOffset();
 	}
 
-	private int getXMoveHitbox(Rectangle hitBox) {
+	protected int getXMoveHitbox(Rectangle hitBox) {
 		return hitBox.getX() - this.facade.getGameCamera().getXOffset();
 	}
 
-	private int getYMoveHitbox(Rectangle hitBox) {
+	protected int getYMoveHitbox(Rectangle hitBox) {
 		return hitBox.getY() - this.facade.getGameCamera().getYOffset();
 	}
 }

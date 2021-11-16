@@ -1,5 +1,7 @@
 package DCT;
 
+import java.awt.event.KeyEvent;
+
 import DCT.entity.EntityManager;
 import DCT.game.Game;
 import DCT.game.World;
@@ -12,9 +14,16 @@ import DCT.state.State;
 public class Facade {
 
 	private Game game;
+	private boolean debugMode;
 
 	public Facade(Game game) {
 		this.game = game;
+
+		this.debugMode = false;
+	}
+	
+	public Game getGame() {
+		return this.game;
 	}
 
 	public KeyManager getKeyManager() {
@@ -54,7 +63,22 @@ public class Facade {
 	}
 
 	public boolean isDebugging() {
-		return this.getKeyManager().getDebugMode();
+		return this.debugMode;
+	}
+	
+	public void lightDebugMode() {
+		this.debugMode = !this.debugMode;
+	}
+	
+	public void setGamePause(boolean b) {
+		this.game.setPausing(b);
 	}
 
+	public boolean pauseGame() {
+		if (this.getKeyManager().keyJustPressed(KeyEvent.VK_ESCAPE)) {
+			this.game.setPausing(!this.game.getPausing());
+		}
+
+		return this.game.getPausing();
+	}
 }

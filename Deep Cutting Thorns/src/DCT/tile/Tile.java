@@ -1,6 +1,10 @@
 package DCT.tile;
 
 import java.awt.image.BufferedImage;
+
+import DCT.utility.Rectangle;
+
+import java.awt.Color;
 import java.awt.Graphics;
 
 public class Tile {
@@ -19,6 +23,7 @@ public class Tile {
 
 	private int id = 0;
 	private boolean solid = false;
+	private Color debuggingColor = Color.WHITE;
 
 	private BufferedImage texture = null;
 
@@ -43,6 +48,17 @@ public class Tile {
 
 	public boolean isSolid() {
 		return this.solid;
+	}
+
+	public void drawDebugging(Graphics g, int x, int y) {
+		if (this.isSolid()) {
+			g.setColor(this.debuggingColor);
+			g.fillRect(x, y, Tile.TILEWIDTH - 10, Tile.TILEHEIGHT - 10);
+		}
+	}
+
+	protected void setDebuggingColor(Color debuggingColor) {
+		this.debuggingColor = debuggingColor;
 	}
 
 }

@@ -9,11 +9,13 @@ public class Assets {
 	public static BufferedImage grass, flowerGrass, rockGrass;
 	public static BufferedImage wall, downWall, upperColumns, upperWall;
 	public static BufferedImage jar, rocks;
-	
+
 	public static BufferedImage tree;
-	
+
 	public static BufferedImage[] playerAnimationDown, playerAnimationRight, playerAnimationUp, playerAnimationLeft;
-	public static BufferedImage[] playerAnimationIdle;
+	public static BufferedImage[] healthBars, playerDeadAnimation;
+	public static BufferedImage[] resumeButton, debugButton;
+	public static BufferedImage[] playerAnimationIdle, playerAnimationRoll;
 
 	public static void assetInitialize() {
 
@@ -28,11 +30,12 @@ public class Assets {
 		upperWall = grassSheet.cropImage(new Rectangle(206, 66, 32, 32));
 		downWall = grassSheet.cropImage(new Rectangle(206, 33, 32, 32));
 
-		//SpriteSheet wallSheet = new SpriteSheet(ImageLoader.imageLoad("rsc//walls tile.gif"));
+		// SpriteSheet wallSheet = new SpriteSheet(ImageLoader.imageLoad("rsc//walls
+		// tile.gif"));
 		SpriteSheet desertSheet = new SpriteSheet(ImageLoader.imageLoad("rsc\\DesertObjectPack#1 .png"));
-		
+
 		jar = desertSheet.cropImage(new Rectangle(240, 0, 260, 260));
-		rocks = desertSheet.cropImage(new  Rectangle(1070, 0, 276, 280));
+		rocks = desertSheet.cropImage(new Rectangle(1070, 0, 276, 280));
 
 		SpriteSheet playerSheet = new SpriteSheet(ImageLoader.imageLoad("rsc\\goblin.png"));
 		int playerAnimWidth = 704 / 11;
@@ -43,6 +46,9 @@ public class Assets {
 		playerAnimationUp = new BufferedImage[5];
 		playerAnimationLeft = new BufferedImage[5];
 		playerAnimationIdle = new BufferedImage[4];
+		playerDeadAnimation = new BufferedImage[1];
+		playerAnimationRoll = new BufferedImage[1];
+
 
 		for (int i = 0; i < 5; i++) {
 			playerAnimationDown[i] = playerSheet.cropImage(
@@ -54,7 +60,30 @@ public class Assets {
 			playerAnimationLeft[i] = playerSheet.cropImage(
 					new Rectangle(i * playerAnimWidth, playerAnimHeight * 3, playerAnimWidth, playerAnimHeight));
 		}
+
+		playerDeadAnimation[0] = playerSheet
+				.cropImage(new Rectangle(4 * playerAnimWidth, playerAnimHeight * 4, playerAnimWidth, playerAnimHeight));
+
 		idleLoading(playerSheet);
+
+		healthBarLoading();
+
+		pauseStateAssets();
+		
+		playerAnimationRoll[0] = desertSheet.cropImage(new  Rectangle(1070, 0, 276, 280));
+	}
+
+	private static void pauseStateAssets() {
+
+		resumeButton = new BufferedImage[2];
+
+		resumeButton[1] = ImageLoader.imageLoad("rsc\\resumeButton0.png");
+		resumeButton[0] = ImageLoader.imageLoad("rsc\\resumeButton1.png");
+
+		debugButton = new BufferedImage[2];
+
+		debugButton[1] = ImageLoader.imageLoad("rsc\\debugButton0.png");
+		debugButton[0] = ImageLoader.imageLoad("rsc\\debugButton1.png");
 	}
 
 	private static void idleLoading(SpriteSheet playerSheet) {
@@ -68,5 +97,13 @@ public class Assets {
 				.cropImage(new Rectangle(2 * playerAnimWidth, playerAnimHeight * 4, playerAnimWidth, playerAnimHeight));
 		playerAnimationIdle[3] = playerSheet
 				.cropImage(new Rectangle(1 * playerAnimWidth, playerAnimHeight * 4, playerAnimWidth, playerAnimHeight));
+	}
+
+	private static void healthBarLoading() {
+		SpriteSheet healthBar = new SpriteSheet(ImageLoader.imageLoad("rsc\\healthBars.png"));
+		healthBars = new BufferedImage[29];
+		for (int i = 0; i < 29; i++) {
+			healthBars[i] = healthBar.cropImage(new Rectangle(0, i * 70, 390, 70));
+		}
 	}
 }
