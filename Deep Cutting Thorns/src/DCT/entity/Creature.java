@@ -27,6 +27,7 @@ public abstract class Creature extends Entity {
 			this.MoveX();
 		}
 		this.previousDirection = new Vector(this.xMove, this.yMove);
+		this.previousDirection.normalize();
 	}
 
 	protected void MoveY() {

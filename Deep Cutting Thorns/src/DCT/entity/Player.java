@@ -22,7 +22,7 @@ public class Player extends Creature {
 	private static final int PLAYERWIDTH = 704 / 11, PLAYERHEIGHT = 320 / 5;
 	private static final int SCALE = 2;
 	private static final int ANIMATIONSPEED = 100, ANIMATIONSPRINTSPEED = 60;
-	private static final int SPRINTSPEED = 8, ROLLBASEDISTANCE = 30;
+	private static final int SPRINTSPEED = 8, ROLLBASEDISTANCE = 17;
 	private static final double ROLLDELTA = 0.1;
 
 	public Player(Facade facade, int x, int y) {
@@ -113,15 +113,45 @@ public class Player extends Creature {
 	}
 
 	private void rollingMove() {
-		if (this.previousDirection.getY() < 0) {
-			this.setY(this.getPositionY() - this.rollCurrentDistance);
-		} else if (this.previousDirection.getY() > 0) {
-			this.setY(this.getPositionY() + this.rollCurrentDistance);
-		}
-		if (this.previousDirection.getX() < 0) {
-			this.setX(this.getPositionX() - this.rollCurrentDistance);
-		} else if (this.previousDirection.getX() > 0) {
-			this.setX(this.getPositionX() + this.rollCurrentDistance);
+		if (!this.checkEntityCollisions(this.previousDirection.getX() * this.rollCurrentDistance,
+				this.previousDirection.getY() * this.rollCurrentDistance)) {
+
+			if (this.previousDirection.getY() < 0) {
+				int futureY = this.position.getY() + this.hitBox.getY() - this.rollCurrentDistance;
+
+				if (!this.checkCollisionWithTile(this.position.getX() + this.hitBox.getX(), futureY)
+						&& !this.checkCollisionWithTile(
+								this.position.getX() + this.hitBox.getX() + this.hitBox.getWidth(), futureY)) {
+					this.setY(this.getPositionY() - this.rollCurrentDistance);
+				}
+			} else if (this.previousDirection.getY() > 0) {
+				int futureY = this.position.getY() + this.hitBox.getY() + this.hitBox.getHeight()
+						+ this.rollCurrentDistance;
+
+				if (!this.checkCollisionWithTile(this.position.getX() + this.hitBox.getX(), futureY)
+						&& !this.checkCollisionWithTile(
+								this.position.getX() + this.hitBox.getX() + this.hitBox.getWidth(), futureY)) {
+					this.setY(this.getPositionY() + this.rollCurrentDistance);
+				}
+			}
+			if (this.previousDirection.getX() < 0) {
+				int futureX = this.position.getX() + this.hitBox.getX() - this.rollCurrentDistance;
+
+				if (!this.checkCollisionWithTile(futureX, this.position.getY() + this.hitBox.getY())
+						&& !this.checkCollisionWithTile(futureX,
+								this.position.getY() + this.hitBox.getY() + this.hitBox.getHeight())) {
+					this.setX(this.getPositionX() - this.rollCurrentDistance);
+				}
+			} else if (this.previousDirection.getX() > 0) {
+				int futureX = this.position.getX() + this.hitBox.getX() + this.hitBox.getWidth()
+						+ this.rollCurrentDistance;
+
+				if (!this.checkCollisionWithTile(futureX, this.position.getY() + this.hitBox.getY())
+						&& !this.checkCollisionWithTile(futureX,
+								this.position.getY() + this.hitBox.getY() + this.hitBox.getHeight())) {
+					this.setX(this.getPositionX() + this.rollCurrentDistance);
+				}
+			}
 		}
 		this.rollCurrentDistance -= this.rollCurrentDistance * this.ROLLDELTA;
 		if (this.rollCurrentDistance < 1) {
@@ -145,7 +175,7 @@ public class Player extends Creature {
 		if (this.facade.getKeyManager().getRight()) {
 			this.setXSpeed(this.speed, SPRINTSPEED);
 		}
-		if (this.facade.getKeyManager().keyJustPressed(KeyEvent.VK_SPACE)) {
+		if (this.facade.getKeyManager().keyJustPressed(KeyEvent.VK_SPACE) && !this.isNotMoving()) {
 			this.roll();
 		}
 	}
