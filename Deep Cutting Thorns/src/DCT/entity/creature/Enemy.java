@@ -4,16 +4,15 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 import DCT.Facade;
-import DCT.entity.Entity;
 import DCT.utility.Rectangle;
 
 public class Enemy extends Creature {
 
 	protected boolean playerInAggro = false;
 
-	protected int xStart, yStart;
+	protected int xStart, yStart, xTarget, yTarget;
 	protected int rangeOfAttack;
-	protected boolean getStart = true;
+	protected boolean getStart = false;
 
 	public Enemy(Facade facade, Rectangle position) {
 		super(facade, position);
@@ -26,10 +25,8 @@ public class Enemy extends Creature {
 	@Override
 	public void update() {
 		if (this.health > 0) {
-			this.playerInAggro();
 			this.move();
 			this.attack();
-			this.resetMovement();
 		}
 	}
 
@@ -41,10 +38,30 @@ public class Enemy extends Creature {
 
 	@Override
 	protected void move() {
-		this.moveIfNotAggro();
-		this.moveToPlayer();
+		this.chooseTarget();
+		this.moveToPoint(this.xTarget, this.yTarget);
 		super.move();
 		this.chooseCurrentAnimation();
+
+		this.resetMovement();
+	}
+
+	protected void chooseTarget() {
+		this.playerInAggro();
+		this.checkIfStart();
+		this.checkEndWatch();
+		if (this.playerInAggro) {
+			this.xTarget = this.facade.getEntityManager().getPlayer().getPositionX()
+					+ this.facade.getEntityManager().getPlayer().getPositionWidth() / 2;
+			this.yTarget = this.facade.getEntityManager().getPlayer().getPositionY()
+					+ this.facade.getEntityManager().getPlayer().getPositionHeight() / 2;
+		} else if (!this.getStart) {
+			this.xTarget = this.xStart;
+			this.yTarget = this.yStart;
+		} else if (this.getStart) {
+			this.xTarget = 300;
+			this.yTarget = 300;
+		}
 	}
 
 	protected void drawRangeAggro(Graphics g) {
@@ -80,97 +97,32 @@ public class Enemy extends Creature {
 
 	}
 
-	protected void moveToPlayer() {
-		if (this.playerInAggro) {
+	protected void checkIfStart() {
+		int deltaX = Math.abs(this.xStart - this.getPositionX() - this.getPositionWidth() / 2);
+		int deltaY = Math.abs(this.yStart - this.getPositionY() - this.getPositionHeight() / 2);
 
-			int deltaX = this.facade.getEntityManager().getPlayer().getPositionX()
-					+ this.facade.getEntityManager().getPlayer().getPositionWidth() / 2 - this.getPositionX()
-					- this.getPositionWidth() / 2;
-			;
-			int deltaY = this.facade.getEntityManager().getPlayer().getPositionY()
-					+ this.facade.getEntityManager().getPlayer().getPositionHeight() / 2 - this.getPositionY()
-					- this.getPositionHeight() / 2;
-
-			if (Math.abs(deltaX) < this.speed) {
-				this.xMove = 0;
-			} else {
-				if (deltaX < 0) {
-					this.xMove = -this.speed;
-				}
-				if (deltaX > 0) {
-					this.xMove = this.speed;
-				}
-			}
-			if (Math.abs(deltaY) < this.speed) {
-				this.yMove = 0;
-			} else {
-				if (deltaY < 0) {
-					this.yMove = -this.speed;
-				}
-				if (deltaY > 0) {
-					this.yMove = this.speed;
-				}
-			}
-		}
-	}
-
-	protected void moveIfNotAggro() {
-		if (!this.playerInAggro) {
-			getStart();
-			watcherMove();
+		int distanceToPlayer = (int) Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
+		if (distanceToPlayer < this.speed) {
+			this.getStart = true;
 		}
 
 	}
 
-	protected void watcherMove() {
-		if (this.getStart) {
-			int xCurrent = this.getPositionX() + this.getPositionWidth() / 2;
-			int yCurrent = this.getPositionY() + this.getPositionHeight() / 2;
-			int xDir, yDir;
-			xDir = (int) (Math.random() * 2);
-			yDir = (int) (Math.random() * 2);
-			int deltaX = this.xStart - xCurrent;
-			int deltaY = this.yStart - yCurrent;
-			if (xCurrent < 0 || xCurrent > this.facade.getWidth() || yCurrent < 0
-					|| yCurrent > this.facade.getHeight()) {
-				this.getStart = false;
-				this.getStart();
-				return;
-			}
-			if (Math.abs(deltaX) > this.speed * 20 || Math.abs(deltaY) > this.speed * 20) {
-				this.getStart = false;
-				this.getStart();
-				return;
-			}
-			if (xDir == 0) {
-				this.xMove = 0;
-			}
-			if (xDir == 1) {
-				this.xMove = this.speed;
-			}
-			if (xDir == 2) {
-				this.xMove = -this.speed;
-			}
-			if (yDir == 0) {
-				this.yMove = 0;
-			}
-			if (yDir == 1) {
-				this.yMove = this.speed;
-			}
-			if (yDir == 2) {
-				this.yMove = -this.speed;
-			}
-
+	private void checkEndWatch() {
+		if (this.xTarget == this.getPositionX() && this.yTarget == this.getPositionY()) {
+			this.getStart = false;
 		}
+
 	}
 
-	protected void getStart() {
-		int deltaX = this.xStart - this.getPositionX() - this.getPositionWidth() / 2;
-		int deltaY = this.yStart - this.getPositionY() - this.getPositionHeight() / 2;
+	protected void moveToPoint(int xTarget, int yTarget) {
+
+		int deltaX = xTarget - this.getPositionX() - this.getPositionWidth() / 2;
+
+		int deltaY = yTarget - this.getPositionY() - this.getPositionHeight() / 2;
 
 		if (Math.abs(deltaX) < this.speed) {
 			this.xMove = 0;
-			this.getStart = true;
 		} else {
 			if (deltaX < 0) {
 				this.xMove = -this.speed;
@@ -192,14 +144,14 @@ public class Enemy extends Creature {
 	}
 
 	protected void attack() {
-		Rectangle playerPosition=new Rectangle(this.facade.getEntityManager().getPlayer().getPositionX(),
+		Rectangle playerPosition = new Rectangle(this.facade.getEntityManager().getPlayer().getPositionX(),
 				this.facade.getEntityManager().getPlayer().getPositionY(),
 				this.facade.getEntityManager().getPlayer().getPositionWidth(),
 				this.facade.getEntityManager().getPlayer().getPositionHeight());
-				
-		boolean intersect=this.position.intersects(playerPosition);
-		
-		if(intersect) {
+
+		boolean intersect = this.position.intersects(playerPosition);
+
+		if (intersect) {
 			this.facade.getEntityManager().getPlayer().addHealth(0);
 		}
 	}
