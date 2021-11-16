@@ -13,9 +13,9 @@ public class Assets {
 	public static BufferedImage tree;
 
 	public static BufferedImage[] playerAnimationDown, playerAnimationRight, playerAnimationUp, playerAnimationLeft;
-	public static BufferedImage[] playerAnimationIdle;
 	public static BufferedImage[] healthBars, playerDeadAnimation;
 	public static BufferedImage[] resumeButton, debugButton;
+	public static BufferedImage[] playerAnimationIdle, playerAnimationRoll;
 
 	public static void assetInitialize() {
 
@@ -47,6 +47,8 @@ public class Assets {
 		playerAnimationLeft = new BufferedImage[5];
 		playerAnimationIdle = new BufferedImage[4];
 		playerDeadAnimation = new BufferedImage[1];
+		playerAnimationRoll = new BufferedImage[1];
+
 
 		for (int i = 0; i < 5; i++) {
 			playerAnimationDown[i] = playerSheet.cropImage(
@@ -65,6 +67,7 @@ public class Assets {
 		idleLoading(playerSheet);
 
 		healthBarLoading();
+<<<<<<< HEAD
 
 		pauseStateAssets();
 	}
@@ -80,6 +83,10 @@ public class Assets {
 
 		debugButton[1] = ImageLoader.imageLoad("rsc\\debugButton0.png");
 		debugButton[0] = ImageLoader.imageLoad("rsc\\debugButton1.png");
+=======
+		playerAnimationRoll[0] = desertSheet.cropImage(new  Rectangle(1070, 0, 276, 280));
+
+>>>>>>> develop
 	}
 
 	private static void idleLoading(SpriteSheet playerSheet) {

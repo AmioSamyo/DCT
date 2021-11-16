@@ -3,9 +3,12 @@ package DCT.entity;
 import DCT.Facade;
 import DCT.tile.Tile;
 import DCT.utility.Rectangle;
+import DCT.utility.Vector;
 
 public abstract class Creature extends Entity {
-
+	
+	protected Vector previousDirection;
+	
 	protected int xMove, yMove;
 	protected int speed = 3;
 
@@ -23,6 +26,8 @@ public abstract class Creature extends Entity {
 		if (!this.checkEntityCollisions(this.xMove, 0)) {
 			this.MoveX();
 		}
+		this.previousDirection = new Vector(this.xMove, this.yMove);
+		this.previousDirection.normalize();
 	}
 
 	protected void MoveY() {
@@ -102,4 +107,23 @@ public abstract class Creature extends Entity {
 		return Tile.tiles[this.facade.getWorld().getTiles()[xGrid][yGrid]].isSolid();
 	}
 
+	protected boolean isMovingUp() {
+		return this.yMove < 0;
+	}
+
+	protected boolean isMovingDown() {
+		return this.yMove > 0;
+	}
+
+	protected boolean isMovingLeft() {
+		return this.xMove < 0;
+	}
+
+	protected boolean isMovingRight() {
+		return this.xMove > 0;
+	}
+	
+	protected boolean isNotMoving() {
+		return this.xMove == 0 && this.yMove == 0;
+	}
 }
