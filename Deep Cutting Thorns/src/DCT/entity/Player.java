@@ -75,7 +75,7 @@ public class Player extends Creature {
 		if (this.health <= 0) {
 			this.die();
 		}
-
+		
 		this.playerIdle.update();
 		this.playerMoveUp.update();
 		this.playerMoveRight.update();
@@ -94,14 +94,13 @@ public class Player extends Creature {
 		if (this.health > 0) {
 			this.playerMovement();
 		}
-
 	}
 
 	@Override
 	public void render(Graphics g) {
 		g.drawImage(this.currentAnimation.getCurrentFrame(), this.xMoveWithCamera(), this.yMoveWithCamera(),
 				this.position.getWidth(), this.position.getHeight(), null);
-		
+
 		if (this.facade.isDebugging()) {
 			Rectangle hitBox = this.getCollisionHitBox(0, 0);
 			g.setColor(this.debuggingColor);
@@ -122,10 +121,10 @@ public class Player extends Creature {
 	private void playerMovement() {
 		this.getInput();
 
-		if (!this.isRolling) {
-			this.move();
-		} else {
+		if (this.isRolling) {
 			this.rollingMove();
+		} else {
+			this.move();
 		}
 		this.chooseCurrentAnimation();
 		this.resetMovement();
@@ -138,49 +137,57 @@ public class Player extends Creature {
 				this.previousDirection.getY() * this.rollCurrentDistance)) {
 
 			if (this.previousDirection.getY() < 0) {
-				int futureY = this.position.getY() + this.hitBox.getY() - this.rollCurrentDistance;
-
-				if (!this.checkCollisionWithTile(this.position.getX() + this.hitBox.getX(), futureY)
-						&& !this.checkCollisionWithTile(
-								this.position.getX() + this.hitBox.getX() + this.hitBox.getWidth(), futureY)) {
-					this.setY(this.getPositionY() - this.rollCurrentDistance);
-				}
+				this.rollUp();
 			} else if (this.previousDirection.getY() > 0) {
-				int futureY = this.position.getY() + this.hitBox.getY() + this.hitBox.getHeight()
-						+ this.rollCurrentDistance;
-
-				if (!this.checkCollisionWithTile(this.position.getX() + this.hitBox.getX(), futureY)
-						&& !this.checkCollisionWithTile(
-								this.position.getX() + this.hitBox.getX() + this.hitBox.getWidth(), futureY)) {
-					this.setY(this.getPositionY() + this.rollCurrentDistance);
-				}
+				this.rollDown();
 			}
 			if (this.previousDirection.getX() < 0) {
-				int futureX = this.position.getX() + this.hitBox.getX() - this.rollCurrentDistance;
-
-				if (!this.checkCollisionWithTile(futureX, this.position.getY() + this.hitBox.getY())
-						&& !this.checkCollisionWithTile(futureX,
-								this.position.getY() + this.hitBox.getY() + this.hitBox.getHeight())) {
-					this.setX(this.getPositionX() - this.rollCurrentDistance);
-				}
+				this.rollLeft();
 			} else if (this.previousDirection.getX() > 0) {
-				int futureX = this.position.getX() + this.hitBox.getX() + this.hitBox.getWidth()
-						+ this.rollCurrentDistance;
-
-				if (!this.checkCollisionWithTile(futureX, this.position.getY() + this.hitBox.getY())
-						&& !this.checkCollisionWithTile(futureX,
-								this.position.getY() + this.hitBox.getY() + this.hitBox.getHeight())) {
-					this.setX(this.getPositionX() + this.rollCurrentDistance);
-				}
+				this.rollRight();
 			}
 		}
 		this.rollCurrentDistance -= this.rollCurrentDistance * this.ROLLDELTA;
 		if (this.rollCurrentDistance < 1) {
 			this.rollCurrentDistance = this.ROLLBASEDISTANCE;
 			this.isRolling = false;
-
 		}
+	}
 
+	private void rollUp() {
+		int futureY = this.position.getY() + this.hitBox.getY() - this.rollCurrentDistance;
+
+		if (!this.checkCollisionWithTile(this.position.getX() + this.hitBox.getX(), futureY) && !this
+				.checkCollisionWithTile(this.position.getX() + this.hitBox.getX() + this.hitBox.getWidth(), futureY)) {
+			this.setY(this.getPositionY() - this.rollCurrentDistance);
+		}
+	}
+
+	private void rollDown() {
+		int futureY = this.position.getY() + this.hitBox.getY() + this.hitBox.getHeight() + this.rollCurrentDistance;
+
+		if (!this.checkCollisionWithTile(this.position.getX() + this.hitBox.getX(), futureY) && !this
+				.checkCollisionWithTile(this.position.getX() + this.hitBox.getX() + this.hitBox.getWidth(), futureY)) {
+			this.setY(this.getPositionY() + this.rollCurrentDistance);
+		}
+	}
+
+	private void rollLeft() {
+		int futureX = this.position.getX() + this.hitBox.getX() - this.rollCurrentDistance;
+
+		if (!this.checkCollisionWithTile(futureX, this.position.getY() + this.hitBox.getY()) && !this
+				.checkCollisionWithTile(futureX, this.position.getY() + this.hitBox.getY() + this.hitBox.getHeight())) {
+			this.setX(this.getPositionX() - this.rollCurrentDistance);
+		}
+	}
+
+	private void rollRight() {
+		int futureX = this.position.getX() + this.hitBox.getX() + this.hitBox.getWidth() + this.rollCurrentDistance;
+		
+		if (!this.checkCollisionWithTile(futureX, this.position.getY() + this.hitBox.getY()) && !this
+				.checkCollisionWithTile(futureX, this.position.getY() + this.hitBox.getY() + this.hitBox.getHeight())) {
+			this.setX(this.getPositionX() + this.rollCurrentDistance);
+		}
 	}
 
 	private void getInput() {
@@ -240,7 +247,6 @@ public class Player extends Creature {
 		if (this.isRolling) {
 			this.currentAnimation = this.playerRoll;
 		}
-
 	}
 
 	private void setAnimation(Animation anim, Animation animSprint) {
