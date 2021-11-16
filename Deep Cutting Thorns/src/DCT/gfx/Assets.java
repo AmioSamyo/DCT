@@ -67,9 +67,10 @@ public class Assets {
 		idleLoading(playerSheet);
 
 		healthBarLoading();
-<<<<<<< HEAD
 
 		pauseStateAssets();
+		
+		playerAnimationRoll[0] = desertSheet.cropImage(new  Rectangle(1070, 0, 276, 280));
 	}
 
 	private static void pauseStateAssets() {
@@ -83,10 +84,6 @@ public class Assets {
 
 		debugButton[1] = ImageLoader.imageLoad("rsc\\debugButton0.png");
 		debugButton[0] = ImageLoader.imageLoad("rsc\\debugButton1.png");
-=======
-		playerAnimationRoll[0] = desertSheet.cropImage(new  Rectangle(1070, 0, 276, 280));
-
->>>>>>> develop
 	}
 
 	private static void idleLoading(SpriteSheet playerSheet) {
