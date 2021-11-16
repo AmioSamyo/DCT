@@ -7,7 +7,7 @@ import DCT.utility.Vector;
 
 public abstract class Creature extends Entity {
 	
-	public Vector previousDirection;
+	protected Vector previousDirection;
 	
 	protected int xMove, yMove;
 	protected int speed = 3;

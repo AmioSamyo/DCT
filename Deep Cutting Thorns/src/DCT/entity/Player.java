@@ -50,7 +50,7 @@ public class Player extends Creature {
 		this.playerSprintRight = new Animation(ANIMATIONSPRINTSPEED, Assets.playerAnimationRight);
 		this.playerSprintUp = new Animation(ANIMATIONSPRINTSPEED, Assets.playerAnimationUp);
 		this.playerSprintLeft = new Animation(ANIMATIONSPRINTSPEED, Assets.playerAnimationLeft);
-		
+
 		this.playerRoll = new Animation(0, Assets.playerAnimationRoll);
 
 		this.currentAnimation = this.playerIdle;
@@ -72,7 +72,7 @@ public class Player extends Creature {
 		this.playerSprintRight.update();
 		this.playerSprintLeft.update();
 		this.playerSprintDown.update();
-		
+
 		this.playerRoll.update();
 
 		this.currentAnimation.update();
@@ -100,8 +100,8 @@ public class Player extends Creature {
 
 	private void playerMovement() {
 		this.getInput();
-		
-		if(!this.isRolling) {
+
+		if (!this.isRolling) {
 			this.move();
 		} else {
 			this.rollingMove();
@@ -113,14 +113,23 @@ public class Player extends Creature {
 	}
 
 	private void rollingMove() {
-		this.setY(this.getPositionY() + this.rollCurrentDistance);
+		if (this.previousDirection.getY() < 0) {
+			this.setY(this.getPositionY() - this.rollCurrentDistance);
+		} else if (this.previousDirection.getY() > 0) {
+			this.setY(this.getPositionY() + this.rollCurrentDistance);
+		}
+		if (this.previousDirection.getX() < 0) {
+			this.setX(this.getPositionX() - this.rollCurrentDistance);
+		} else if (this.previousDirection.getX() > 0) {
+			this.setX(this.getPositionX() + this.rollCurrentDistance);
+		}
 		this.rollCurrentDistance -= this.rollCurrentDistance * this.ROLLDELTA;
-		
-		if(this.rollCurrentDistance < 1) {
+		if (this.rollCurrentDistance < 1) {
 			this.rollCurrentDistance = this.ROLLBASEDISTANCE;
 			this.isRolling = false;
+
 		}
-		
+
 	}
 
 	private void getInput() {
@@ -177,7 +186,7 @@ public class Player extends Creature {
 		if (this.isNotMoving()) {
 			this.currentAnimation = this.playerIdle;
 		}
-		if(this.isRolling) {
+		if (this.isRolling) {
 			this.currentAnimation = this.playerRoll;
 		}
 
