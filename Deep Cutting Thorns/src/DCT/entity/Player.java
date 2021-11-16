@@ -11,6 +11,8 @@ import DCT.utility.Rectangle;
 public class Player extends Creature {
 
 	private int currentHealth;
+	private boolean isRolling;
+	private int rollCurrentDistance;
 
 	private Animation playerMoveDown, playerMoveRight, playerMoveUp, playerMoveLeft, playerIdle;
 	private Animation playerSprintDown, playerSprintRight, playerSprintUp, playerSprintLeft;
@@ -20,12 +22,15 @@ public class Player extends Creature {
 	private static final int PLAYERWIDTH = 704 / 11, PLAYERHEIGHT = 320 / 5;
 	private static final int SCALE = 2;
 	private static final int ANIMATIONSPEED = 100, ANIMATIONSPRINTSPEED = 60;
-	private static final int SPRINTSPEED = 8, ROLLSPEED = 10;
+	private static final int SPRINTSPEED = 8, ROLLBASEDISTANCE = 30;
+	private static final double ROLLDELTA = 0.1;
 
 	public Player(Facade facade, int x, int y) {
 
 		super(facade, new Rectangle(x, y, PLAYERWIDTH * SCALE, PLAYERHEIGHT * SCALE));
 		this.speed = 4;
+		this.isRolling = false;
+		this.rollCurrentDistance = this.ROLLBASEDISTANCE;
 
 		initialize();
 	}
@@ -95,11 +100,27 @@ public class Player extends Creature {
 
 	private void playerMovement() {
 		this.getInput();
-		this.move();
+		
+		if(!this.isRolling) {
+			this.move();
+		} else {
+			this.rollingMove();
+		}
 		this.chooseCurrentAnimation();
 		this.resetMovement();
 
 		this.facade.getGameCamera().centerOnEntity(this);
+	}
+
+	private void rollingMove() {
+		this.setY(this.getPositionY() + this.rollCurrentDistance);
+		this.rollCurrentDistance -= this.rollCurrentDistance * this.ROLLDELTA;
+		
+		if(this.rollCurrentDistance < 1) {
+			this.rollCurrentDistance = this.ROLLBASEDISTANCE;
+			this.isRolling = false;
+		}
+		
 	}
 
 	private void getInput() {
@@ -115,7 +136,9 @@ public class Player extends Creature {
 		if (this.facade.getKeyManager().getRight()) {
 			this.setXSpeed(this.speed, SPRINTSPEED);
 		}
-		this.roll();
+		if (this.facade.getKeyManager().keyJustPressed(KeyEvent.VK_SPACE)) {
+			this.roll();
+		}
 	}
 
 	private void setYSpeed(int speed, int sprintSpeed) {
@@ -135,20 +158,7 @@ public class Player extends Creature {
 	}
 
 	private void roll() {
-		if (this.isRolling()) {
-			if (this.facade.getKeyManager().getUp()) {
-				this.setYSpeed(-this.speed*ROLLSPEED, -SPRINTSPEED*ROLLSPEED);
-			}
-			if (this.facade.getKeyManager().getDown()) {
-				this.setYSpeed(this.speed*ROLLSPEED, SPRINTSPEED*ROLLSPEED);
-			}
-			if (this.facade.getKeyManager().getLeft()) {
-				this.setXSpeed(-this.speed*ROLLSPEED, -SPRINTSPEED*ROLLSPEED);
-			}
-			if (this.facade.getKeyManager().getRight()) {
-				this.setXSpeed(this.speed*ROLLSPEED, SPRINTSPEED*ROLLSPEED);
-			}
-		}
+		this.isRolling = true;
 	}
 
 	private void chooseCurrentAnimation() {
@@ -167,7 +177,7 @@ public class Player extends Creature {
 		if (this.isNotMoving()) {
 			this.currentAnimation = this.playerIdle;
 		}
-		if (this.isRolling()) {
+		if(this.isRolling) {
 			this.currentAnimation = this.playerRoll;
 		}
 
@@ -179,12 +189,5 @@ public class Player extends Creature {
 		} else {
 			this.currentAnimation = anim;
 		}
-	}
-	
-	private boolean isRolling() {
-		if (this.facade.getKeyManager().keyJustPressedTimed(KeyEvent.VK_SPACE, 1000)) {
-			return true;
-		}
-		return false;
 	}
 }

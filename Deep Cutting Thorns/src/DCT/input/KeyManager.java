@@ -7,20 +7,14 @@ public class KeyManager implements KeyListener {
 
 	private boolean up, down, left, right, sprint;
 	private boolean debugMode;
-	private boolean[] keys, justPressed, justPressedTimed, cantPress;
-
-	// timer
-	private long nowTime, lastTime, timer;
+	private boolean[] keys, justPressed, cantPress;
 
 	public KeyManager() {
 
 		this.keys = new boolean[256];
 		this.justPressed = new boolean[keys.length];
-		this.justPressedTimed = new boolean[keys.length];
 		this.cantPress = new boolean[keys.length];
 
-		this.lastTime = System.nanoTime();
-		this.timer = 0;
 	}
 
 	public void update() {
@@ -81,18 +75,6 @@ public class KeyManager implements KeyListener {
 		}
 
 		return this.justPressed[keyCode];
-	}
-
-	public boolean keyJustPressedTimed(int keyCode, int milliTime) {
-		if (keyCode < 0 || keyCode >= this.keys.length) {
-			return false;
-		}
-		do {
-			nowTime = System.nanoTime();
-			timer += (nowTime - lastTime);
-			lastTime = nowTime;
-			return this.justPressedTimed[keyCode];
-		} while (timer <= 1000000 * milliTime);
 	}
 
 	public boolean getUp() {
