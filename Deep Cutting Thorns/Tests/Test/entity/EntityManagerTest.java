@@ -13,12 +13,12 @@ class EntityManagerTest {
 	
 	Game mockedGame = new Game("", 100, 100);
 	Facade mockedFacade = new Facade(mockedGame);
-	Player player1 = new Player(mockedFacade, 0, 0);
 	Player player2 = new Player(mockedFacade, 100, 100);
 
 	@Test
 	void testUpdate() {
 		Player player1 = Mockito.mock(Player.class);
+		Player player2 = Mockito.mock(Player.class);
 		EntityManager em = new EntityManager(player2);
 		em.addEntity(player1);
 		em.update();
