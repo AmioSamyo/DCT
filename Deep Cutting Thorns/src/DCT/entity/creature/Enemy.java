@@ -39,7 +39,7 @@ public class Enemy extends Creature {
 	@Override
 	protected void move() {
 		this.chooseTarget();
-		this.moveToPoint(this.xTarget, this.yTarget);
+		this.moveToPoint();
 		super.move();
 		this.chooseCurrentAnimation();
 
@@ -49,7 +49,6 @@ public class Enemy extends Creature {
 	protected void chooseTarget() {
 		this.playerInAggro();
 		this.checkIfStart();
-		this.checkEndWatch();
 		if (this.playerInAggro) {
 			this.xTarget = this.facade.getEntityManager().getPlayer().getPositionX()
 					+ this.facade.getEntityManager().getPlayer().getPositionWidth() / 2;
@@ -61,6 +60,7 @@ public class Enemy extends Creature {
 		} else if (this.getStart) {
 			this.xTarget = 300;
 			this.yTarget = 300;
+			this.checkEndWatch(this.xTarget, this.yTarget);
 		}
 	}
 
@@ -91,6 +91,7 @@ public class Enemy extends Creature {
 
 		if (distanceToPlayer < this.DiameterAggro / 2) {
 			this.playerInAggro = true;
+			this.getStart = false;
 		} else {
 			this.playerInAggro = false;
 		}
@@ -108,14 +109,17 @@ public class Enemy extends Creature {
 
 	}
 
-	private void checkEndWatch() {
-		if (this.xTarget == this.getPositionX() && this.yTarget == this.getPositionY()) {
+	private void checkEndWatch(int xTarget, int yTarget) {
+		int deltaX = Math.abs(xTarget - this.getPositionX() - this.getPositionWidth() / 2);
+		int deltaY = Math.abs(yTarget - this.getPositionY() - this.getPositionHeight() / 2);
+		int distanceToPlayer = (int) Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
+		if (distanceToPlayer < this.speed) {
 			this.getStart = false;
 		}
 
 	}
 
-	protected void moveToPoint(int xTarget, int yTarget) {
+	protected void moveToPoint() {
 
 		int deltaX = xTarget - this.getPositionX() - this.getPositionWidth() / 2;
 
