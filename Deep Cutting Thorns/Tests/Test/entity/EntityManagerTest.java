@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import DCT.Facade;
 import DCT.entity.EntityManager;
-import DCT.entity.Player;
+import DCT.entity.creature.Player;
 import DCT.game.Game;
 
 class EntityManagerTest {
