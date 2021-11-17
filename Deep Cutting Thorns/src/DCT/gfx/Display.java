@@ -7,8 +7,8 @@ import javax.swing.WindowConstants;
 
 public class Display {
 
-	private JFrame frame;
-	private Canvas canvas;
+	private JFrame frame = null;
+	private Canvas canvas = null;
 
 	private String title;
 	private int width, height;
@@ -17,7 +17,7 @@ public class Display {
 		this.title = title;
 		this.width = width;
 		this.height = height;
-		this.CreateDisplay();
+		this.createDisplay();
 	}
 
 	public Canvas getCanvas() {
@@ -28,7 +28,7 @@ public class Display {
 		return this.frame;
 	}
 
-	public void CreateDisplay() {
+	public void createDisplay() {
 		this.frame = this.FrameSetter();
 		this.canvas = this.CanvasSetter();
 
