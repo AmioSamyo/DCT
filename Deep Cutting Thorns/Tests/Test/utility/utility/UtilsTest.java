@@ -14,7 +14,7 @@ class UtilsTest {
 		assertEquals(89, Utils.parseInt("89"));
 		assertEquals(-3, Utils.parseInt("-3"));
 	}
-
+	
 	@DisplayName("Should fail to convert a String to Int and return 0")
 	@Test
 	void testParseIntFail() {
