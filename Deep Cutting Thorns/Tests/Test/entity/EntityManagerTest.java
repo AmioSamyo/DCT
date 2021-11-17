@@ -10,6 +10,7 @@ import DCT.Facade;
 import DCT.entity.Entity;
 import DCT.entity.EntityManager;
 import DCT.entity.creature.Player;
+import DCT.utility.Vector;
 
 @RunWith(MockitoJUnitRunner.class)
 class EntityManagerTest {
@@ -18,9 +19,9 @@ class EntityManagerTest {
 	Facade mockedFacade;
 
 	@Mock
-	Entity playerHigher = new Player(mockedFacade, 0, 0);
+	Entity playerHigher = new Player(mockedFacade, new Vector());
 	@Mock
-	Player playerLower = new Player(mockedFacade, 0, 0);
+	Player playerLower = new Player(mockedFacade, new Vector());
 
 	@Mock
 	EntityManager em = new EntityManager(playerLower);
