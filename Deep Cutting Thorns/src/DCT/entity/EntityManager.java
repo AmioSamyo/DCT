@@ -32,14 +32,17 @@ public class EntityManager {
 	public void update() {
 
 		this.entityList.forEach(e -> e.update());
-
-		this.entityList.sort(ruleSorter);
+		this.sort();
 	}
 
 	public void render(Graphics g) {
 
 		this.entityList.forEach(e -> e.render(g));
 		this.player.showHealthBar(g);
+	}
+	
+	public void sort() {
+		this.entityList.sort(ruleSorter);
 	}
 
 	public void addEntity(Entity e) {

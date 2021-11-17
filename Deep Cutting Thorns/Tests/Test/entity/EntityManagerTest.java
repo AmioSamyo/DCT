@@ -1,29 +1,38 @@
 package Test.entity;
 
-import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
+import static org.junit.jupiter.api.Assertions.*;
 
 import DCT.Facade;
+import DCT.entity.Entity;
 import DCT.entity.EntityManager;
 import DCT.entity.creature.Player;
-import DCT.game.Game;
 
+@RunWith(MockitoJUnitRunner.class)
 class EntityManagerTest {
-	
-	Game mockedGame = new Game("", 100, 100);
-	Facade mockedFacade = new Facade(mockedGame);
-	Player player2 = new Player(mockedFacade, 100, 100);
+
+	@Mock
+	Facade mockedFacade;
+
+	@Mock
+	Entity playerHigher = new Player(mockedFacade, 0, 0);
+	@Mock
+	Player playerLower = new Player(mockedFacade, 0, 0);
+
+	@Mock
+	EntityManager em = new EntityManager(playerLower);
 
 	@Test
 	void testUpdate() {
-		Player player1 = Mockito.mock(Player.class);
-		Player player2 = Mockito.mock(Player.class);
-		EntityManager em = new EntityManager(player2);
-		em.addEntity(player1);
-		em.update();
-		assertEquals(em.getEntityList().get(0), player1);
-		assertEquals(em.getEntityList().get(1), player2);
+		playerLower.setY(200);
+		
+		em.addEntity(playerHigher);
+		em.sort();
+		assertEquals(em.getEntityList().get(0), playerHigher);
+		assertEquals(em.getEntityList().get(1), playerLower);
 	}
 
 }
