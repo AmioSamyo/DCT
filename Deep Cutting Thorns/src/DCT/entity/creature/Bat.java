@@ -7,6 +7,7 @@ import DCT.Facade;
 import DCT.gfx.Animation;
 import DCT.gfx.Assets;
 import DCT.utility.Rectangle;
+import DCT.utility.Vector;
 
 public class Bat extends Enemy {
 
@@ -15,8 +16,8 @@ public class Bat extends Enemy {
 	private final static int SCALE = 2;
 	private static final int ANIMATIONSPEED = 150;
 
-	public Bat(Facade facade, int x, int y) {
-		super(facade, new Rectangle(x, y, BATWIDTH, BATHEIGHT));
+	public Bat(Facade facade, Vector position) {
+		super(facade, new Rectangle(position.getX(), position.getY(), BATWIDTH, BATHEIGHT));
 
 		this.initialize();
 	}
@@ -34,7 +35,7 @@ public class Bat extends Enemy {
 		this.animationMoveUp = new Animation(ANIMATIONSPEED, Assets.batAnimationUp);
 		this.animationMoveRight = new Animation(ANIMATIONSPEED, Assets.batAnimationRight);
 		this.animationIdle = this.animationMoveDown;
-		this.animationDead=new Animation(ANIMATIONSPEED,Assets.batAnimationDead);
+		this.animationDead = new Animation(ANIMATIONSPEED, Assets.batAnimationDead);
 
 		this.currentAnimation = this.animationMoveDown;
 
@@ -69,7 +70,7 @@ public class Bat extends Enemy {
 		super.render(g);
 
 	}
-	
+
 	@Override
 	public void die() {
 		this.currentAnimation = this.animationDead;

@@ -10,6 +10,7 @@ import DCT.entity.statics.Jar;
 import DCT.entity.statics.Rocks;
 import DCT.entity.statics.Tree;
 import DCT.game.World;
+import DCT.utility.Vector;
 
 public class GameState extends State {
 
@@ -30,8 +31,8 @@ public class GameState extends State {
 
 		this.entityManager.addEntity(new Jar(this.facade, 140, 280));
 		this.entityManager.addEntity(new Rocks(this.facade, 180, 420));
-		
-		this.entityManager.addEntity(new Bat(this.facade,200, 150));
+
+		this.entityManager.addEntity(new Bat(this.facade, new Vector(200, 150)));
 	}
 
 	@Override
