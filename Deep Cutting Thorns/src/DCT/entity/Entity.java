@@ -33,12 +33,7 @@ public abstract class Entity {
 
 		this.showHealthBar(g);
 
-		if (this.facade.isDebugging()) {
-			Rectangle hitBox = this.getCollisionHitBox(0, 0);
-			g.setColor(this.debuggingColor);
-			g.fillRect(this.getXMoveHitbox(hitBox), this.getYMoveHitbox(hitBox), this.hitBox.getWidth(),
-					this.hitBox.getHeight());
-		}
+		drawHitBox(g);
 	}
 
 	public abstract void die();
@@ -87,6 +82,15 @@ public abstract class Entity {
 	public Rectangle getCollisionHitBox(int xOffSet, int yOffSet) {
 		return new Rectangle(this.getPositionX() + this.hitBox.getX() + xOffSet,
 				this.getPositionY() + this.hitBox.getY() + yOffSet, this.hitBox.getWidth(), this.hitBox.getHeight());
+	}
+	
+	protected void drawHitBox(Graphics g) {
+		if (this.facade.getDebugMode()) {
+			Rectangle hitBox = this.getCollisionHitBox(0, 0);
+			g.setColor(this.debuggingColor);
+			g.fillRect(this.getXMoveHitbox(hitBox), this.getYMoveHitbox(hitBox), this.hitBox.getWidth(),
+					this.hitBox.getHeight());
+		}
 	}
 
 	protected void showHealthBar(Graphics g) {

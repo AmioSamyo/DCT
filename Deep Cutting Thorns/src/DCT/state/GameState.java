@@ -4,7 +4,8 @@ import java.awt.Graphics;
 
 import DCT.Facade;
 import DCT.entity.EntityManager;
-import DCT.entity.Player;
+import DCT.entity.creature.Bat;
+import DCT.entity.creature.Player;
 import DCT.entity.statics.Jar;
 import DCT.entity.statics.Rocks;
 import DCT.entity.statics.Tree;
@@ -29,6 +30,8 @@ public class GameState extends State {
 
 		this.entityManager.addEntity(new Jar(this.facade, 140, 280));
 		this.entityManager.addEntity(new Rocks(this.facade, 180, 420));
+		
+		this.entityManager.addEntity(new Bat(this.facade,200, 150));
 	}
 
 	@Override

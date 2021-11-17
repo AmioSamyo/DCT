@@ -4,6 +4,8 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Comparator;
 
+import DCT.entity.creature.Player;
+
 public class EntityManager {
 
 	private Player player;
