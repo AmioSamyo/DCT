@@ -62,7 +62,7 @@ public class Facade {
 		return this.game.getHeight();
 	}
 
-	public boolean isDebugging() {
+	public boolean getDebugMode() {
 		return this.debugMode;
 	}
 	

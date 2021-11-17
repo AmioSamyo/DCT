@@ -1,21 +1,47 @@
-package DCT.entity;
+package DCT.entity.creature;
+
+import java.awt.Color;
+import java.awt.Graphics;
 
 import DCT.Facade;
+import DCT.entity.Entity;
+import DCT.gfx.Animation;
 import DCT.tile.Tile;
 import DCT.utility.Rectangle;
 import DCT.utility.Vector;
 
 public abstract class Creature extends Entity {
-	
+
 	protected Vector previousDirection;
-	
+
 	protected int xMove, yMove;
+	protected int DiameterAggro;
 	protected int speed = 3;
+
+	protected int currentHealth;
+
+	protected Animation animationMoveDown, animationMoveRight, animationMoveUp, animationMoveLeft;
+	protected Animation animationIdle, animationDead;
+	protected Animation currentAnimation;
 
 	public Creature(Facade facade, Rectangle position) {
 		super(facade, position);
 		this.xMove = 0;
 		this.yMove = 0;
+	}
+
+	protected void chooseCurrentAnimation() {
+		if (this.isMovingLeft()) {
+			this.currentAnimation = this.animationMoveLeft;
+		} else if (this.isMovingRight()) {
+			this.currentAnimation = this.animationMoveRight;
+		} else if (this.isMovingUp()) {
+			this.currentAnimation = this.animationMoveUp;
+		} else if (this.isMovingDown()) {
+			this.currentAnimation = this.animationMoveDown;
+		} else if (this.isNotMoving()) {
+			this.currentAnimation = this.animationIdle;
+		}
 	}
 
 	protected void move() {
@@ -122,7 +148,7 @@ public abstract class Creature extends Entity {
 	protected boolean isMovingRight() {
 		return this.xMove > 0;
 	}
-	
+
 	protected boolean isNotMoving() {
 		return this.xMove == 0 && this.yMove == 0;
 	}

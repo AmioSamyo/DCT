@@ -30,7 +30,7 @@ public class World {
 		for (int y = yStart; y < yEnd; y++) {
 			for (int x = xStart; x < xEnd; x++) {
 				Tile.tiles[this.tiles[x][y]].render(g, this.getXTile(x), this.getYTile(y));
-				if (this.facade.isDebugging()) {
+				if (this.facade.getDebugMode()) {
 					Tile.tiles[this.tiles[x][y]].drawDebugging(g, this.getXTile(x), this.getYTile(y));
 				}
 			}
