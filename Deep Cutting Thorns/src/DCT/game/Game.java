@@ -25,12 +25,12 @@ public class Game implements Runnable {
 	private Graphics g;
 	private BufferStrategy bufferStrategy;
 
-	private Display display;
+	private Display display = null;
 	private State gameState, pauseState;
 	private KeyManager keyManager;
 	private MouseManager mouseManager;
-	private Facade facade;
-	private GameCamera gameCamera;
+	private Facade facade = null;
+	private GameCamera gameCamera = null;
 
 	public Game(String title, int width, int height) {
 		this.running = false;
@@ -44,6 +44,28 @@ public class Game implements Runnable {
 	}
 
 	public void initialize() {
+		initializeDisplay();
+
+		initializeGameComponents();
+
+		Assets.assetInitialize();
+
+		initializeStates();
+
+	}
+
+	public void initializeGameComponents() {
+		this.facade = new Facade(this);
+		this.gameCamera = new GameCamera(this.facade);
+	}
+
+	public void initializeStates() {
+		this.gameState = new GameState(this.worldPath, this.facade);
+		this.pauseState = null;
+		State.setCurrentState(gameState);
+	}
+
+	public void initializeDisplay() {
 		this.display = new Display(this.title, this.width, this.height);
 		this.display.getJFrame().addKeyListener(this.keyManager);
 
@@ -52,16 +74,6 @@ public class Game implements Runnable {
 
 		this.display.getCanvas().addMouseListener(this.mouseManager);
 		this.display.getCanvas().addMouseMotionListener(this.mouseManager);
-
-		this.facade = new Facade(this);
-		this.gameCamera = new GameCamera(this.facade);
-
-		Assets.assetInitialize();
-
-		this.gameState = new GameState(this.worldPath, this.facade);
-		this.pauseState = null;
-		State.setCurrentState(gameState);
-
 	}
 
 	public void update() {
@@ -176,6 +188,10 @@ public class Game implements Runnable {
 
 	public Display getDisplay() {
 		return this.display;
+	}
+	
+	public Facade getFacade() {
+		return this.facade;
 	}
 
 	public GameCamera getGameCamera() {

@@ -22,11 +22,11 @@ class RectangleTest {
 	@Test
 	void testIntersects() {
 		Rectangle rectangleBase = new Rectangle(0, 0, 10, 10);
-		Rectangle rectangleIntercepting = new Rectangle(-5, -5, 5, 5);
-		Rectangle rectangleNotIntercepting = new Rectangle(20, 20, 10, 10);
+		Rectangle rectangleIntersepting = new Rectangle(-5, -5, 5, 5);
+		Rectangle rectangleNotIntersepting = new Rectangle(20, 20, 10, 10);
 		
-		assertTrue(rectangleBase.intersects(rectangleIntercepting));
-		assertFalse(rectangleBase.intersects(rectangleNotIntercepting));
+		assertTrue(rectangleBase.intersects(rectangleIntersepting));
+		assertFalse(rectangleBase.intersects(rectangleNotIntersepting));
 	}
 
 }
