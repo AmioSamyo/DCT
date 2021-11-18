@@ -8,6 +8,7 @@ import DCT.Facade;
 import DCT.gfx.Animation;
 import DCT.gfx.Assets;
 import DCT.utility.Rectangle;
+import DCT.utility.Vector;
 
 public class Player extends Creature {
 
@@ -23,9 +24,9 @@ public class Player extends Creature {
 	private static final int SPRINTSPEED = 8, ROLLBASEDISTANCE = 17;
 	private static final double ROLLDELTA = 0.1;
 
-	public Player(Facade facade, int x, int y) {
+	public Player(Facade facade, Vector position) {
 
-		super(facade, new Rectangle(x, y, PLAYERWIDTH * SCALE, PLAYERHEIGHT * SCALE));
+		super(facade, new Rectangle(position.getX(), position.getY(), PLAYERWIDTH * SCALE, PLAYERHEIGHT * SCALE));
 		this.speed = 4;
 		this.isRolling = false;
 		this.rollCurrentDistance = ROLLBASEDISTANCE;

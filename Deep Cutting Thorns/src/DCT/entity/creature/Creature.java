@@ -1,8 +1,5 @@
 package DCT.entity.creature;
 
-import java.awt.Color;
-import java.awt.Graphics;
-
 import DCT.Facade;
 import DCT.entity.Entity;
 import DCT.gfx.Animation;

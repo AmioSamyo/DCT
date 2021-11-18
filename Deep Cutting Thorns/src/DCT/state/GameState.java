@@ -21,7 +21,7 @@ public class GameState extends State {
 		this.facade = facade;
 		this.world = new World(worldPath, this.facade);
 
-		this.entityManager = new EntityManager(new Player(this.facade, 200, 200));
+		this.entityManager = new EntityManager(new Player(this.facade, new Vector(200, 200)));
 
 		for (int j = 0; j < 5; j++) {
 			for (int i = 2; i < 12; i++) {

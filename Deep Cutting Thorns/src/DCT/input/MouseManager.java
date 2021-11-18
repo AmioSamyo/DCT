@@ -49,9 +49,9 @@ public class MouseManager implements MouseInputListener {
 		if (e.getButton() == MouseEvent.NOBUTTON) {
 			this.leftPressed = false;
 			this.rightPressed = false;
-		} else if (e.getButton() != MouseEvent.NOBUTTON && e.getButton() != MouseEvent.BUTTON1) {
+		} else if (e.getButton() == MouseEvent.BUTTON1) {
 			this.leftPressed = false;
-		} else if (e.getButton() != MouseEvent.NOBUTTON && e.getButton() != MouseEvent.BUTTON2) {
+		} else if (e.getButton() == MouseEvent.BUTTON2) {
 			this.rightPressed = false;
 		}
 
@@ -78,8 +78,8 @@ public class MouseManager implements MouseInputListener {
 	public void mouseMoved(MouseEvent e) {
 		this.mouseX = e.getX();
 		this.mouseY = e.getY();
-		
-		if(this.uiManager != null)
+
+		if (this.uiManager != null)
 			this.uiManager.onMouseMove(e);
 	}
 

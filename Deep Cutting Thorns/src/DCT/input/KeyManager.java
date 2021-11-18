@@ -6,7 +6,6 @@ import java.awt.event.KeyListener;
 public class KeyManager implements KeyListener {
 
 	private boolean up, down, left, right, sprint;
-	private boolean debugMode;
 
 	private boolean[] keys, justPressed, cantPress;
 
@@ -90,10 +89,6 @@ public class KeyManager implements KeyListener {
 
 	public boolean getRight() {
 		return this.right;
-	}
-
-	public boolean getDebugMode() {
-		return this.debugMode;
 	}
 
 	public boolean getSprint() {
