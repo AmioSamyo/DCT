@@ -4,6 +4,8 @@ import java.awt.Button;
 import java.awt.event.MouseEvent;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
@@ -14,6 +16,7 @@ class MouseManagerTest {
 	@Mock
 	MouseManager mouse = new MouseManager();
 
+	@DisplayName("Mouse click should be handled")
 	@Test
 	void testMouseClicked() {
 		Button c = new Button();
@@ -24,6 +27,7 @@ class MouseManagerTest {
 		assertTrue(mouse.getLeftClicked());
 	}
 
+	@DisplayName("Mouse pressed should be handled")
 	@Test
 	void testMousePressed() {
 		Button c = new Button();
@@ -33,6 +37,7 @@ class MouseManagerTest {
 		assertTrue(mouse.getLeftPressed());
 	}
 
+	@DisplayName("Mouse released should be handled")
 	@Test
 	void testMouseReleased() {
 		Button c = new Button();
@@ -41,7 +46,6 @@ class MouseManagerTest {
 
 		mouse.mousePressed(ePressed);
 		mouse.mouseReleased(eReleased);
-		System.out.println(ePressed.getButton() + " " + eReleased.getButton());
 		
 		assertFalse(mouse.getLeftPressed());
 

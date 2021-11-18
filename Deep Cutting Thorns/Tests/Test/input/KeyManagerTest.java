@@ -4,6 +4,8 @@ import java.awt.event.KeyEvent;
 import java.awt.Button;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
@@ -14,6 +16,7 @@ class KeyManagerTest {
 	@Mock
 	KeyManager key = new KeyManager();
 
+	@DisplayName("Key pressed should be handled")
 	@Test
 	void testKeyPressed() {
 		Button c = new Button();
@@ -26,6 +29,7 @@ class KeyManagerTest {
 		assertTrue(key.getUp());
 	}
 
+	@DisplayName("Key released should be handled")
 	@Test
 	void testKeyReleased() {
 		Button c = new Button();
@@ -42,6 +46,7 @@ class KeyManagerTest {
 		assertFalse(key.getUp());
 	}
 
+	@DisplayName("Key just pressed should be handled")
 	@Test
 	void testKeyJustPressed() {
 		Button c = new Button();

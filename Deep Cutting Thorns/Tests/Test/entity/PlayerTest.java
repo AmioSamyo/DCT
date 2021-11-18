@@ -2,6 +2,7 @@ package Test.entity;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
@@ -14,6 +15,7 @@ class PlayerTest {
 	@Mock
 	Facade mockedFacade;
 	
+	@DisplayName("Should create correctly the player")
 	@Test
 	void testPlayer() {
 		Player p = new Player(mockedFacade, new Vector());

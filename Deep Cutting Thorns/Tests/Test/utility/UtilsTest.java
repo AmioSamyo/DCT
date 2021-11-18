@@ -15,10 +15,4 @@ class UtilsTest {
 		assertEquals(-3, Utils.parseInt("-3"));
 	}
 
-	@DisplayName("Should fail to convert a String to Int and return 0")
-	@Test
-	void testParseIntFail() {
-		assertEquals(0, Utils.parseInt("One"));
-	}
-
 }

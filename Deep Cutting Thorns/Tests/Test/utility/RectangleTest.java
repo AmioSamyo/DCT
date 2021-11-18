@@ -2,6 +2,7 @@ package Test.utility;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import DCT.utility.Rectangle;
@@ -9,6 +10,7 @@ import DCT.utility.Vector;
 
 class RectangleTest {
 
+	@DisplayName("Should check if a rectangle contains a point")
 	@Test
 	void testContains() {
 		Rectangle rectangle = new Rectangle(0, 0, 10, 10);
@@ -19,6 +21,7 @@ class RectangleTest {
 		assertFalse(rectangle.contains(pointOutside.getX(), pointOutside.getY()));
 	}
 
+	@DisplayName("Should check if a rectangle intersects another")
 	@Test
 	void testIntersects() {
 		Rectangle rectangleBase = new Rectangle(0, 0, 10, 10);

@@ -2,12 +2,14 @@ package Test.utility;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import DCT.utility.Vector;
 
 class VectorTest {
 
+	@DisplayName("Should create a vector to 0")
 	@Test
 	void testVector() {
 		Vector v = new Vector();
@@ -16,6 +18,7 @@ class VectorTest {
 		assertEquals(v.getY(), 0);
 	}
 
+	@DisplayName("Should create a vector with values")
 	@Test
 	void testVectorIntInt() {
 		Vector v = new Vector(12, 22);
@@ -24,6 +27,7 @@ class VectorTest {
 		assertEquals(v.getY(), 22);
 	}
 
+	@DisplayName("Should create a vector by copy")
 	@Test
 	void testVectorVector() {
 		Vector vOrig = new Vector(12, 22);
@@ -34,6 +38,7 @@ class VectorTest {
 		assertEquals(v.getY(), vOrig.getY());
 	}
 
+	@DisplayName("Should normalize a vector")
 	@Test
 	void testNormalize() {
 		Vector v00 = new Vector();

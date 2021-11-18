@@ -6,6 +6,8 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.api.DisplayName;
+
 import DCT.Facade;
 import DCT.entity.Entity;
 import DCT.entity.EntityManager;
@@ -26,6 +28,7 @@ class EntityManagerTest {
 	@Mock
 	EntityManager em = new EntityManager(playerLower);
 
+	@DisplayName("Should sort correctly the enitites")
 	@Test
 	void testUpdate() {
 		playerLower.setY(200);
