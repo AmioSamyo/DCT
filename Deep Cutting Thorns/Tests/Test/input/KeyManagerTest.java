@@ -7,13 +7,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
-import DCT.Facade;
 import DCT.input.KeyManager;
 
 class KeyManagerTest {
-
-	@Mock
-	Facade facade;
 
 	@Mock
 	KeyManager key = new KeyManager();
