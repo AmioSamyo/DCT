@@ -2,8 +2,6 @@ package DCT.tile;
 
 import java.awt.image.BufferedImage;
 
-import DCT.utility.Rectangle;
-
 import java.awt.Color;
 import java.awt.Graphics;
 

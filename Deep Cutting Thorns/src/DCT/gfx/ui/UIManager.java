@@ -39,6 +39,10 @@ public class UIManager {
 	public void update() {
 		this.uiObjects.forEach(o -> o.update());
 	}
+
+	public Facade getFacade() {
+		return facade;
+	}
 	
 
 }
