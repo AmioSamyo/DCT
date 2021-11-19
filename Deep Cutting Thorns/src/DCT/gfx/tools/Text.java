@@ -5,31 +5,27 @@ import java.awt.Graphics;
 import DCT.utility.TextOption;
 
 public class Text {
-
-	private TextOption textOption;
-	private Graphics g;
-	private int x, y;
 	
-	public Text(TextOption textOption, Graphics g) {
+	private static int x, y;
+	
+	public Text() {
 		
-		this.textOption = textOption;
-		this.g = g;
 	}
 	
-	private void drawString() {
+	public static void drawString(TextOption textOption, Graphics g) {
 		
-		this.g.setColor(this.textOption.getColor());
-		this.g.setFont(this.textOption.getFont());
+		g.setColor(textOption.getColor());
+		g.setFont(textOption.getFont());
 		
-		this.setPosition();
+		setPosition(textOption);
 		
-		this.g.drawString(this.textOption.getText(), this.x, this.y);
+		g.drawString(textOption.getText(), x, y);
 	}
 
-	private void setPosition() {
-		if (this.textOption.getCentered() == false) {
-			this.x = textOption.getPosition().getX();
-			this.y = textOption.getPosition().getY();
+	private static void setPosition(TextOption textOption) {
+		if (textOption.getCentered() == false) {
+			x = textOption.getPosition().getX();
+			y = textOption.getPosition().getY();
 		}
 		else {
 			//TODO
