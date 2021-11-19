@@ -2,6 +2,8 @@ package DCT.gfx;
 
 import java.awt.image.BufferedImage;
 
+import DCT.gfx.tools.ImageLoader;
+import DCT.gfx.tools.SpriteSheet;
 import DCT.utility.Rectangle;
 
 public class Assets {

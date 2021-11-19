@@ -5,6 +5,8 @@ import java.awt.Canvas;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
+import DCT.gfx.tools.ImageLoader;
+
 public class Display {
 
 	private JFrame frame = null;
