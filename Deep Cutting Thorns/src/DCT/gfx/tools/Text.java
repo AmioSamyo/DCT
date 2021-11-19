@@ -14,15 +14,15 @@ public class Text {
 		
 		this.textOption = textOption;
 		this.g = g;
+	}
+	
+	private void drawString() {
 		
 		this.g.setColor(this.textOption.getColor());
 		this.g.setFont(this.textOption.getFont());
 		
 		this.setPosition();
-		this.drawString();
-	}
-	
-	private void drawString() {
+		
 		this.g.drawString(this.textOption.getText(), this.x, this.y);
 	}
 
