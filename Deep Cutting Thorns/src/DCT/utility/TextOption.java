@@ -5,18 +5,25 @@ import java.awt.Color;
 
 public class TextOption {
 	
+	private boolean centered;
 	private String text;
-	private Vector position;
+	
 	private Font font;
 	private Color color;
-	private boolean centered;
+	
+	private Vector position;
+	
 
 	public TextOption(String text, Vector position, Font font, Color color, boolean centered) {
+		
+		this.centered = centered;
 		this.text = text;
-		this.position = position;
+		
 		this.font = font;
 		this.color = color;
-		this.centered = centered;
+
+		this.position = position;
+		
 	}
 	
 	public String getText() {
@@ -33,6 +40,14 @@ public class TextOption {
 	
 	public Color getColor() {
 		return this.color;
+	}
+	
+	public void setPositionX(int x) {
+		this.position.setX(x);
+	}
+	
+	public void setPositionY(int y) {
+		this.position.setY(y);
 	}
 	
 	public boolean getCentered() {
