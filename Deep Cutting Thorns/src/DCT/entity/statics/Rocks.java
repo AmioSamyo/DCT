@@ -31,9 +31,4 @@ public class Rocks extends StaticEntity {
 		super.render(g);
 	}
 
-	@Override
-	public void die() {
-
-	}
-
 }

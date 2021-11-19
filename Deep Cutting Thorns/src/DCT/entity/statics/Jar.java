@@ -32,9 +32,4 @@ public class Jar extends StaticEntity {
 		super.render(g);
 	}
 
-	@Override
-	public void die() {
-
-	}
-
 }
