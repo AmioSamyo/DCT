@@ -48,4 +48,12 @@ public class Rectangle {
 	public void setY(int positionY) {
 		this.y = positionY;
 	}
+	
+	public void setWidth(int w) {
+		this.width = w;
+	}
+	
+	public void setHeight(int h) {
+		this.height = h;
+	}
 }

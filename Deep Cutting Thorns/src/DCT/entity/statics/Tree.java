@@ -22,17 +22,20 @@ public class Tree extends StaticEntity {
 
 	@Override
 	public void update() {
+		if(this.health <= 0) {
+			this.die();
+		}
 	}
 
 	@Override
 	public void render(Graphics g) {
-		g.drawImage(Assets.tree, this.xMoveWithCamera(), this.yMoveWithCamera(), TREEWIDTH * SCALE, TREEHEIGHT * SCALE,
-				null);
-		super.render(g);
+			g.drawImage(Assets.tree, this.xMoveWithCamera(), this.yMoveWithCamera(), TREEWIDTH * SCALE,
+					TREEHEIGHT * SCALE, null);
+			super.render(g);
 	}
 
 	@Override
 	public void die() {
-
+		this.alive = false;
 	}
 }

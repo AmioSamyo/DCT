@@ -5,7 +5,9 @@ import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 
 import DCT.Facade;
+import DCT.entity.Entity;
 import DCT.entity.creature.Creature;
+import DCT.entity.creature.player.items.Weapon;
 import DCT.gfx.Animation;
 import DCT.gfx.Assets;
 import DCT.utility.Rectangle;
@@ -14,7 +16,11 @@ import DCT.utility.Vector;
 public class Player extends Creature {
 
 	private boolean isRolling;
+	private boolean attacking;
 	private int rollCurrentDistance;
+	private long lastAttackTimer, attackTimer;
+
+	private Weapon equippedWeapon = new Weapon(10, 800, new Rectangle(50, 50, 50, 50), this);
 
 	private Animation playerSprintDown, playerSprintRight, playerSprintUp, playerSprintLeft;
 	private Animation playerRoll;
@@ -31,6 +37,8 @@ public class Player extends Creature {
 		this.speed = 4;
 		this.isRolling = false;
 		this.rollCurrentDistance = ROLLBASEDISTANCE;
+		this.attackTimer = this.equippedWeapon.getCooldown();
+		this.lastAttackTimer = 0;
 
 		initialize();
 	}
@@ -80,9 +88,12 @@ public class Player extends Creature {
 
 		this.currentAnimation.update();
 
-		if (this.health > 0) {
+		if (this.isAttacking()) {
+			this.checkAttacks();
+		} else if (this.health > 0) {
 			this.playerMovement();
 		}
+
 	}
 
 	@Override
@@ -91,6 +102,60 @@ public class Player extends Creature {
 				this.position.getWidth(), this.position.getHeight(), null);
 
 		this.drawHitBox(g);
+		if (this.isAttacking()) {
+			this.drawWeaponDamageBox(g);
+		}
+	}
+
+	private void checkAttacks() {
+		this.attackTimer += System.currentTimeMillis() - this.lastAttackTimer;
+		this.lastAttackTimer = System.currentTimeMillis();
+		if (this.attackTimer >= this.equippedWeapon.getCooldown()) {
+			this.attackDirections();
+			this.attackTimer = 0;
+			this.attacking = false;
+
+			for (Entity e : this.facade.getEntityManager().getEntityList()) {
+				if (e.equals(this)) {
+					continue;
+				}
+
+				if (e.getCollisionHitBox(-this.facade.getGameCamera().getXOffset(),
+						-this.facade.getGameCamera().getYOffset())
+						.intersects(this.equippedWeapon.getDamageBoxRelative())) {
+
+					e.damage(this.equippedWeapon.getDamage());
+				}
+			}
+		}
+	}
+
+	public void attackDirections() {
+		if (this.previousDirection.getX() > 0 && this.previousDirection.getY() > 0) {// BOTRIGHT
+			this.equippedWeapon.setDamageBox(this.hitBox.getX() + this.hitBox.getWidth(),
+					this.hitBox.getY() + this.hitBox.getHeight(), this.hitBox.getWidth(), this.hitBox.getHeight());
+		} else if (this.previousDirection.getX() < 0 && this.previousDirection.getY() > 0) {// BOTLEFT
+			this.equippedWeapon.setDamageBox(this.hitBox.getX() - this.hitBox.getWidth(),
+					this.hitBox.getY() + this.hitBox.getHeight(), this.hitBox.getWidth(), this.hitBox.getHeight());
+		} else if (this.previousDirection.getX() < 0 && this.previousDirection.getY() < 0) {// UPLEFT
+			this.equippedWeapon.setDamageBox(this.hitBox.getX() - this.hitBox.getWidth(),
+					this.hitBox.getY() - this.hitBox.getHeight(), this.hitBox.getWidth(), this.hitBox.getHeight());
+		} else if (this.previousDirection.getX() < 0 && this.previousDirection.getY() < 0) {// UPRIGHT
+			this.equippedWeapon.setDamageBox(this.hitBox.getX() + this.hitBox.getWidth(),
+					this.hitBox.getY() - this.hitBox.getHeight(), this.hitBox.getWidth(), this.hitBox.getHeight());
+		} else if (this.previousDirection.getX() > 0) {//RIGHT
+			this.equippedWeapon.setDamageBox(this.hitBox.getX() + this.hitBox.getWidth(), this.hitBox.getY(),
+					this.hitBox.getWidth(), this.hitBox.getHeight());
+		} else if (this.previousDirection.getX() < 0) {//LEFT
+			this.equippedWeapon.setDamageBox(this.hitBox.getX() - this.hitBox.getWidth(), this.hitBox.getY(),
+					this.hitBox.getWidth(), this.hitBox.getHeight());
+		} else if (this.previousDirection.getY() > 0) {//DOWN
+			this.equippedWeapon.setDamageBox(this.hitBox.getX(), this.hitBox.getY() + this.hitBox.getHeight(),
+					this.hitBox.getWidth(), this.hitBox.getHeight());
+		} else if (this.previousDirection.getY() < 0) {//UP
+			this.equippedWeapon.setDamageBox(this.hitBox.getX(), this.hitBox.getY() - this.hitBox.getHeight(),
+					this.hitBox.getWidth(), this.hitBox.getHeight());
+		}
 	}
 
 	@Override
@@ -105,9 +170,19 @@ public class Player extends Creature {
 
 	}
 
+	private void drawWeaponDamageBox(Graphics g) {
+		if (this.facade.getDebugMode()) {
+			this.equippedWeapon.render(g);
+		}
+	}
+
 	@Override
 	public void die() {
 		this.currentAnimation = this.animationDead;
+	}
+
+	public boolean isAttacking() {
+		return this.attacking;
 	}
 
 	public int getCurrentHealth() {
@@ -205,6 +280,9 @@ public class Player extends Creature {
 		}
 		if (this.facade.getKeyManager().keyJustPressed(KeyEvent.VK_SPACE) && !this.isNotMoving()) {
 			this.roll();
+		}
+		if (this.facade.getKeyManager().keyJustPressed(KeyEvent.VK_E)) {
+			this.attacking = true;
 		}
 	}
 

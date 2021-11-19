@@ -12,6 +12,7 @@ public class Enemy extends Creature {
 	protected boolean playerInAggro = false;
 
 	protected Vector start, target;
+	private long lastAttackTimer, attackCooldown = 600, attackTimer = this.attackCooldown;
 	protected int rangeOfAttack;
 	protected boolean getStart = false;
 
@@ -30,6 +31,8 @@ public class Enemy extends Creature {
 
 			this.move();
 			this.attack();
+		} else {
+			this.die();
 		}
 	}
 
@@ -164,15 +167,20 @@ public class Enemy extends Creature {
 	}
 
 	protected void attack() {
-		Rectangle playerPosition = new Rectangle(this.facade.getEntityManager().getPlayer().getPositionX(),
-				this.facade.getEntityManager().getPlayer().getPositionY(),
-				this.facade.getEntityManager().getPlayer().getPositionWidth(),
-				this.facade.getEntityManager().getPlayer().getPositionHeight());
+		this.attackTimer += System.currentTimeMillis() - this.lastAttackTimer;
+		this.lastAttackTimer = System.currentTimeMillis();
+		if (this.attackTimer >= this.attackCooldown) {
+			Rectangle playerPosition = new Rectangle(this.facade.getEntityManager().getPlayer().getPositionX(),
+					this.facade.getEntityManager().getPlayer().getPositionY(),
+					this.facade.getEntityManager().getPlayer().getPositionWidth(),
+					this.facade.getEntityManager().getPlayer().getPositionHeight());
 
-		boolean intersect = this.position.intersects(playerPosition);
+			boolean intersect = this.position.intersects(playerPosition);
 
-		if (intersect) {
-			this.facade.getEntityManager().getPlayer().addHealth(-1);
+			if (intersect) {
+				this.facade.getEntityManager().getPlayer().addHealth(-1);
+				this.attackTimer = 0;
+			}
 		}
 	}
 }

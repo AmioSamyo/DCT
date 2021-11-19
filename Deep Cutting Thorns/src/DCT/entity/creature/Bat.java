@@ -74,6 +74,7 @@ public class Bat extends Enemy {
 	@Override
 	public void die() {
 		this.currentAnimation = this.animationDead;
+		this.alive = false;
 	}
 
 }
