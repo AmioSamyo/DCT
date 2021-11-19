@@ -106,7 +106,13 @@ public class Player extends Creature {
 			this.drawWeaponDamageBox(g);
 		}
 	}
-
+	
+	@Override
+	public void damage(int amount) {
+		if(!this.isRolling) {
+			this.health -= amount;
+		}
+	}
 	private void checkAttacks() {
 		this.attackTimer += System.currentTimeMillis() - this.lastAttackTimer;
 		this.lastAttackTimer = System.currentTimeMillis();
