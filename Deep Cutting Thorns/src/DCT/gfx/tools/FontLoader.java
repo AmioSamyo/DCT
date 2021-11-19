@@ -1,4 +1,4 @@
-package DCT.gfx;
+package DCT.gfx.tools;
 
 import java.awt.Font;
 import java.awt.FontFormatException;
