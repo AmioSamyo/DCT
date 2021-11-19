@@ -4,7 +4,7 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-import DCT.entity.creature.Player;
+import DCT.entity.creature.player.Player;
 
 public class EntityManager {
 

@@ -5,7 +5,7 @@ import java.awt.Graphics;
 import DCT.Facade;
 import DCT.entity.EntityManager;
 import DCT.entity.creature.Bat;
-import DCT.entity.creature.Player;
+import DCT.entity.creature.player.Player;
 import DCT.entity.statics.Jar;
 import DCT.entity.statics.Rocks;
 import DCT.entity.statics.Tree;

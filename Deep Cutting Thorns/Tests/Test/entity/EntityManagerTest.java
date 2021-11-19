@@ -11,7 +11,7 @@ import org.junit.jupiter.api.DisplayName;
 import DCT.Facade;
 import DCT.entity.Entity;
 import DCT.entity.EntityManager;
-import DCT.entity.creature.Player;
+import DCT.entity.creature.player.Player;
 import DCT.utility.Vector;
 
 @RunWith(MockitoJUnitRunner.class)

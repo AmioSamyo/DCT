@@ -1,10 +1,11 @@
-package DCT.entity.creature;
+package DCT.entity.creature.player;
 
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 
 import DCT.Facade;
+import DCT.entity.creature.Creature;
 import DCT.gfx.Animation;
 import DCT.gfx.Assets;
 import DCT.utility.Rectangle;
