@@ -15,7 +15,7 @@ public class Assets {
 	public static BufferedImage[] playerAnimationDown, playerAnimationRight, playerAnimationUp, playerAnimationLeft;
 	public static BufferedImage[] healthBars, playerDeadAnimation;
 	public static BufferedImage[] resumeButton, debugButton;
-	public static BufferedImage[] playerAnimationIdle, playerAnimationRoll;
+	public static BufferedImage[] playerAnimationIdle, playerAnimationRoll, playerAttacking;
 
 	public static BufferedImage[] batAnimationUp, batAnimationDown, batAnimationLeft, batAnimationRight;
 	public static BufferedImage[] batAnimationDead;
@@ -51,6 +51,7 @@ public class Assets {
 		playerAnimationIdle = new BufferedImage[4];
 		playerDeadAnimation = new BufferedImage[1];
 		playerAnimationRoll = new BufferedImage[1];
+		playerAttacking = new BufferedImage[1];
 
 		for (int i = 0; i < 5; i++) {
 			playerAnimationDown[i] = playerSheet.cropImage(
@@ -73,6 +74,7 @@ public class Assets {
 		pauseStateAssets();
 
 		playerAnimationRoll[0] = desertSheet.cropImage(new Rectangle(1070, 0, 276, 280));
+		playerAttacking[0] = Assets.tree;
 
 		SpriteSheet batSheet = new SpriteSheet(ImageLoader.imageLoad("rsc\\BatSprite.png"));
 

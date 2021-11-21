@@ -19,12 +19,12 @@ public class Player extends Creature {
 	private boolean attacking;
 	private int rollCurrentDistance;
 	private long lastAttackTimer, attackTimer;
-	
+
 	private Weapon equippedWeapon;
 	private Animation playerSprintDown, playerSprintRight, playerSprintUp, playerSprintLeft;
-	private Animation playerRoll;
+	private Animation playerRoll, playerAttacking;
 	private Vector attackDirection;
-	
+
 	private static final int PLAYERWIDTH = 704 / 11, PLAYERHEIGHT = 320 / 5;
 	private static final int SCALE = 2;
 	private static final int ANIMATIONSPEED = 100, ANIMATIONSPRINTSPEED = 60;
@@ -106,7 +106,7 @@ public class Player extends Creature {
 	public void die() {
 		this.currentAnimation = this.animationDead;
 	}
-	
+
 	public int getCurrentHealth() {
 		return this.currentHealth;
 	}
@@ -125,7 +125,7 @@ public class Player extends Creature {
 			this.drawWeaponDamageBox(g);
 		}
 	}
-	
+
 	@Override
 	public void showHealthBar(Graphics g) {
 		float rangeHealthBar = (float) (MAX_HEALTH - 1) / ((float) Assets.healthBars.length - 1);
@@ -156,6 +156,7 @@ public class Player extends Creature {
 		this.playerSprintDown.update();
 
 		this.playerRoll.update();
+		this.playerRoll.update();
 
 		this.currentAnimation.update();
 
@@ -166,7 +167,7 @@ public class Player extends Creature {
 		}
 
 	}
-	
+
 	@Override
 	protected void chooseCurrentAnimation() {
 		if (this.isMovingUp()) {
@@ -187,8 +188,11 @@ public class Player extends Creature {
 		if (this.isRolling) {
 			this.currentAnimation = this.playerRoll;
 		}
+		if (this.isAttacking()) {
+			this.currentAnimation = this.playerAttacking;
+		}
 	}
-	
+
 	private void aimAttack() {
 		this.attacking = true;
 		Rectangle topLeft = new Rectangle(this.getPositionX() - this.facade.getWidth(),
@@ -248,7 +252,7 @@ public class Player extends Creature {
 			this.attackDirection = new Vector();
 		}
 	}
-	
+
 	private void checkAttacks() {
 		this.attackTimer += System.currentTimeMillis() - this.lastAttackTimer;
 		this.lastAttackTimer = System.currentTimeMillis();
@@ -272,13 +276,13 @@ public class Player extends Creature {
 		this.attacking = false;
 		this.facade.getMouseManager().setLeftClicked(false);
 	}
-	
+
 	private void drawWeaponDamageBox(Graphics g) {
 		if (this.facade.getDebugMode()) {
 			this.equippedWeapon.render(g);
 		}
 	}
-	
+
 	private void getInput() {
 		if (this.facade.getKeyManager().getUp()) {
 			this.setYSpeed(-this.speed, -SPRINTSPEED);
@@ -299,7 +303,7 @@ public class Player extends Creature {
 			this.aimAttack();
 		}
 	}
-	
+
 	private void initialize() {
 
 		this.hitBox = new Rectangle((int) (PLAYERWIDTH * SCALE * 0.35), (int) (PLAYERHEIGHT * SCALE * 0.7),
@@ -323,12 +327,13 @@ public class Player extends Creature {
 		this.playerSprintLeft = new Animation(ANIMATIONSPRINTSPEED, Assets.playerAnimationLeft);
 
 		this.playerRoll = new Animation(0, Assets.playerAnimationRoll);
+		this.playerAttacking = new Animation(0, Assets.playerAttacking);
 
 		this.currentAnimation = this.animationIdle;
 
 		this.setDebuggingColor(new Color(255, 102, 255));
 	}
-	
+
 	private void playerMovement() {
 		this.getInput();
 
