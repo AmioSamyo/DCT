@@ -20,7 +20,7 @@ public class Player extends Creature {
 	private int rollCurrentDistance;
 	private long lastAttackTimer, attackTimer;
 
-	private Weapon equippedWeapon = new Weapon(10, 800, new Rectangle(50, 50, 50, 50), this);
+	private Weapon equippedWeapon;
 
 	private Animation playerSprintDown, playerSprintRight, playerSprintUp, playerSprintLeft;
 	private Animation playerRoll;
@@ -39,7 +39,6 @@ public class Player extends Creature {
 		this.speed = 4;
 		this.isRolling = false;
 		this.rollCurrentDistance = ROLLBASEDISTANCE;
-		this.attackTimer = this.equippedWeapon.getCooldown();
 		this.lastAttackTimer = 0;
 
 		initialize();
@@ -49,6 +48,11 @@ public class Player extends Creature {
 
 		this.hitBox = new Rectangle((int) (PLAYERWIDTH * SCALE * 0.35), (int) (PLAYERHEIGHT * SCALE * 0.7),
 				(int) (PLAYERWIDTH * SCALE * 0.35), (int) (PLAYERHEIGHT * SCALE * 0.16));
+
+		this.equippedWeapon = new Weapon(10, 800, new Rectangle(this.hitBox.getX() - this.hitBox.getWidth(),
+				this.hitBox.getY(), this.hitBox.getWidth(), this.hitBox.getHeight()), this);
+
+		this.attackTimer = this.equippedWeapon.getCooldown();
 
 		this.animationMoveDown = new Animation(ANIMATIONSPEED, Assets.playerAnimationDown);
 		this.animationMoveRight = new Animation(ANIMATIONSPEED, Assets.playerAnimationRight);
@@ -145,34 +149,47 @@ public class Player extends Creature {
 
 			this.equippedWeapon.setDamageBox(this.hitBox.getX() + this.hitBox.getWidth(),
 					this.hitBox.getY() + this.hitBox.getHeight(), this.hitBox.getWidth(), this.hitBox.getHeight());
+
 		} else if (this.attackDirection.getX() < 0 && this.attackDirection.getY() > 0) {// BOTLEFT
 
 			this.equippedWeapon.setDamageBox(this.hitBox.getX() - this.hitBox.getWidth(),
 					this.hitBox.getY() + this.hitBox.getHeight(), this.hitBox.getWidth(), this.hitBox.getHeight());
+
 		} else if (this.attackDirection.getX() < 0 && this.attackDirection.getY() < 0) {// UPLEFT
 
 			this.equippedWeapon.setDamageBox(this.hitBox.getX() - this.hitBox.getWidth(),
 					this.hitBox.getY() - this.hitBox.getHeight(), this.hitBox.getWidth(), this.hitBox.getHeight());
+
 		} else if (this.attackDirection.getX() > 0 && this.attackDirection.getY() < 0) {// UPRIGHT
 
 			this.equippedWeapon.setDamageBox(this.hitBox.getX() + this.hitBox.getWidth(),
 					this.hitBox.getY() - this.hitBox.getHeight(), this.hitBox.getWidth(), this.hitBox.getHeight());
+
 		} else if (this.attackDirection.getX() > 0) {// RIGHT
 
 			this.equippedWeapon.setDamageBox(this.hitBox.getX() + this.hitBox.getWidth(), this.hitBox.getY(),
 					this.hitBox.getWidth(), this.hitBox.getHeight());
+
 		} else if (this.attackDirection.getX() < 0) {// LEFT
 
 			this.equippedWeapon.setDamageBox(this.hitBox.getX() - this.hitBox.getWidth(), this.hitBox.getY(),
 					this.hitBox.getWidth(), this.hitBox.getHeight());
+
 		} else if (this.attackDirection.getY() > 0) {// DOWN
 
 			this.equippedWeapon.setDamageBox(this.hitBox.getX(), this.hitBox.getY() + this.hitBox.getHeight(),
 					this.hitBox.getWidth(), this.hitBox.getHeight());
+
 		} else if (this.attackDirection.getY() < 0) {// UP
 
 			this.equippedWeapon.setDamageBox(this.hitBox.getX(), this.hitBox.getY() - this.hitBox.getHeight(),
 					this.hitBox.getWidth(), this.hitBox.getHeight());
+
+		} else {
+
+			this.attacking = false;
+			this.equippedWeapon.setDamageBox(0, 0, 0, 0);
+
 		}
 	}
 
@@ -303,7 +320,7 @@ public class Player extends Creature {
 			this.aimAttack();
 		}
 	}
-	
+
 	private void aimAttack() {
 		this.attacking = true;
 		Rectangle topLeft = new Rectangle(this.getPositionX() - this.facade.getWidth(),
@@ -325,26 +342,22 @@ public class Player extends Creature {
 		boolean TL = topLeft.contains(
 				this.facade.getMouseManager().getMouseX() + this.facade.getGameCamera().getXOffset(),
 				this.facade.getMouseManager().getMouseY() + this.facade.getGameCamera().getYOffset());
-		boolean T = top.contains(
-				this.facade.getMouseManager().getMouseX() + this.facade.getGameCamera().getXOffset(),
+		boolean T = top.contains(this.facade.getMouseManager().getMouseX() + this.facade.getGameCamera().getXOffset(),
 				this.facade.getMouseManager().getMouseY() + this.facade.getGameCamera().getYOffset());
 		boolean TR = topRight.contains(
 				this.facade.getMouseManager().getMouseX() + this.facade.getGameCamera().getXOffset(),
 				this.facade.getMouseManager().getMouseY() + this.facade.getGameCamera().getYOffset());
-		boolean R = right.contains(
-				this.facade.getMouseManager().getMouseX() + this.facade.getGameCamera().getXOffset(),
+		boolean R = right.contains(this.facade.getMouseManager().getMouseX() + this.facade.getGameCamera().getXOffset(),
 				this.facade.getMouseManager().getMouseY() + this.facade.getGameCamera().getYOffset());
 		boolean BR = botRight.contains(
 				this.facade.getMouseManager().getMouseX() + this.facade.getGameCamera().getXOffset(),
 				this.facade.getMouseManager().getMouseY() + this.facade.getGameCamera().getYOffset());
-		boolean B = bot.contains(
-				this.facade.getMouseManager().getMouseX() + this.facade.getGameCamera().getXOffset(),
+		boolean B = bot.contains(this.facade.getMouseManager().getMouseX() + this.facade.getGameCamera().getXOffset(),
 				this.facade.getMouseManager().getMouseY() + this.facade.getGameCamera().getYOffset());
 		boolean BL = botLeft.contains(
 				this.facade.getMouseManager().getMouseX() + this.facade.getGameCamera().getXOffset(),
 				this.facade.getMouseManager().getMouseY() + this.facade.getGameCamera().getYOffset());
-		boolean L = left.contains(
-				this.facade.getMouseManager().getMouseX() + this.facade.getGameCamera().getXOffset(),
+		boolean L = left.contains(this.facade.getMouseManager().getMouseX() + this.facade.getGameCamera().getXOffset(),
 				this.facade.getMouseManager().getMouseY() + this.facade.getGameCamera().getYOffset());
 
 		if (TL) {

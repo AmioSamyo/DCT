@@ -93,6 +93,8 @@ public abstract class Entity {
 	protected void drawHitBox(Graphics g) {
 		if (this.facade.getDebugMode()) {
 			Rectangle hitBox = this.getCollisionHitBox(0, 0);
+			g.setColor(Color.WHITE);
+			g.drawRect(this.xMoveWithCamera(), this.yMoveWithCamera(), this.getPositionWidth(), this.getPositionHeight());
 			g.setColor(this.debuggingColor);
 			g.fillRect(this.getXMoveHitbox(hitBox), this.getYMoveHitbox(hitBox), this.hitBox.getWidth(),
 					this.hitBox.getHeight());
