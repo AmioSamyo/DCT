@@ -19,14 +19,12 @@ public class Player extends Creature {
 	private boolean attacking;
 	private int rollCurrentDistance;
 	private long lastAttackTimer, attackTimer;
-
+	
 	private Weapon equippedWeapon;
-
 	private Animation playerSprintDown, playerSprintRight, playerSprintUp, playerSprintLeft;
 	private Animation playerRoll;
-
 	private Vector attackDirection;
-
+	
 	private static final int PLAYERWIDTH = 704 / 11, PLAYERHEIGHT = 320 / 5;
 	private static final int SCALE = 2;
 	private static final int ANIMATIONSPEED = 100, ANIMATIONSPRINTSPEED = 60;
@@ -44,104 +42,8 @@ public class Player extends Creature {
 		initialize();
 	}
 
-	private void initialize() {
-
-		this.hitBox = new Rectangle((int) (PLAYERWIDTH * SCALE * 0.35), (int) (PLAYERHEIGHT * SCALE * 0.7),
-				(int) (PLAYERWIDTH * SCALE * 0.35), (int) (PLAYERHEIGHT * SCALE * 0.16));
-
-		this.equippedWeapon = new Weapon(10, 800, new Rectangle(this.hitBox.getX() - this.hitBox.getWidth(),
-				this.hitBox.getY(), this.hitBox.getWidth(), this.hitBox.getHeight()), this);
-
-		this.attackTimer = this.equippedWeapon.getCooldown();
-
-		this.animationMoveDown = new Animation(ANIMATIONSPEED, Assets.playerAnimationDown);
-		this.animationMoveRight = new Animation(ANIMATIONSPEED, Assets.playerAnimationRight);
-		this.animationMoveUp = new Animation(ANIMATIONSPEED, Assets.playerAnimationUp);
-		this.animationMoveLeft = new Animation(ANIMATIONSPEED, Assets.playerAnimationLeft);
-		this.animationIdle = new Animation(ANIMATIONSPEED, Assets.playerAnimationIdle);
-		this.animationDead = new Animation(1, Assets.playerDeadAnimation);
-
-		this.playerSprintDown = new Animation(ANIMATIONSPRINTSPEED, Assets.playerAnimationDown);
-		this.playerSprintRight = new Animation(ANIMATIONSPRINTSPEED, Assets.playerAnimationRight);
-		this.playerSprintUp = new Animation(ANIMATIONSPRINTSPEED, Assets.playerAnimationUp);
-		this.playerSprintLeft = new Animation(ANIMATIONSPRINTSPEED, Assets.playerAnimationLeft);
-
-		this.playerRoll = new Animation(0, Assets.playerAnimationRoll);
-
-		this.currentAnimation = this.animationIdle;
-
-		this.setDebuggingColor(new Color(255, 102, 255));
-	}
-
-	@Override
-	public void update() {
-		if (this.health <= 0) {
-			this.die();
-		}
-
-		this.animationIdle.update();
-		this.animationMoveUp.update();
-		this.animationMoveRight.update();
-		this.animationMoveLeft.update();
-		this.animationMoveDown.update();
-
-		this.playerSprintUp.update();
-		this.playerSprintRight.update();
-		this.playerSprintLeft.update();
-		this.playerSprintDown.update();
-
-		this.playerRoll.update();
-
-		this.currentAnimation.update();
-
-		if (this.isAttacking()) {
-			this.checkAttacks();
-		} else if (this.health > 0) {
-			this.playerMovement();
-		}
-
-	}
-
-	@Override
-	public void render(Graphics g) {
-		g.drawImage(this.currentAnimation.getCurrentFrame(), this.xMoveWithCamera(), this.yMoveWithCamera(),
-				this.position.getWidth(), this.position.getHeight(), null);
-
-		this.drawHitBox(g);
-		if (this.isAttacking()) {
-			this.drawWeaponDamageBox(g);
-		}
-	}
-
-	@Override
-	public void damage(int amount) {
-		if (!this.isRolling) {
-			this.health -= amount;
-		}
-	}
-
-	private void checkAttacks() {
-		this.attackTimer += System.currentTimeMillis() - this.lastAttackTimer;
-		this.lastAttackTimer = System.currentTimeMillis();
-		if (this.attackTimer >= this.equippedWeapon.getCooldown()) {
-			this.attackDirections();
-			this.attackTimer = 0;
-
-			for (Entity e : this.facade.getEntityManager().getEntityList()) {
-				if (e.equals(this)) {
-					continue;
-				}
-
-				if (e.getCollisionHitBox(-this.facade.getGameCamera().getXOffset(),
-						-this.facade.getGameCamera().getYOffset())
-						.intersects(this.equippedWeapon.getDamageBoxRelative())) {
-
-					e.damage(this.equippedWeapon.getDamage());
-				}
-			}
-		}
-		this.attacking = false;
-		this.facade.getMouseManager().setLeftClicked(false);
+	public void addHealth(int value) {
+		this.health += value;
 	}
 
 	public void attackDirections() {
@@ -194,6 +96,37 @@ public class Player extends Creature {
 	}
 
 	@Override
+	public void damage(int amount) {
+		if (!this.isRolling) {
+			this.health -= amount;
+		}
+	}
+
+	@Override
+	public void die() {
+		this.currentAnimation = this.animationDead;
+	}
+	
+	public int getCurrentHealth() {
+		return this.currentHealth;
+	}
+
+	public boolean isAttacking() {
+		return this.attacking;
+	}
+
+	@Override
+	public void render(Graphics g) {
+		g.drawImage(this.currentAnimation.getCurrentFrame(), this.xMoveWithCamera(), this.yMoveWithCamera(),
+				this.position.getWidth(), this.position.getHeight(), null);
+
+		this.drawHitBox(g);
+		if (this.isAttacking()) {
+			this.drawWeaponDamageBox(g);
+		}
+	}
+	
+	@Override
 	public void showHealthBar(Graphics g) {
 		float rangeHealthBar = (float) (MAX_HEALTH - 1) / ((float) Assets.healthBars.length - 1);
 		int currentHealthBarToShow = (int) ((float) (MAX_HEALTH - this.health) / rangeHealthBar);
@@ -205,122 +138,57 @@ public class Player extends Creature {
 
 	}
 
-	private void drawWeaponDamageBox(Graphics g) {
-		if (this.facade.getDebugMode()) {
-			this.equippedWeapon.render(g);
-		}
-	}
-
 	@Override
-	public void die() {
-		this.currentAnimation = this.animationDead;
+	public void update() {
+		if (this.health <= 0) {
+			this.die();
+		}
+
+		this.animationIdle.update();
+		this.animationMoveUp.update();
+		this.animationMoveRight.update();
+		this.animationMoveLeft.update();
+		this.animationMoveDown.update();
+
+		this.playerSprintUp.update();
+		this.playerSprintRight.update();
+		this.playerSprintLeft.update();
+		this.playerSprintDown.update();
+
+		this.playerRoll.update();
+
+		this.currentAnimation.update();
+
+		if (this.isAttacking()) {
+			this.checkAttacks();
+		} else if (this.health > 0) {
+			this.playerMovement();
+		}
+
 	}
-
-	public boolean isAttacking() {
-		return this.attacking;
-	}
-
-	public int getCurrentHealth() {
-		return this.currentHealth;
-	}
-
-	public void addHealth(int value) {
-		this.health += value;
-	}
-
-	private void playerMovement() {
-		this.getInput();
-
+	
+	@Override
+	protected void chooseCurrentAnimation() {
+		if (this.isMovingUp()) {
+			this.setAnimation(this.animationMoveUp, this.playerSprintUp);
+		}
+		if (this.isMovingDown()) {
+			this.setAnimation(this.animationMoveDown, this.playerSprintDown);
+		}
+		if (this.isMovingLeft()) {
+			this.setAnimation(this.animationMoveLeft, this.playerSprintLeft);
+		}
+		if (this.isMovingRight()) {
+			this.setAnimation(this.animationMoveRight, this.playerSprintRight);
+		}
+		if (this.isNotMoving()) {
+			this.currentAnimation = this.animationIdle;
+		}
 		if (this.isRolling) {
-			this.rollingMove();
-		} else {
-			this.move();
-		}
-		this.chooseCurrentAnimation();
-		this.resetMovement();
-
-		this.facade.getGameCamera().centerOnEntity(this);
-	}
-
-	private void rollingMove() {
-		if (!this.checkEntityCollisions(this.previousDirection.getX() * this.rollCurrentDistance,
-				this.previousDirection.getY() * this.rollCurrentDistance)) {
-
-			if (this.previousDirection.getY() < 0) {
-				this.rollUp();
-			} else if (this.previousDirection.getY() > 0) {
-				this.rollDown();
-			}
-			if (this.previousDirection.getX() < 0) {
-				this.rollLeft();
-			} else if (this.previousDirection.getX() > 0) {
-				this.rollRight();
-			}
-		}
-		this.rollCurrentDistance -= this.rollCurrentDistance * ROLLDELTA;
-		if (this.rollCurrentDistance < 1) {
-			this.rollCurrentDistance = ROLLBASEDISTANCE;
-			this.isRolling = false;
+			this.currentAnimation = this.playerRoll;
 		}
 	}
-
-	private void rollUp() {
-		int futureY = this.position.getY() + this.hitBox.getY() - this.rollCurrentDistance;
-
-		if (!this.checkCollisionWithTile(this.position.getX() + this.hitBox.getX(), futureY) && !this
-				.checkCollisionWithTile(this.position.getX() + this.hitBox.getX() + this.hitBox.getWidth(), futureY)) {
-			this.setY(this.getPositionY() - this.rollCurrentDistance);
-		}
-	}
-
-	private void rollDown() {
-		int futureY = this.position.getY() + this.hitBox.getY() + this.hitBox.getHeight() + this.rollCurrentDistance;
-
-		if (!this.checkCollisionWithTile(this.position.getX() + this.hitBox.getX(), futureY) && !this
-				.checkCollisionWithTile(this.position.getX() + this.hitBox.getX() + this.hitBox.getWidth(), futureY)) {
-			this.setY(this.getPositionY() + this.rollCurrentDistance);
-		}
-	}
-
-	private void rollLeft() {
-		int futureX = this.position.getX() + this.hitBox.getX() - this.rollCurrentDistance;
-
-		if (!this.checkCollisionWithTile(futureX, this.position.getY() + this.hitBox.getY()) && !this
-				.checkCollisionWithTile(futureX, this.position.getY() + this.hitBox.getY() + this.hitBox.getHeight())) {
-			this.setX(this.getPositionX() - this.rollCurrentDistance);
-		}
-	}
-
-	private void rollRight() {
-		int futureX = this.position.getX() + this.hitBox.getX() + this.hitBox.getWidth() + this.rollCurrentDistance;
-
-		if (!this.checkCollisionWithTile(futureX, this.position.getY() + this.hitBox.getY()) && !this
-				.checkCollisionWithTile(futureX, this.position.getY() + this.hitBox.getY() + this.hitBox.getHeight())) {
-			this.setX(this.getPositionX() + this.rollCurrentDistance);
-		}
-	}
-
-	private void getInput() {
-		if (this.facade.getKeyManager().getUp()) {
-			this.setYSpeed(-this.speed, -SPRINTSPEED);
-		}
-		if (this.facade.getKeyManager().getDown()) {
-			this.setYSpeed(this.speed, SPRINTSPEED);
-		}
-		if (this.facade.getKeyManager().getLeft()) {
-			this.setXSpeed(-this.speed, -SPRINTSPEED);
-		}
-		if (this.facade.getKeyManager().getRight()) {
-			this.setXSpeed(this.speed, SPRINTSPEED);
-		}
-		if (this.facade.getKeyManager().keyJustPressed(KeyEvent.VK_SPACE) && !this.isNotMoving()) {
-			this.roll();
-		}
-		if (this.facade.getMouseManager().getLeftClicked()) {
-			this.aimAttack();
-		}
-	}
-
+	
 	private void aimAttack() {
 		this.attacking = true;
 		Rectangle topLeft = new Rectangle(this.getPositionX() - this.facade.getWidth(),
@@ -380,12 +248,168 @@ public class Player extends Creature {
 			this.attackDirection = new Vector();
 		}
 	}
+	
+	private void checkAttacks() {
+		this.attackTimer += System.currentTimeMillis() - this.lastAttackTimer;
+		this.lastAttackTimer = System.currentTimeMillis();
+		if (this.attackTimer >= this.equippedWeapon.getCooldown()) {
+			this.attackDirections();
+			this.attackTimer = 0;
 
-	private void setYSpeed(int speed, int sprintSpeed) {
-		if (this.facade.getKeyManager().getSprint()) {
-			this.addYMove(sprintSpeed);
+			for (Entity e : this.facade.getEntityManager().getEntityList()) {
+				if (e.equals(this)) {
+					continue;
+				}
+
+				if (e.getCollisionHitBox(-this.facade.getGameCamera().getXOffset(),
+						-this.facade.getGameCamera().getYOffset())
+						.intersects(this.equippedWeapon.getDamageBoxRelative())) {
+
+					e.damage(this.equippedWeapon.getDamage());
+				}
+			}
+		}
+		this.attacking = false;
+		this.facade.getMouseManager().setLeftClicked(false);
+	}
+	
+	private void drawWeaponDamageBox(Graphics g) {
+		if (this.facade.getDebugMode()) {
+			this.equippedWeapon.render(g);
+		}
+	}
+	
+	private void getInput() {
+		if (this.facade.getKeyManager().getUp()) {
+			this.setYSpeed(-this.speed, -SPRINTSPEED);
+		}
+		if (this.facade.getKeyManager().getDown()) {
+			this.setYSpeed(this.speed, SPRINTSPEED);
+		}
+		if (this.facade.getKeyManager().getLeft()) {
+			this.setXSpeed(-this.speed, -SPRINTSPEED);
+		}
+		if (this.facade.getKeyManager().getRight()) {
+			this.setXSpeed(this.speed, SPRINTSPEED);
+		}
+		if (this.facade.getKeyManager().keyJustPressed(KeyEvent.VK_SPACE) && !this.isNotMoving()) {
+			this.roll();
+		}
+		if (this.facade.getMouseManager().getLeftClicked()) {
+			this.aimAttack();
+		}
+	}
+	
+	private void initialize() {
+
+		this.hitBox = new Rectangle((int) (PLAYERWIDTH * SCALE * 0.35), (int) (PLAYERHEIGHT * SCALE * 0.7),
+				(int) (PLAYERWIDTH * SCALE * 0.35), (int) (PLAYERHEIGHT * SCALE * 0.16));
+
+		this.equippedWeapon = new Weapon(10, 800, new Rectangle(this.hitBox.getX() - this.hitBox.getWidth(),
+				this.hitBox.getY(), this.hitBox.getWidth(), this.hitBox.getHeight()), this);
+
+		this.attackTimer = this.equippedWeapon.getCooldown();
+
+		this.animationMoveDown = new Animation(ANIMATIONSPEED, Assets.playerAnimationDown);
+		this.animationMoveRight = new Animation(ANIMATIONSPEED, Assets.playerAnimationRight);
+		this.animationMoveUp = new Animation(ANIMATIONSPEED, Assets.playerAnimationUp);
+		this.animationMoveLeft = new Animation(ANIMATIONSPEED, Assets.playerAnimationLeft);
+		this.animationIdle = new Animation(ANIMATIONSPEED, Assets.playerAnimationIdle);
+		this.animationDead = new Animation(1, Assets.playerDeadAnimation);
+
+		this.playerSprintDown = new Animation(ANIMATIONSPRINTSPEED, Assets.playerAnimationDown);
+		this.playerSprintRight = new Animation(ANIMATIONSPRINTSPEED, Assets.playerAnimationRight);
+		this.playerSprintUp = new Animation(ANIMATIONSPRINTSPEED, Assets.playerAnimationUp);
+		this.playerSprintLeft = new Animation(ANIMATIONSPRINTSPEED, Assets.playerAnimationLeft);
+
+		this.playerRoll = new Animation(0, Assets.playerAnimationRoll);
+
+		this.currentAnimation = this.animationIdle;
+
+		this.setDebuggingColor(new Color(255, 102, 255));
+	}
+	
+	private void playerMovement() {
+		this.getInput();
+
+		if (this.isRolling) {
+			this.rollingMove();
 		} else {
-			this.addYMove(speed);
+			this.move();
+		}
+		this.chooseCurrentAnimation();
+		this.resetMovement();
+
+		this.facade.getGameCamera().centerOnEntity(this);
+	}
+
+	private void roll() {
+		this.isRolling = true;
+	}
+
+	private void rollDown() {
+		int futureY = this.position.getY() + this.hitBox.getY() + this.hitBox.getHeight() + this.rollCurrentDistance;
+
+		if (!this.checkCollisionWithTile(this.position.getX() + this.hitBox.getX(), futureY) && !this
+				.checkCollisionWithTile(this.position.getX() + this.hitBox.getX() + this.hitBox.getWidth(), futureY)) {
+			this.setY(this.getPositionY() + this.rollCurrentDistance);
+		}
+	}
+
+	private void rollingMove() {
+		if (!this.checkEntityCollisions(this.previousDirection.getX() * this.rollCurrentDistance,
+				this.previousDirection.getY() * this.rollCurrentDistance)) {
+
+			if (this.previousDirection.getY() < 0) {
+				this.rollUp();
+			} else if (this.previousDirection.getY() > 0) {
+				this.rollDown();
+			}
+			if (this.previousDirection.getX() < 0) {
+				this.rollLeft();
+			} else if (this.previousDirection.getX() > 0) {
+				this.rollRight();
+			}
+		}
+		this.rollCurrentDistance -= this.rollCurrentDistance * ROLLDELTA;
+		if (this.rollCurrentDistance < 1) {
+			this.rollCurrentDistance = ROLLBASEDISTANCE;
+			this.isRolling = false;
+		}
+	}
+
+	private void rollLeft() {
+		int futureX = this.position.getX() + this.hitBox.getX() - this.rollCurrentDistance;
+
+		if (!this.checkCollisionWithTile(futureX, this.position.getY() + this.hitBox.getY()) && !this
+				.checkCollisionWithTile(futureX, this.position.getY() + this.hitBox.getY() + this.hitBox.getHeight())) {
+			this.setX(this.getPositionX() - this.rollCurrentDistance);
+		}
+	}
+
+	private void rollRight() {
+		int futureX = this.position.getX() + this.hitBox.getX() + this.hitBox.getWidth() + this.rollCurrentDistance;
+
+		if (!this.checkCollisionWithTile(futureX, this.position.getY() + this.hitBox.getY()) && !this
+				.checkCollisionWithTile(futureX, this.position.getY() + this.hitBox.getY() + this.hitBox.getHeight())) {
+			this.setX(this.getPositionX() + this.rollCurrentDistance);
+		}
+	}
+
+	private void rollUp() {
+		int futureY = this.position.getY() + this.hitBox.getY() - this.rollCurrentDistance;
+
+		if (!this.checkCollisionWithTile(this.position.getX() + this.hitBox.getX(), futureY) && !this
+				.checkCollisionWithTile(this.position.getX() + this.hitBox.getX() + this.hitBox.getWidth(), futureY)) {
+			this.setY(this.getPositionY() - this.rollCurrentDistance);
+		}
+	}
+
+	private void setAnimation(Animation anim, Animation animSprint) {
+		if (this.facade.getKeyManager().getSprint()) {
+			this.currentAnimation = animSprint;
+		} else {
+			this.currentAnimation = anim;
 		}
 	}
 
@@ -397,37 +421,12 @@ public class Player extends Creature {
 		}
 	}
 
-	private void roll() {
-		this.isRolling = true;
-	}
-
-	@Override
-	protected void chooseCurrentAnimation() {
-		if (this.isMovingUp()) {
-			this.setAnimation(this.animationMoveUp, this.playerSprintUp);
-		}
-		if (this.isMovingDown()) {
-			this.setAnimation(this.animationMoveDown, this.playerSprintDown);
-		}
-		if (this.isMovingLeft()) {
-			this.setAnimation(this.animationMoveLeft, this.playerSprintLeft);
-		}
-		if (this.isMovingRight()) {
-			this.setAnimation(this.animationMoveRight, this.playerSprintRight);
-		}
-		if (this.isNotMoving()) {
-			this.currentAnimation = this.animationIdle;
-		}
-		if (this.isRolling) {
-			this.currentAnimation = this.playerRoll;
-		}
-	}
-
-	private void setAnimation(Animation anim, Animation animSprint) {
+	private void setYSpeed(int speed, int sprintSpeed) {
 		if (this.facade.getKeyManager().getSprint()) {
-			this.currentAnimation = animSprint;
+			this.addYMove(sprintSpeed);
 		} else {
-			this.currentAnimation = anim;
+			this.addYMove(speed);
 		}
 	}
+
 }
