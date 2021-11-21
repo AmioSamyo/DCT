@@ -17,7 +17,7 @@ public class Player extends Creature {
 
 	private boolean isRolling;
 	private boolean attacking;
-	private int rollCurrentDistance;
+	private int rollCurrentDistance, attackAnimIndex = 0;
 	private long lastAttackTimer, attackTimer;
 
 	private Weapon equippedWeapon;
@@ -161,6 +161,7 @@ public class Player extends Creature {
 		this.currentAnimation.update();
 
 		if (this.isAttacking()) {
+			this.attack();
 			this.checkAttacks();
 		} else if (this.health > 0) {
 			this.playerMovement();
@@ -190,6 +191,15 @@ public class Player extends Creature {
 		}
 		if (this.isAttacking()) {
 			this.currentAnimation = this.playerAttacking;
+		}
+	}
+
+	private void attack() {
+		this.attackAnimIndex++;
+		if (this.attackAnimIndex >= this.playerAttacking.getAnimationLength()) {
+			this.attacking = false;
+			this.facade.getMouseManager().setLeftClicked(false);
+			this.attackAnimIndex = 0;
 		}
 	}
 
@@ -273,8 +283,6 @@ public class Player extends Creature {
 				}
 			}
 		}
-		this.attacking = false;
-		this.facade.getMouseManager().setLeftClicked(false);
 	}
 
 	private void drawWeaponDamageBox(Graphics g) {
