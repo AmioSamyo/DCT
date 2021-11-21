@@ -156,7 +156,6 @@ public class Player extends Creature {
 		this.playerSprintDown.update();
 
 		this.playerRoll.update();
-		this.playerRoll.update();
 
 		this.currentAnimation.update();
 
@@ -196,6 +195,7 @@ public class Player extends Creature {
 
 	private void attack() {
 		this.attackAnimIndex++;
+		this.playerAttacking.update();
 		if (this.attackAnimIndex >= this.playerAttacking.getAnimationLength()) {
 			this.attacking = false;
 			this.facade.getMouseManager().setLeftClicked(false);
