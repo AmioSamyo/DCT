@@ -22,6 +22,9 @@ public class MouseManager implements MouseInputListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		this.mouseX = e.getX();
+		this.mouseY = e.getY();
+
 		if (e.getButton() == MouseEvent.BUTTON1 && e.getButton() == MouseEvent.BUTTON2) {
 			this.leftClicked = true;
 			this.rightClicked = true;
@@ -101,6 +104,10 @@ public class MouseManager implements MouseInputListener {
 
 	public boolean getLeftPressed() {
 		return this.leftPressed;
+	}
+	
+	public void setLeftClicked(boolean value) {
+		this.leftClicked= value;
 	}
 
 	public boolean getRightClicked() {

@@ -1,6 +1,6 @@
 package DCT.gfx.ui;
 
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 import DCT.utility.Rectangle;
@@ -22,7 +22,7 @@ public class UIImageButton extends UIObject {
 	}
 
 	@Override
-	public void render(Graphics g) {
+	public void render(Graphics2D g) {
 		if (this.isHovering()) {
 			g.drawImage(this.images[1], this.getPositionX(), this.getPositionY(), this.getPositionWidth(),
 					this.getPositionHeight(), null);

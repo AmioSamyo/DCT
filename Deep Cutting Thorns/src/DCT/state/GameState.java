@@ -1,11 +1,11 @@
 package DCT.state;
 
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 import DCT.Facade;
 import DCT.entity.EntityManager;
 import DCT.entity.creature.Bat;
-import DCT.entity.creature.Player;
+import DCT.entity.creature.player.Player;
 import DCT.entity.statics.Jar;
 import DCT.entity.statics.Rocks;
 import DCT.entity.statics.Tree;
@@ -44,7 +44,7 @@ public class GameState extends State {
 	}
 
 	@Override
-	public void render(Graphics g) {
+	public void render(Graphics2D g) {
 		this.world.render(g);
 
 		this.entityManager.render(g);

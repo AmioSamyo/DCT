@@ -95,7 +95,7 @@ public abstract class Creature extends Entity {
 
 	@Override
 	public void die() {
-		this.speed = 0;
+		this.alive = false;
 	}
 
 	public void setXMove(int speed) {

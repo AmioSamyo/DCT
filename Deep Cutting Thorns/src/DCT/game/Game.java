@@ -1,6 +1,6 @@
 package DCT.game;
 
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
 
 import DCT.Facade;
@@ -22,7 +22,7 @@ public class Game implements Runnable {
 	private String worldPath = "rsc\\worldTest";
 	private String title;
 	private Thread thread;
-	private Graphics g;
+	private Graphics2D g;
 	private BufferStrategy bufferStrategy;
 
 	private Display display = null;
@@ -104,7 +104,7 @@ public class Game implements Runnable {
 			return;
 		}
 
-		this.g = this.bufferStrategy.getDrawGraphics();
+		this.g = (Graphics2D) this.bufferStrategy.getDrawGraphics();
 		this.g.clearRect(0, 0, this.width, this.height);
 
 		if (State.getCurrentState() != null) {
@@ -143,7 +143,7 @@ public class Game implements Runnable {
 			}
 
 			if (timer >= 1000000000) {
-				System.out.println("Ticks and Frames: " + update);
+				//System.out.println("Ticks and Frames: " + update);
 				update = 0;
 				timer = 0;
 			}

@@ -1,6 +1,6 @@
 package DCT.game;
 
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 import DCT.Facade;
 import DCT.tile.Tile;
@@ -19,7 +19,7 @@ public class World {
 		this.facade = facade;
 	}
 
-	public void render(Graphics g) {
+	public void render(Graphics2D g) {
 
 		int xStart = Math.max(0, this.getXOffsetInTile());
 		int xEnd = Math.min(this.columns, this.getXEnd());

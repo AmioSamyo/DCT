@@ -38,4 +38,8 @@ public class Animation {
 		return this.frames[this.currentFrameIndex];
 	}
 
+	public int getAnimationLength() {
+		return this.frames.length;
+	}
+
 }

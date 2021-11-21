@@ -1,6 +1,6 @@
 package DCT.gfx.ui;
 
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 
 import DCT.utility.Rectangle;
@@ -17,7 +17,7 @@ public abstract class UIObject {
 
 	public abstract void update();
 
-	public abstract void render(Graphics g);
+	public abstract void render(Graphics2D g);
 
 	public abstract void onClick();
 

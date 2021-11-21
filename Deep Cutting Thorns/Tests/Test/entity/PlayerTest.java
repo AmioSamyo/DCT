@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
 import DCT.Facade;
-import DCT.entity.creature.Player;
+import DCT.entity.creature.player.Player;
 import DCT.utility.Vector;
 
 class PlayerTest {

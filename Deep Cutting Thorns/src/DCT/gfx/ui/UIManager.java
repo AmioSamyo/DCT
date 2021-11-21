@@ -1,7 +1,7 @@
 package DCT.gfx.ui;
 
 import java.util.ArrayList;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 
 import DCT.Facade;
@@ -32,7 +32,7 @@ public class UIManager {
 		this.uiObjects.remove(o);
 	}
 	
-	public void render(Graphics g) {
+	public void render(Graphics2D g) {
 		this.uiObjects.forEach(o -> o.render(g));
 	}
 	
