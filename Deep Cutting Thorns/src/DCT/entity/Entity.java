@@ -1,7 +1,7 @@
 package DCT.entity;
 
 import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.util.ArrayList;
 
 import DCT.Facade;
@@ -31,7 +31,7 @@ public abstract class Entity {
 
 	public abstract void update();
 
-	public void render(Graphics g) {
+	public void render(Graphics2D g) {
 
 		this.showHealthBar(g);
 
@@ -90,7 +90,7 @@ public abstract class Entity {
 				this.getPositionY() + this.hitBox.getY() + yOffSet, this.hitBox.getWidth(), this.hitBox.getHeight());
 	}
 	
-	protected void drawHitBox(Graphics g) {
+	protected void drawHitBox(Graphics2D g) {
 		if (this.facade.getDebugMode()) {
 			Rectangle hitBox = this.getCollisionHitBox(0, 0);
 			g.setColor(Color.WHITE);
@@ -101,7 +101,7 @@ public abstract class Entity {
 		}
 	}
 
-	protected void showHealthBar(Graphics g) {
+	protected void showHealthBar(Graphics2D g) {
 		if (this.health < MAX_HEALTH && this.health >= 0) {
 			float rangeHealthBar = (float) (MAX_HEALTH - 1) / ((float) Assets.healthBars.length - 1);
 			int currentHealthBarToShow = (int) ((float) (MAX_HEALTH - this.health) / rangeHealthBar);

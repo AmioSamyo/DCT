@@ -1,7 +1,7 @@
 package DCT.entity.creature;
 
 import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 import DCT.Facade;
 import DCT.utility.Rectangle;
@@ -37,7 +37,7 @@ public class Enemy extends Creature {
 	}
 
 	@Override
-	public void render(Graphics g) {
+	public void render(Graphics2D g) {
 
 		super.render(g);
 		this.drawRangeAggro(g);
@@ -72,16 +72,16 @@ public class Enemy extends Creature {
 		}
 	}
 
-	protected void drawRangeAggro(Graphics g) {
+	protected void drawRangeAggro(Graphics2D g) {
 		if (this.facade.getDebugMode()) {
 			Rectangle StartBatEye = new Rectangle(
 					(int) (this.position.getX() - this.DiameterAggro / 2 + this.getPositionWidth() / 2),
 					(int) (this.position.getY() - this.DiameterAggro / 2 + this.getPositionHeight() / 2), 0, 0);
 			if (this.playerInAggro) {
-				g.setColor(Color.RED);
+				g.setColor(new Color(255, 0, 0, 100));
 			}
 
-			g.drawOval(this.getXMoveHitbox(StartBatEye), this.getYMoveHitbox(StartBatEye), this.DiameterAggro,
+			g.fillOval(this.getXMoveHitbox(StartBatEye), this.getYMoveHitbox(StartBatEye), this.DiameterAggro,
 					this.DiameterAggro);
 		}
 	}

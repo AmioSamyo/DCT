@@ -8,7 +8,7 @@ public class DownWallTile extends Tile {
 
 	public DownWallTile(int id) {
 		super(Assets.downWall, id);
-		this.setDebuggingColor(new Color(60, 60, 60));
+		this.setDebuggingColor(new Color(60, 60, 60, 220));
 	}
 	
 	@Override

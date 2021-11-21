@@ -1,7 +1,7 @@
 package DCT.entity.creature;
 
 import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 import DCT.Facade;
 import DCT.gfx.Animation;
@@ -27,7 +27,7 @@ public class Bat extends Enemy {
 		this.hitBox = new Rectangle((int) (BATWIDTH * SCALE * 0.3), (int) (BATHEIGHT * SCALE * 0.3),
 				(int) (BATWIDTH * SCALE * 0.5), (int) (BATHEIGHT * SCALE * 0.5));
 
-		this.setDebuggingColor(new Color(255, 255, 51));
+		this.setDebuggingColor(new Color(255, 255, 51, 155));
 		this.DiameterAggro = 400;
 
 		this.animationMoveDown = new Animation(ANIMATIONSPEED, Assets.batAnimationDown);
@@ -62,7 +62,7 @@ public class Bat extends Enemy {
 	}
 
 	@Override
-	public void render(Graphics g) {
+	public void render(Graphics2D g) {
 
 		g.drawImage(this.currentAnimation.getCurrentFrame(), this.xMoveWithCamera(), this.yMoveWithCamera(),
 				BATWIDTH * SCALE, BATHEIGHT * SCALE, null);

@@ -1,6 +1,6 @@
 package DCT.entity.creature.player.items;
 
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Color;
 
 import DCT.entity.creature.Creature;
@@ -11,7 +11,7 @@ public class Weapon {
 	private int damage;
 	private long attackCooldown;
 
-	private Color damageHitBoxColor = new Color(255, 255, 255);
+	private Color damageHitBoxColor = new Color(255, 255, 255, 200);
 	private Creature weaponUser;
 	private Rectangle damageBox;
 
@@ -22,7 +22,7 @@ public class Weapon {
 		this.weaponUser = weaponUser;
 	}
 
-	public void render(Graphics g) {
+	public void render(Graphics2D g) {
 		g.setColor(this.damageHitBoxColor);
 		g.fillRect(this.weaponUser.xMoveWithCamera() + this.damageBox.getX(),
 				this.weaponUser.yMoveWithCamera() + this.damageBox.getY(), this.damageBox.getWidth(),

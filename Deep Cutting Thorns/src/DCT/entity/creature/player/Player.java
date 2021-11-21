@@ -1,7 +1,7 @@
 package DCT.entity.creature.player;
 
 import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 
 import DCT.Facade;
@@ -116,7 +116,7 @@ public class Player extends Creature {
 	}
 
 	@Override
-	public void render(Graphics g) {
+	public void render(Graphics2D g) {
 		g.drawImage(this.currentAnimation.getCurrentFrame(), this.xMoveWithCamera(), this.yMoveWithCamera(),
 				this.position.getWidth(), this.position.getHeight(), null);
 
@@ -127,7 +127,7 @@ public class Player extends Creature {
 	}
 
 	@Override
-	public void showHealthBar(Graphics g) {
+	public void showHealthBar(Graphics2D g) {
 		float rangeHealthBar = (float) (MAX_HEALTH - 1) / ((float) Assets.healthBars.length - 1);
 		int currentHealthBarToShow = (int) ((float) (MAX_HEALTH - this.health) / rangeHealthBar);
 		if (currentHealthBarToShow < 0)
@@ -285,7 +285,7 @@ public class Player extends Creature {
 		}
 	}
 
-	private void drawWeaponDamageBox(Graphics g) {
+	private void drawWeaponDamageBox(Graphics2D g) {
 		if (this.facade.getDebugMode()) {
 			this.equippedWeapon.render(g);
 		}
@@ -339,7 +339,7 @@ public class Player extends Creature {
 
 		this.currentAnimation = this.animationIdle;
 
-		this.setDebuggingColor(new Color(255, 102, 255));
+		this.setDebuggingColor(new Color(255, 102, 255, 200));
 	}
 
 	private void playerMovement() {

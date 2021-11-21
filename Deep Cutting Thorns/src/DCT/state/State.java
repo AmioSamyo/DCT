@@ -1,6 +1,6 @@
 package DCT.state;
 
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 import DCT.entity.EntityManager;
 import DCT.game.World;
@@ -14,7 +14,7 @@ public abstract class State {
 
 	public abstract void update();
 
-	public abstract void render(Graphics g);
+	public abstract void render(Graphics2D g);
 
 	public static State getCurrentState() {
 		return State.currentState;

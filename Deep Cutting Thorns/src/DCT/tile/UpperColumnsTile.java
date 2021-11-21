@@ -8,7 +8,7 @@ public class UpperColumnsTile extends Tile {
 
 	public UpperColumnsTile(int id) {
 		super(Assets.upperColumns, id);
-		this.setDebuggingColor(new Color(30, 30, 30));
+		this.setDebuggingColor(new Color(30, 30, 30, 220));
 	}
 
 	@Override

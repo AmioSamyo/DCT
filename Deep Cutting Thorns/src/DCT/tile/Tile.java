@@ -3,7 +3,9 @@ package DCT.tile;
 import java.awt.image.BufferedImage;
 
 import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Stroke;
+import java.awt.BasicStroke;
 
 public class Tile {
 
@@ -36,7 +38,7 @@ public class Tile {
 
 	}
 
-	public void render(Graphics g, int x, int y) {
+	public void render(Graphics2D g, int x, int y) {
 		g.drawImage(this.texture, x, y, TILEWIDTH, TILEHEIGHT, null);
 	}
 
@@ -48,10 +50,13 @@ public class Tile {
 		return this.solid;
 	}
 
-	public void drawDebugging(Graphics g, int x, int y) {
+	public void drawDebugging(Graphics2D g, int x, int y) {
 		if (this.isSolid()) {
 			g.setColor(this.debuggingColor);
-			g.fillRect(x, y, Tile.TILEWIDTH - 10, Tile.TILEHEIGHT - 10);
+			Stroke oldStroke =g.getStroke(); 
+			g.setStroke(new BasicStroke(10));
+			g.drawRect(x + 5, y + 5, Tile.TILEWIDTH - 5, Tile.TILEHEIGHT - 5);
+			g.setStroke(oldStroke);
 		}
 	}
 

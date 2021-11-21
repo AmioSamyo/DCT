@@ -1,6 +1,6 @@
 package DCT.state;
 
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Color;
 
 import DCT.Facade;
@@ -46,7 +46,7 @@ public class PauseState extends State {
 	}
 
 	@Override
-	public void render(Graphics g) {
+	public void render(Graphics2D g) {
 		g.setColor(Color.GRAY);
 		g.fillRect(0, 0, this.facade.getWidth(), this.facade.getHeight());
 		this.uiManager.render(g);

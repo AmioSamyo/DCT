@@ -1,6 +1,6 @@
 package DCT.entity;
 
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -43,7 +43,7 @@ public class EntityManager {
 		this.sort();
 	}
 
-	public void render(Graphics g) {
+	public void render(Graphics2D g) {
 
 		this.entityList.forEach(e -> e.render(g));
 		this.player.showHealthBar(g);

@@ -1,7 +1,7 @@
 package DCT.entity.statics;
 
 import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 import DCT.Facade;
 import DCT.gfx.Assets;
@@ -17,7 +17,7 @@ public class Tree extends StaticEntity {
 		this.hitBox = new Rectangle((int) (TREEWIDTH * SCALE * 0.4), (int) (TREEHEIGHT * SCALE * 0.82),
 				(int) (TREEWIDTH * SCALE * 0.2), (int) (TREEHEIGHT * SCALE * 0.08));
 
-		this.setDebuggingColor(new Color(128, 128, 128));
+		this.setDebuggingColor(new Color(128, 128, 128, 200));
 	}
 
 	@Override
@@ -28,7 +28,7 @@ public class Tree extends StaticEntity {
 	}
 
 	@Override
-	public void render(Graphics g) {
+	public void render(Graphics2D g) {
 			g.drawImage(Assets.tree, this.xMoveWithCamera(), this.yMoveWithCamera(), TREEWIDTH * SCALE,
 					TREEHEIGHT * SCALE, null);
 			super.render(g);
