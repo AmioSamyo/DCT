@@ -1,5 +1,6 @@
 package DCT.state;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 
 import DCT.Facade;
@@ -10,6 +11,9 @@ import DCT.entity.statics.Jar;
 import DCT.entity.statics.Rocks;
 import DCT.entity.statics.Tree;
 import DCT.game.World;
+import DCT.gfx.tools.FontLoader;
+import DCT.gfx.tools.Text;
+import DCT.utility.TextOption;
 import DCT.utility.Vector;
 
 public class GameState extends State {
@@ -48,6 +52,8 @@ public class GameState extends State {
 		this.world.render(g);
 
 		this.entityManager.render(g);
+		
+		
 	}
 
 	public World getWorld() {

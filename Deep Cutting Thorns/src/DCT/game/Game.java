@@ -2,16 +2,21 @@ package DCT.game;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
+import java.awt.Color;
 
 import DCT.Facade;
 import DCT.gfx.Assets;
 import DCT.gfx.Display;
 import DCT.gfx.GameCamera;
+import DCT.gfx.tools.FontLoader;
+import DCT.gfx.tools.Text;
 import DCT.input.KeyManager;
 import DCT.input.MouseManager;
 import DCT.state.GameState;
 import DCT.state.PauseState;
 import DCT.state.State;
+import DCT.utility.TextOption;
+import DCT.utility.Vector;
 
 public class Game implements Runnable {
 
@@ -19,6 +24,7 @@ public class Game implements Runnable {
 	private int width;
 	private int height;
 
+	private String fps = "";
 	private String worldPath = "rsc\\worldTest";
 	private String title;
 	private Thread thread;
@@ -111,6 +117,12 @@ public class Game implements Runnable {
 			State.getCurrentState().render(g);
 		}
 
+		if (this.facade.getDebugMode()) {
+			TextOption fpsText = new TextOption("FPS: " + this.fps, new Vector(this.width - 80, 10),
+					FontLoader.fontLoad("rsc\\fonts\\Korean_Calligraphy.ttf", 40), Color.RED, true);
+			Text.drawString(fpsText, g);
+		}
+
 		this.bufferStrategy.show();
 		this.g.dispose();
 	}
@@ -143,7 +155,7 @@ public class Game implements Runnable {
 			}
 
 			if (timer >= 1000000000) {
-				//System.out.println("Ticks and Frames: " + update);
+				this.fps = update + "";
 				update = 0;
 				timer = 0;
 			}
@@ -189,7 +201,7 @@ public class Game implements Runnable {
 	public Display getDisplay() {
 		return this.display;
 	}
-	
+
 	public Facade getFacade() {
 		return this.facade;
 	}
