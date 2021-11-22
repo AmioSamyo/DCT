@@ -65,6 +65,10 @@ public class EntityManager {
 	public Player getPlayer() {
 		return this.player;
 	}
+	
+	public void setEntityList(ArrayList<Entity> list) {
+		this.entityList = list;
+	}
 
 	public ArrayList<Entity> getEntityList() {
 		return this.entityList;
