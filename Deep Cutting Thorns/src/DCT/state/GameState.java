@@ -12,7 +12,6 @@ import DCT.entity.statics.Rocks;
 import DCT.entity.statics.Tree;
 import DCT.game.World;
 import DCT.gfx.tools.FontLoader;
-import DCT.gfx.tools.Sound;
 import DCT.gfx.tools.Text;
 import DCT.utility.TextOption;
 import DCT.utility.Vector;
@@ -21,7 +20,6 @@ public class GameState extends State {
 
 	private World world;
 	private Facade facade;
-	private Sound base;
 
 	public GameState(String worldPath, Facade facade) {
 		this.facade = facade;
