@@ -12,6 +12,7 @@ import DCT.entity.statics.Rocks;
 import DCT.entity.statics.Tree;
 import DCT.game.World;
 import DCT.gfx.tools.FontLoader;
+import DCT.gfx.tools.Sound;
 import DCT.gfx.tools.Text;
 import DCT.utility.TextOption;
 import DCT.utility.Vector;
@@ -20,6 +21,7 @@ public class GameState extends State {
 
 	private World world;
 	private Facade facade;
+	private Sound base;
 
 	public GameState(String worldPath, Facade facade) {
 		this.facade = facade;
@@ -37,6 +39,9 @@ public class GameState extends State {
 		this.entityManager.addEntity(new Rocks(this.facade, 180, 420));
 
 		this.entityManager.addEntity(new Bat(this.facade, new Vector(200, 150)));
+		
+		base = new Sound("rsc\\Guns_N_Roses_-_Welcome_To_The_Jungle_Official_Music_Video.wav");
+		base.play();
 	}
 
 	@Override
