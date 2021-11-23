@@ -11,8 +11,6 @@ import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
-//!!!!!must be a .wav file!!!!!!
-
 public class Sound {
 
 	private Clip clip;
