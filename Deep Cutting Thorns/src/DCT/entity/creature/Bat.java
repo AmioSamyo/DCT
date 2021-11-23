@@ -17,7 +17,7 @@ public class Bat extends Enemy {
 	private static final int ANIMATIONSPEED = 150;
 
 	public Bat(Facade facade, Vector position) {
-		super(facade, new Rectangle(position.getX(), position.getY(), BATWIDTH, BATHEIGHT));
+		super(facade, new Rectangle(position.getX(), position.getY(), SCALE*BATWIDTH, SCALE*BATHEIGHT));
 
 		this.initialize();
 	}
