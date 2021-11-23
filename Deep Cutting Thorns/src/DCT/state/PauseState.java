@@ -56,7 +56,9 @@ public class PauseState extends State {
 				Assets.saveButton, new IClickListener() {
 					@Override
 					public void onClick() {
+						facade.getMouseManager().setUIManager(null);
 						saveGame();
+						facade.setGamePause(false);
 					}
 				}));
 		
@@ -66,7 +68,9 @@ public class PauseState extends State {
 				Assets.loadButton, new IClickListener() {
 					@Override
 					public void onClick() {
+						facade.getMouseManager().setUIManager(null);
 						loadGame();
+						facade.setGamePause(false);
 					}
 				}));
 	}
