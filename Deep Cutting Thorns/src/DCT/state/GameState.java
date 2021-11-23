@@ -40,11 +40,6 @@ public class GameState extends State {
 
 		this.entityManager.addEntity(new Bat(this.facade, new Vector(200, 150)));
 		
-		
-		//test sound
-		base = new Sound("rsc\\Guns_N_Roses_-_Welcome_To_The_Jungle_Official_Music_Video.wav");
-		base.setVolume(0.2f);
-		base.play();
 	}
 
 	@Override
