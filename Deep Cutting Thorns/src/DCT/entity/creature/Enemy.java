@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 
 import DCT.Facade;
+import DCT.utility.NodeReader;
 import DCT.utility.Rectangle;
 import DCT.utility.Vector;
 
@@ -15,6 +16,7 @@ public class Enemy extends Creature {
 	private long lastAttackTimer, attackCooldown = 600, attackTimer = this.attackCooldown;
 	protected int rangeOfAttack;
 	protected boolean getStart = false;
+	protected NodeReader map;
 
 	public Enemy(Facade facade, Rectangle position) {
 		super(facade, position);
@@ -23,12 +25,14 @@ public class Enemy extends Creature {
 				this.getPositionY() + this.getPositionHeight() / 2);
 		this.target = new Vector();
 
+		this.map = new NodeReader(this.speed, this.facade);
+
 	}
 
 	@Override
 	public void update() {
 		if (this.health > 0) {
-
+			this.map.mapFill();
 			this.move();
 			this.attack();
 		} else {
@@ -40,6 +44,21 @@ public class Enemy extends Creature {
 	public void render(Graphics2D g) {
 
 		super.render(g);
+
+		for (int i = 0; i < this.map.getRow(); i++) {
+			for (int j = 0; j < this.map.getColumn(); j++) {
+
+				if (this.map.getNode(j, i).isViable()) {
+					g.setColor(Color.WHITE);
+				} else {
+					g.setColor(Color.BLACK);
+				}
+				g.drawRect(j * 3 - this.facade.getGameCamera().getXOffset(),
+						i * 3 - this.facade.getGameCamera().getYOffset(), 3, 3);
+			}
+		}
+		g.setColor(this.debuggingColor);
+
 		this.drawRangeAggro(g);
 	}
 
