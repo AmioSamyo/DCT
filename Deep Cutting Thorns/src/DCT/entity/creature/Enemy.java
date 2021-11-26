@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 
 import DCT.Facade;
+import DCT.tile.Tile;
 import DCT.utility.NodeReader;
 import DCT.utility.Rectangle;
 import DCT.utility.Vector;
@@ -32,7 +33,7 @@ public class Enemy extends Creature {
 	@Override
 	public void update() {
 		if (this.health > 0) {
-			this.map.mapFill();
+			this.map.mapCheckEntity();
 			this.move();
 			this.attack();
 		} else {
@@ -45,19 +46,10 @@ public class Enemy extends Creature {
 
 		super.render(g);
 
-		for (int i = 0; i < this.map.getRow(); i++) {
-			for (int j = 0; j < this.map.getColumn(); j++) {
+		/*g.fillRect(0 - this.facade.getGameCamera().getXOffset(), 0 - this.facade.getGameCamera().getYOffset(),
+				Tile.TILEWIDTH * 76, Tile.TILEHEIGHT * 2);
 
-				if (this.map.getNode(j, i).isViable()) {
-					g.setColor(Color.WHITE);
-				} else {
-					g.setColor(Color.BLACK);
-				}
-				g.drawRect(j * 3 - this.facade.getGameCamera().getXOffset(),
-						i * 3 - this.facade.getGameCamera().getYOffset(), 3, 3);
-			}
-		}
-		g.setColor(this.debuggingColor);
+		g.setColor(this.debuggingColor);*/
 
 		this.drawRangeAggro(g);
 	}

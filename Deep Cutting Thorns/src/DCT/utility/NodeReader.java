@@ -17,36 +17,44 @@ public class NodeReader {
 		this.speed = speed;
 		this.facade = facade;
 
-		this.column = (76 * 32) / this.speed;
-		this.row = (31 * 32) / this.speed;
+		this.column = (76 * Tile.TILEWIDTH) / this.speed;
+		this.row = (31 * Tile.TILEHEIGHT) / this.speed;
 
 		this.map = new Node[this.column][this.row];
+		
+		this.mapFillSolid();
 
 	}
 
-	public void mapFill() {
+	public void mapFillSolid() {
 
 		for (int i = 0; i < this.row; i++) {
 			for (int j = 0; j < this.column; j++) {
-				boolean flagOpen = true;
-				boolean flagViable = true;
-
-				if (Tile.tiles[this.facade.getWorld().getTiles()[(j / 32) * this.speed][(i / 32) * this.speed]]
-						.isSolid()) {
-					flagViable = false;
-				}
-				for (int k = 0; k < this.facade.getEntityManager().getEntityList().size(); k++) {
-					int x = j * this.speed;
-					int y = i * this.speed;
-
-					if (this.facade.getEntityManager().getEntityList().get(k).getCollisionHitBox(0, 0).contains(x, y)) {
-						flagViable = false;
-						break;
-					}
-				}
-
-				this.map[j][i] = new Node(flagOpen, flagViable);
+				this.map[j][i] = new Node(true, true);
 			}
+		}
+	}
+
+	public void mapCheckEntity() {
+		for (int i = 0; i < this.facade.getEntityManager().getEntityList().size(); i++) {
+
+			Rectangle flag = new Rectangle(this.facade.getEntityManager().getEntityList().get(i).getPositionX(),
+					this.facade.getEntityManager().getEntityList().get(i).getPositionY(),
+					this.facade.getEntityManager().getEntityList().get(i).getPositionWidth(),
+					this.facade.getEntityManager().getEntityList().get(i).getPositionHeight());
+
+			int columnRect = flag.getX() / 3;
+			int rowRect = flag.getY() / 3;
+			int widthRect = flag.getWidth() / 3;
+			int heightRect = flag.getHeight() / 3;
+
+			for (int j = rowRect; j < heightRect; j++) {
+				for (int k = columnRect; k < widthRect; k++) {
+					this.map[k][j].setViable(false);
+				}
+
+			}
+
 		}
 
 	}
