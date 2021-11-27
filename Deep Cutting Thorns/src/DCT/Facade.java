@@ -10,11 +10,13 @@ import DCT.gfx.GameCamera;
 import DCT.input.KeyManager;
 import DCT.input.MouseManager;
 import DCT.state.State;
+import DCT.utility.NodeReader;
 
 public class Facade {
 
 	private Game game;
 	private boolean debugMode;
+	private NodeReader map;
 
 	public Facade(Game game) {
 		this.game = game;

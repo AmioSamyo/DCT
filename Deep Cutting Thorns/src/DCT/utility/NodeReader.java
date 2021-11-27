@@ -1,62 +1,101 @@
 package DCT.utility;
 
-import java.util.ArrayList;
-
 import DCT.Facade;
-import DCT.tile.Tile;
+import DCT.entity.creature.Enemy;
 
 public class NodeReader {
 
 	private Node[][] map;
+	private Enemy currentEntity;
 	private int column;
 	private int row;
-	private int speed;
+	private int speed, rangeView;
 	private Facade facade;
+	private Vector startPosition;
 
-	public NodeReader(int speed, Facade facade) {
-		this.speed = speed;
+	public NodeReader(Facade facade, Enemy currentEntity) {
+
 		this.facade = facade;
+		this.currentEntity = currentEntity;
+		this.speed = this.currentEntity.getSpeed();
+		this.rangeView = this.currentEntity.getDiameterAggro();
 
-		this.column = (76 * Tile.TILEWIDTH) / this.speed;
-		this.row = (31 * Tile.TILEHEIGHT) / this.speed;
+		this.startPosition = new Vector();
+
+		this.column = this.rangeView / this.speed;
+		this.row = this.rangeView / this.speed;
 
 		this.map = new Node[this.column][this.row];
-		
-		this.mapFillSolid();
-
-	}
-
-	public void mapFillSolid() {
 
 		for (int i = 0; i < this.row; i++) {
 			for (int j = 0; j < this.column; j++) {
-				this.map[j][i] = new Node(true, true);
+				this.map[j][i] = new Node();
 			}
 		}
 	}
 
-	public void mapCheckEntity() {
+	public void mapFillSolid() {
+	}
+
+	public void mapCheckEntity(int x, int y) {
+
+		this.setVector(x, y);
+
 		for (int i = 0; i < this.facade.getEntityManager().getEntityList().size(); i++) {
-
-			Rectangle flag = new Rectangle(this.facade.getEntityManager().getEntityList().get(i).getPositionX(),
-					this.facade.getEntityManager().getEntityList().get(i).getPositionY(),
-					this.facade.getEntityManager().getEntityList().get(i).getPositionWidth(),
-					this.facade.getEntityManager().getEntityList().get(i).getPositionHeight());
-
-			int columnRect = flag.getX() / 3;
-			int rowRect = flag.getY() / 3;
-			int widthRect = flag.getWidth() / 3;
-			int heightRect = flag.getHeight() / 3;
-
-			for (int j = rowRect; j < heightRect; j++) {
-				for (int k = columnRect; k < widthRect; k++) {
-					this.map[k][j].setViable(false);
-				}
-
+			if (this.facade.getEntityManager().getEntityList().get(i) == this.facade.getEntityManager().getPlayer()) {
+				continue;
+			}
+			if (this.facade.getEntityManager().getEntityList().get(i) == this.currentEntity) {
+				continue;
 			}
 
+			Rectangle hitbox = this.facade.getEntityManager().getEntityList().get(i).getCollisionHitBox(0, 0);
+
+			if (hitbox.getX() + hitbox.getWidth() < this.startPosition.getX()
+					|| hitbox.getX() > this.startPosition.getX() + this.rangeView
+					|| hitbox.getY() + hitbox.getHeight() < this.startPosition.getY()
+					|| hitbox.getY() > this.startPosition.getY() + this.rangeView) {
+				continue;
+			}
+
+			int xStart = (hitbox.getX() - this.startPosition.getX()) / this.speed;
+			int yStart = (hitbox.getY() - this.startPosition.getY()) / this.speed;
+			if (hitbox.getX() < this.startPosition.getX()) {
+				xStart = 0;
+			}
+			if (hitbox.getY() < this.startPosition.getY()) {
+				yStart = 0;
+			}
+
+			int xEnd = (hitbox.getX() - this.startPosition.getX() + hitbox.getWidth()) / 3;
+			int yEnd = (hitbox.getY() - this.startPosition.getY() + hitbox.getHeight()) / 3;
+			if (xEnd > this.column) {
+				xEnd = this.column;
+			}
+			if (yEnd > this.row) {
+				yEnd = this.row;
+			}
+
+			for (int k = yStart; k < yEnd; k++) {
+				for (int j = xStart; j < xEnd; j++) {
+					this.map[j][k].setViable(false);
+				}
+			}
 		}
 
+	}
+
+	public void mapRemoveEntity() {
+		for (int k = 0; k < this.row; k++) {
+			for (int j = 0; j < this.column; j++) {
+				this.map[j][k].setViable(true);
+			}
+		}
+	}
+
+	private void setVector(int x, int y) {
+		this.startPosition.setX(x);
+		this.startPosition.setY(y);
 	}
 
 	public int getColumn() {

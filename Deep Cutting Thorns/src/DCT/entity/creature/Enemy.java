@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 
 import DCT.Facade;
-import DCT.tile.Tile;
 import DCT.utility.NodeReader;
 import DCT.utility.Rectangle;
 import DCT.utility.Vector;
@@ -16,24 +15,27 @@ public class Enemy extends Creature {
 	protected Vector start, target;
 	private long lastAttackTimer, attackCooldown = 600, attackTimer = this.attackCooldown;
 	protected int rangeOfAttack;
+	protected int diameterAggro = 300;
 	protected boolean getStart = false;
 	protected NodeReader map;
 
-	public Enemy(Facade facade, Rectangle position) {
+	public Enemy(Facade facade, Rectangle position, int speed, int diameterAggro) {
 		super(facade, position);
 
 		this.start = new Vector(this.getPositionX() + this.getPositionWidth() / 2,
 				this.getPositionY() + this.getPositionHeight() / 2);
 		this.target = new Vector();
-
-		this.map = new NodeReader(this.speed, this.facade);
+		this.speed = speed;
+		this.diameterAggro = diameterAggro;
+		this.map = new NodeReader(facade, this);
 
 	}
 
 	@Override
 	public void update() {
 		if (this.health > 0) {
-			this.map.mapCheckEntity();
+			this.map.mapCheckEntity(this.getPositionX() + this.getPositionWidth() / 2 - this.diameterAggro / 2,
+					this.getPositionY() + this.getPositionHeight() / 2 - this.diameterAggro / 2);
 			this.move();
 			this.attack();
 		} else {
@@ -46,10 +48,30 @@ public class Enemy extends Creature {
 
 		super.render(g);
 
-		/*g.fillRect(0 - this.facade.getGameCamera().getXOffset(), 0 - this.facade.getGameCamera().getYOffset(),
-				Tile.TILEWIDTH * 76, Tile.TILEHEIGHT * 2);
+		for (int i = 0; i < this.map.getRow(); i++) {
+			for (int j = 0; j < this.map.getColumn(); j++) {
 
-		g.setColor(this.debuggingColor);*/
+				if (!this.map.getNode(j, i).isViable()) {
+					g.setColor(Color.WHITE);
+					g.drawRect(
+							this.getPositionX() + this.getPositionWidth() / 2 - this.diameterAggro / 2 + j * 3
+									- this.facade.getGameCamera().getXOffset(),
+							this.getPositionY() + this.getPositionHeight() / 2 - this.diameterAggro / 2 + i * 3
+									- this.facade.getGameCamera().getYOffset(),
+							3, 3);
+				} else {
+					g.setColor(Color.BLACK);
+					g.drawRect(
+							this.getPositionX() + this.getPositionWidth() / 2 - this.diameterAggro / 2 + j * 3
+									- this.facade.getGameCamera().getXOffset(),
+							this.getPositionY() + this.getPositionHeight() / 2 - this.diameterAggro / 2 + i * 3
+									- this.facade.getGameCamera().getYOffset(),
+							3, 3);
+				}
+			}
+		}
+		this.map.mapRemoveEntity();
+		g.setColor(this.debuggingColor);
 
 		this.drawRangeAggro(g);
 	}
@@ -86,14 +108,14 @@ public class Enemy extends Creature {
 	protected void drawRangeAggro(Graphics2D g) {
 		if (this.facade.getDebugMode()) {
 			Rectangle StartBatEye = new Rectangle(
-					(int) (this.position.getX() - this.DiameterAggro / 2 + this.getPositionWidth() / 2),
-					(int) (this.position.getY() - this.DiameterAggro / 2 + this.getPositionHeight() / 2), 0, 0);
+					(int) (this.position.getX() - this.diameterAggro / 2 + this.getPositionWidth() / 2),
+					(int) (this.position.getY() - this.diameterAggro / 2 + this.getPositionHeight() / 2), 0, 0);
 			if (this.playerInAggro) {
 				g.setColor(new Color(255, 0, 0, 100));
 			}
 
-			g.fillOval(this.getXMoveHitbox(StartBatEye), this.getYMoveHitbox(StartBatEye), this.DiameterAggro,
-					this.DiameterAggro);
+			g.fillOval(this.getXMoveHitbox(StartBatEye), this.getYMoveHitbox(StartBatEye), this.diameterAggro,
+					this.diameterAggro);
 		}
 	}
 
@@ -110,7 +132,7 @@ public class Enemy extends Creature {
 
 		int distanceToPlayer = (int) Math.sqrt(Math.pow(delta.getX(), 2) + Math.pow(delta.getY(), 2));
 
-		if (distanceToPlayer < this.DiameterAggro / 2) {
+		if (distanceToPlayer < this.diameterAggro / 2) {
 			this.playerInAggro = true;
 			this.getStart = false;
 		} else {
@@ -193,5 +215,13 @@ public class Enemy extends Creature {
 				this.attackTimer = 0;
 			}
 		}
+	}
+
+	public int getDiameterAggro() {
+		return this.diameterAggro;
+	}
+
+	public int getSpeed() {
+		return this.speed;
 	}
 }
