@@ -2,6 +2,7 @@ package DCT.utility;
 
 import DCT.Facade;
 import DCT.entity.creature.Enemy;
+import DCT.tile.Tile;
 
 public class NodeReader {
 
@@ -29,17 +30,33 @@ public class NodeReader {
 
 		for (int i = 0; i < this.row; i++) {
 			for (int j = 0; j < this.column; j++) {
-				this.map[j][i] = new Node();
+				this.map[j][i] = new Node(false, true);
 			}
 		}
 	}
 
-	public void mapFillSolid() {
+	public void fillMap(int x, int y) {
+		this.setVector(x, y);
+		this.mapCheckSolid();
+		this.mapCheckEntity();
 	}
 
-	public void mapCheckEntity(int x, int y) {
+	public void mapCheckSolid() {
+		for (int k = 0; k < this.row; k++) {
+			for (int j = 0; j < this.column; j++) {
+				int xTile = (this.startPosition.getX() + j * 3) / Tile.TILEWIDTH;
+				int yTile = (this.startPosition.getY() + k * 3) / Tile.TILEHEIGHT;
+				if (this.startPosition.getX() + j * this.speed < 0 || this.startPosition.getY() + k * this.speed < 0) {
+					continue;
+				}
+				if (Tile.tiles[this.facade.getWorld().getTiles()[xTile][yTile]].isSolid()) {
+					this.map[j][k].setViable(false);
+				}
+			}
+		}
+	}
 
-		this.setVector(x, y);
+	public void mapCheckEntity() {
 
 		for (int i = 0; i < this.facade.getEntityManager().getEntityList().size(); i++) {
 			if (this.facade.getEntityManager().getEntityList().get(i) == this.facade.getEntityManager().getPlayer()) {
@@ -67,8 +84,8 @@ public class NodeReader {
 				yStart = 0;
 			}
 
-			int xEnd = (hitbox.getX() - this.startPosition.getX() + hitbox.getWidth()) / 3;
-			int yEnd = (hitbox.getY() - this.startPosition.getY() + hitbox.getHeight()) / 3;
+			int xEnd = (hitbox.getX() - this.startPosition.getX() + hitbox.getWidth()) / this.speed;
+			int yEnd = (hitbox.getY() - this.startPosition.getY() + hitbox.getHeight()) / this.speed;
 			if (xEnd > this.column) {
 				xEnd = this.column;
 			}
@@ -112,5 +129,18 @@ public class NodeReader {
 
 	public Node getNode(int i, int j) {
 		return this.map[i][j];
+	}
+
+	public Vector getStartPosition() {
+		return this.startPosition;
+	}
+
+	public int getDimension() {
+		return this.rangeView;
+
+	}
+
+	public int getNodeDimension() {
+		return this.speed;
 	}
 }

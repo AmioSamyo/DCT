@@ -34,7 +34,7 @@ public class Enemy extends Creature {
 	@Override
 	public void update() {
 		if (this.health > 0) {
-			this.map.mapCheckEntity(this.getPositionX() + this.getPositionWidth() / 2 - this.diameterAggro / 2,
+			this.map.fillMap(this.getPositionX() + this.getPositionWidth() / 2 - this.diameterAggro / 2,
 					this.getPositionY() + this.getPositionHeight() / 2 - this.diameterAggro / 2);
 			this.move();
 			this.attack();
@@ -52,7 +52,7 @@ public class Enemy extends Creature {
 			for (int j = 0; j < this.map.getColumn(); j++) {
 
 				if (!this.map.getNode(j, i).isViable()) {
-					g.setColor(Color.WHITE);
+					g.setColor(Color.BLACK);
 					g.drawRect(
 							this.getPositionX() + this.getPositionWidth() / 2 - this.diameterAggro / 2 + j * 3
 									- this.facade.getGameCamera().getXOffset(),
@@ -60,7 +60,7 @@ public class Enemy extends Creature {
 									- this.facade.getGameCamera().getYOffset(),
 							3, 3);
 				} else {
-					g.setColor(Color.BLACK);
+					g.setColor(Color.WHITE);
 					g.drawRect(
 							this.getPositionX() + this.getPositionWidth() / 2 - this.diameterAggro / 2 + j * 3
 									- this.facade.getGameCamera().getXOffset(),
