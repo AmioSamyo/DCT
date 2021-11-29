@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 
 import DCT.Facade;
+import DCT.utility.AStar;
 import DCT.utility.NodeReader;
 import DCT.utility.Rectangle;
 import DCT.utility.Vector;
@@ -17,7 +18,7 @@ public class Enemy extends Creature {
 	protected int rangeOfAttack;
 	protected int diameterAggro = 300;
 	protected boolean getStart = false;
-	protected NodeReader map;
+	protected AStar aStar;
 
 	public Enemy(Facade facade, Rectangle position, int speed, int diameterAggro) {
 		super(facade, position);
@@ -27,15 +28,16 @@ public class Enemy extends Creature {
 		this.target = new Vector();
 		this.speed = speed;
 		this.diameterAggro = diameterAggro;
-		this.map = new NodeReader(facade, this);
+		this.aStar=new AStar(this.facade, this);
 
 	}
 
 	@Override
 	public void update() {
 		if (this.health > 0) {
-			this.map.fillMap(this.getPositionX() + this.getPositionWidth() / 2 - this.diameterAggro / 2,
-					this.getPositionY() + this.getPositionHeight() / 2 - this.diameterAggro / 2);
+			this.chooseTarget();
+			this.aStar.update(this.getPositionX() + this.getPositionWidth() / 2 - this.diameterAggro / 2,
+					this.getPositionY() + this.getPositionHeight() / 2 - this.diameterAggro / 2,this.target);
 			this.move();
 			this.attack();
 		} else {
@@ -48,29 +50,29 @@ public class Enemy extends Creature {
 
 		super.render(g);
 
-		for (int i = 0; i < this.map.getRow(); i++) {
-			for (int j = 0; j < this.map.getColumn(); j++) {
+		for (int i = 0; i < this.aStar.getMap().getRow(); i++) {
+			for (int j = 0; j < this.aStar.getMap().getColumn(); j++) {
 
-				if (!this.map.getNode(j, i).isViable()) {
-					g.setColor(Color.BLACK);
+				if (!this.aStar.getMap().getNode(j, i).isViable()) {
+					g.setColor(new Color(0,0,0,100));
 					g.drawRect(
-							this.getPositionX() + this.getPositionWidth() / 2 - this.diameterAggro / 2 + j * 3
+							this.getPositionX() + this.getPositionWidth() / 2 - this.diameterAggro / 2 + j * this.aStar.getMap().getNodeDimension()
 									- this.facade.getGameCamera().getXOffset(),
-							this.getPositionY() + this.getPositionHeight() / 2 - this.diameterAggro / 2 + i * 3
+							this.getPositionY() + this.getPositionHeight() / 2 - this.diameterAggro / 2 + i * this.aStar.getMap().getNodeDimension()
 									- this.facade.getGameCamera().getYOffset(),
-							3, 3);
+									this.aStar.getMap().getNodeDimension(), this.aStar.getMap().getNodeDimension());
 				} else {
-					g.setColor(Color.WHITE);
+					g.setColor(new Color(255,255,255,100));
 					g.drawRect(
-							this.getPositionX() + this.getPositionWidth() / 2 - this.diameterAggro / 2 + j * 3
+							this.getPositionX() + this.getPositionWidth() / 2 - this.diameterAggro / 2 + j * this.aStar.getMap().getNodeDimension()
 									- this.facade.getGameCamera().getXOffset(),
-							this.getPositionY() + this.getPositionHeight() / 2 - this.diameterAggro / 2 + i * 3
+							this.getPositionY() + this.getPositionHeight() / 2 - this.diameterAggro / 2 + i * this.aStar.getMap().getNodeDimension()
 									- this.facade.getGameCamera().getYOffset(),
-							3, 3);
+									this.aStar.getMap().getNodeDimension(), this.aStar.getMap().getNodeDimension());
 				}
 			}
 		}
-		this.map.mapRemoveEntity();
+		this.aStar.getMap().mapRemoveEntity();
 		g.setColor(this.debuggingColor);
 
 		this.drawRangeAggro(g);
@@ -79,7 +81,6 @@ public class Enemy extends Creature {
 	@Override
 	protected void move() {
 
-		this.chooseTarget();
 		this.moveToPoint();
 		super.move();
 		this.chooseCurrentAnimation();

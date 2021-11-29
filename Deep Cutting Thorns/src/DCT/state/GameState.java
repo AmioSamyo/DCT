@@ -37,7 +37,8 @@ public class GameState extends State {
 		this.entityManager.addEntity(new Rocks(this.facade, 180, 420));
 
 		this.entityManager.addEntity(new Bat(this.facade, new Vector(200, 150)));
-		/*this.entityManager.addEntity(new Bat(this.facade, new Vector(400, 150)));
+		/*
+		this.entityManager.addEntity(new Bat(this.facade, new Vector(400, 150)));
 		this.entityManager.addEntity(new Bat(this.facade, new Vector(500, 150)));
 		
 		this.entityManager.addEntity(new Bat(this.facade, new Vector(200, 230)));

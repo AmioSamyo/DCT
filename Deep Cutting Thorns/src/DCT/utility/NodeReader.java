@@ -10,7 +10,7 @@ public class NodeReader {
 	private Enemy currentEntity;
 	private int column;
 	private int row;
-	private int speed, rangeView;
+	private int nodeDimension, rangeView;
 	private Facade facade;
 	private Vector startPosition;
 
@@ -18,19 +18,19 @@ public class NodeReader {
 
 		this.facade = facade;
 		this.currentEntity = currentEntity;
-		this.speed = this.currentEntity.getSpeed();
+		this.nodeDimension = Math.max(this.currentEntity.getPositionWidth(), this.currentEntity.getPositionHeight());
 		this.rangeView = this.currentEntity.getDiameterAggro();
 
 		this.startPosition = new Vector();
 
-		this.column = this.rangeView / this.speed;
-		this.row = this.rangeView / this.speed;
+		this.column = this.rangeView / this.nodeDimension;
+		this.row = this.rangeView / this.nodeDimension;
 
 		this.map = new Node[this.column][this.row];
 
 		for (int i = 0; i < this.row; i++) {
 			for (int j = 0; j < this.column; j++) {
-				this.map[j][i] = new Node(false, true);
+				this.map[j][i] = new Node(j,i);
 			}
 		}
 	}
@@ -44,9 +44,10 @@ public class NodeReader {
 	public void mapCheckSolid() {
 		for (int k = 0; k < this.row; k++) {
 			for (int j = 0; j < this.column; j++) {
-				int xTile = (this.startPosition.getX() + j * 3) / Tile.TILEWIDTH;
-				int yTile = (this.startPosition.getY() + k * 3) / Tile.TILEHEIGHT;
-				if (this.startPosition.getX() + j * this.speed < 0 || this.startPosition.getY() + k * this.speed < 0) {
+				int xTile = (this.startPosition.getX() + j * this.nodeDimension) / Tile.TILEWIDTH;
+				int yTile = (this.startPosition.getY() + k * this.nodeDimension) / Tile.TILEHEIGHT;
+				if (this.startPosition.getX() + j * this.nodeDimension < 0
+						|| this.startPosition.getY() + k * this.nodeDimension < 0) {
 					continue;
 				}
 				if (Tile.tiles[this.facade.getWorld().getTiles()[xTile][yTile]].isSolid()) {
@@ -75,8 +76,8 @@ public class NodeReader {
 				continue;
 			}
 
-			int xStart = (hitbox.getX() - this.startPosition.getX()) / this.speed;
-			int yStart = (hitbox.getY() - this.startPosition.getY()) / this.speed;
+			int xStart = Math.max(((hitbox.getX() - this.startPosition.getX()) / this.nodeDimension) , 0);
+			int yStart = Math.max(((hitbox.getY() - this.startPosition.getY()) / this.nodeDimension) , 0);
 			if (hitbox.getX() < this.startPosition.getX()) {
 				xStart = 0;
 			}
@@ -84,8 +85,12 @@ public class NodeReader {
 				yStart = 0;
 			}
 
-			int xEnd = (hitbox.getX() - this.startPosition.getX() + hitbox.getWidth()) / this.speed;
-			int yEnd = (hitbox.getY() - this.startPosition.getY() + hitbox.getHeight()) / this.speed;
+			int xEnd = Math.min(
+					((hitbox.getX() - this.startPosition.getX() + hitbox.getWidth()) / this.nodeDimension) + 1,
+					this.column);
+			int yEnd = Math.min(
+					((hitbox.getY() - this.startPosition.getY() + hitbox.getHeight()) / this.nodeDimension) + 1,
+					this.row);
 			if (xEnd > this.column) {
 				xEnd = this.column;
 			}
@@ -106,6 +111,9 @@ public class NodeReader {
 		for (int k = 0; k < this.row; k++) {
 			for (int j = 0; j < this.column; j++) {
 				this.map[j][k].setViable(true);
+				this.map[j][k].setGScore(0);
+				this.map[j][k].setHScore(0);
+				this.map[j][k].setFScore();
 			}
 		}
 	}
@@ -141,6 +149,6 @@ public class NodeReader {
 	}
 
 	public int getNodeDimension() {
-		return this.speed;
+		return this.nodeDimension;
 	}
 }

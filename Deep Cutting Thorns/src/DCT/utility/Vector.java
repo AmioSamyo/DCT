@@ -43,4 +43,12 @@ public class Vector {
 	public void setY(int y) {
 		this.y = y;
 	}
+
+	public boolean isEquals(Vector target) {
+		if (target.getX() == this.x && target.getY() == this.y) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }
