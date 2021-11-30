@@ -70,6 +70,7 @@ public class AStar {
 			flag1 = flag1 + this.distance(current, new Vector(neighbors.get(i).getX(), neighbors.get(i).getY()));
 			this.map.getNode(neighbors.get(i).getX(), neighbors.get(i).getY()).setGScore(flag1);
 			this.map.getNode(neighbors.get(i).getX(), neighbors.get(i).getY()).setFScore();
+			flag1 = this.map.getNode(neighbors.get(i).getX(), neighbors.get(i).getY()).getFScore();
 
 			neighbors.get(i).setGScore(flag1);
 			neighbors.get(i).setFScore();
@@ -90,8 +91,9 @@ public class AStar {
 
 	private ArrayList<Node> getNeighbors(Node node) {
 		ArrayList<Node> flag = new ArrayList<Node>();
+
 		int xStart = node.getX() - 1;
-		int xEnd = xStart + 2;
+		int xEnd = xStart + 3;
 		if (xStart < 0) {
 			xStart = 0;
 		}
@@ -99,7 +101,7 @@ public class AStar {
 			xEnd = this.map.getColumn();
 		}
 		int yStart = node.getY() - 1;
-		int yEnd = yStart + 2;
+		int yEnd = yStart + 3;
 		if (yStart < 0) {
 			yStart = 0;
 		}
@@ -126,21 +128,8 @@ public class AStar {
 	}
 
 	private void updateTarget(Vector target) {
-		int x = (target.getX() - this.map.getDimension()) / this.map.getNodeDimension();
-		int y = (target.getY() - this.map.getDimension()) / this.map.getNodeDimension();
-
-		if (target.getX() > this.map.getStartPosition().getX() + this.map.getDimension()) {
-			x = this.map.getColumn();
-		}
-		if (target.getY() > this.map.getStartPosition().getY() + this.map.getDimension()) {
-			y = this.map.getRow();
-		}
-		if (target.getX() < this.map.getStartPosition().getX()) {
-			x = 0;
-		}
-		if (target.getY() < this.map.getStartPosition().getY()) {
-			y = 0;
-		}
+		int x = 3;
+		int y = 6;
 
 		this.target.setX(x);
 		this.target.setY(y);
@@ -153,11 +142,11 @@ public class AStar {
 	public NodeReader getMap() {
 		return this.map;
 	}
-	
+
 	public Vector getStart() {
 		return this.start;
 	}
-	
+
 	public Vector getTarget() {
 		return this.target;
 	}
