@@ -25,7 +25,7 @@ public class AStar {
 
 	public void update(int x, int y, Vector Target) {
 		this.map.fillMap(x, y);
-		this.updateTarget(target);
+		this.updateTarget(Target);
 		this.setPath();
 	}
 
@@ -128,9 +128,21 @@ public class AStar {
 	}
 
 	private void updateTarget(Vector target) {
-		int x = 3;
-		int y = 6;
+		int x = (target.getX() - this.map.getStartPosition().getX()) / this.map.getNodeDimension();
+		int y = (target.getY() - this.map.getStartPosition().getY()) / this.map.getNodeDimension();
 
+		if (x > this.map.getColumn()) {
+			x = this.map.getColumn();
+		}
+		if (y > this.map.getRow()) {
+			y = this.map.getRow();
+		}
+		if (x < 0) {
+			x = 0;
+		}
+		if (y < 0) {
+			y = 0;
+		}
 		this.target.setX(x);
 		this.target.setY(y);
 	}
