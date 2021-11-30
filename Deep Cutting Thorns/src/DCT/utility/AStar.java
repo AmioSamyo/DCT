@@ -44,34 +44,83 @@ public class AStar {
 		neighbors = this.getNeighbors(this.map.getNode(this.start.getX(), this.start.getY()));
 		this.current.setX(this.start.getX());
 		this.current.setY(this.start.getY());
-		
+
 		while (neighbors.size() > 0) {
-			if(this.current.isEquals(target)) {
+			if (this.current.isEquals(target)) {
 				break;
 			}
-			Node currentNode=this.chooseOpenNode(neighbors);
+			Node currentNode = this.chooseOpenNode(neighbors);
 			this.current.setX(currentNode.getX());
 			this.current.setY(currentNode.getY());
 			this.map.getNode(this.current.getX(), this.current.getY()).isClosed();
 			this.pathNode.add(this.map.getNode(this.current.getX(), this.current.getY()));
+			neighbors = this.getNeighbors(this.map.getNode(this.current.getX(), this.current.getY()));
 
 		}
 
 	}
 
 	private Node chooseOpenNode(ArrayList<Node> neighbors) {
-		// TODO Auto-generated method stub
-		return null;
+		Node flag = new Node(0, 0);
+		double min = 0;
+		for (int i = 0; i < neighbors.size(); i++) {
+			double flag1 = this.map.getNode(this.current.getX(), this.current.getY()).getGScore();
+			flag1 = flag1 + this.distance(current, new Vector(neighbors.get(i).getX(), neighbors.get(i).getY()));
+			this.map.getNode(neighbors.get(i).getX(), neighbors.get(i).getY()).setGScore(flag1);
+			this.map.getNode(neighbors.get(i).getX(), neighbors.get(i).getY()).setFScore();
+
+			neighbors.get(i).setGScore(flag1);
+			neighbors.get(i).setFScore();
+			if (i == 0) {
+				min = neighbors.get(i).getFScore();
+				flag = neighbors.get(i);
+			} else {
+				if (flag1 < min) {
+					min = flag1;
+					flag = neighbors.get(i);
+
+				}
+			}
+		}
+
+		return flag;
 	}
 
 	private ArrayList<Node> getNeighbors(Node node) {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<Node> flag = new ArrayList<Node>();
+		int xStart = node.getX() - 1;
+		int xEnd = xStart + 2;
+		if (xStart < 0) {
+			xStart = 0;
+		}
+		if (xEnd > this.map.getColumn()) {
+			xEnd = this.map.getColumn();
+		}
+		int yStart = node.getY() - 1;
+		int yEnd = xStart + 2;
+		if (yStart < 0) {
+			yStart = 0;
+		}
+		if (yEnd > this.map.getColumn()) {
+			yEnd = this.map.getColumn();
+		}
+
+		for (int i = yStart; i <= yEnd; i++) {
+			for (int j = xStart; j <= xEnd; j++) {
+				if (i == node.getY() && j == node.getX()) {
+					continue;
+				}
+				if (!this.map.getNode(j, i).isOpen() || !this.map.getNode(j, i).isViable()) {
+					continue;
+				}
+				flag.add(this.map.getNode(j, i));
+			}
+		}
+		return flag;
 	}
 
 	private double distance(Vector node, Vector target) {
-		// TODO Auto-generated method stub
-		return 0;
+		return Math.sqrt(Math.pow(node.getX() - target.getX(), 2) + Math.pow(node.getY() - target.getY(), 2));
 	}
 
 	private void updateTarget(Vector target) {
