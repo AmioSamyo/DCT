@@ -61,7 +61,7 @@ public class Node {
 	}
 
 	public void setOpen(boolean b) {
-		this.open=b;
-		
+		this.open = b;
+
 	}
 }

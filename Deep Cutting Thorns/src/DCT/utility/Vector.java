@@ -39,6 +39,11 @@ public class Vector {
 		}
 	}
 
+	public int distancetoVector(Vector v) {
+
+		return (int) Math.sqrt(Math.pow(v.getX() - this.x, 2) + Math.pow(v.getY() - this.y, 2));
+	}
+
 	public int getX() {
 		return this.x;
 	}

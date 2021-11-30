@@ -28,10 +28,11 @@ public class NodeReader {
 			this.column += 1;
 			this.rangeView += this.nodeDimension;
 		}
+
+		this.row = this.rangeView / this.nodeDimension;
 		if (this.row % 2 == 0) {
 			this.row += 1;
 		}
-		this.row = this.rangeView / this.nodeDimension;
 
 		this.map = new Node[this.column][this.row];
 

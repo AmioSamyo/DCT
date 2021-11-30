@@ -58,6 +58,12 @@ public class Enemy extends Creature {
 
 		super.render(g);
 
+		this.drawNode(g);
+
+		this.drawRangeAggro(g);
+	}
+
+	private void drawNode(Graphics2D g) {
 		for (int i = 0; i < this.aStar.getMap().getRow(); i++) {
 			for (int j = 0; j < this.aStar.getMap().getColumn(); j++) {
 
@@ -118,8 +124,6 @@ public class Enemy extends Creature {
 
 		this.aStar.getMap().mapRemoveEntity();
 		g.setColor(this.debuggingColor);
-
-		this.drawRangeAggro(g);
 	}
 
 	@Override
@@ -144,8 +148,8 @@ public class Enemy extends Creature {
 			this.target.setX(this.start.getX());
 			this.target.setY(this.start.getY());
 		} else if (this.getStart) {
-			this.target.setX(300);
-			this.target.setY(300);
+			this.target.setX(64);
+			this.target.setY(64*6);
 			this.checkEndWatch();
 		}
 	}
