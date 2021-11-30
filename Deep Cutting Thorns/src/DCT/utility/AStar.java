@@ -23,9 +23,9 @@ public class AStar {
 
 	}
 
-	public void update(int x, int y, Vector Target) {
+	public void update(int x, int y, Vector targetPosition) {
 		this.map.fillMap(x, y);
-		this.updateTarget(Target);
+		this.updateTarget(targetPosition);
 		this.setPath();
 	}
 
@@ -145,6 +145,62 @@ public class AStar {
 		}
 		this.target.setX(x);
 		this.target.setY(y);
+	}
+
+	public Vector getPath() {
+		int x = 0;
+		int y = 0;
+		if (this.pathNode.size() > 0) {
+			int xTile = this.pathNode.get(0).getX();
+			int yTile = this.pathNode.get(0).getY();
+
+			if (xTile == this.start.getX() - 1 && yTile == this.start.getY() - 1) {// 1
+				x = this.map.getStartPosition().getX() + (this.start.getX()) * this.map.getNodeDimension();
+				y = this.map.getStartPosition().getY() + (this.start.getX()) * this.map.getNodeDimension();
+			}
+			if (xTile == this.start.getX() && yTile == this.start.getY() - 1) {// 2 V
+				x = this.map.getStartPosition().getX() + (this.start.getX()) * this.map.getNodeDimension()
+						+ this.map.getNodeDimension() / 2;
+				y = this.map.getStartPosition().getY() + (this.start.getX()) * this.map.getNodeDimension();
+			}
+			if (xTile == this.start.getX() + 1 && yTile == this.start.getY() - 1) {// 3 V
+				x = this.map.getStartPosition().getX() + (this.start.getX() + 1) * this.map.getNodeDimension();
+				y = this.map.getStartPosition().getY() + (this.start.getX()) * this.map.getNodeDimension();
+			}
+			if (xTile == this.start.getX() + 1 && yTile == this.start.getY()) {// 4 V
+				x = this.map.getStartPosition().getX() + (this.start.getX() + 1) * this.map.getNodeDimension();
+				y = this.map.getStartPosition().getY() + (this.start.getX()) * this.map.getNodeDimension()
+						+ this.map.getNodeDimension() / 2;
+			}
+			if (xTile == this.start.getX() + 1 && yTile == this.start.getY() + 1) {// 5
+				x = this.map.getStartPosition().getX() + (this.start.getX() + 1) * this.map.getNodeDimension();
+				y = this.map.getStartPosition().getY() + (this.start.getX() + 1) * this.map.getNodeDimension();
+			}
+			if (xTile == this.start.getX() && yTile == this.start.getY() + 1) {// 6 V
+				x = this.map.getStartPosition().getX() + (this.start.getX()) * this.map.getNodeDimension()
+						+ this.map.getNodeDimension() / 2;
+				y = this.map.getStartPosition().getY() + (this.start.getX() + 1) * this.map.getNodeDimension();
+			}
+			if (xTile == this.start.getX() - 1 && yTile == this.start.getY() + 1) {// 7
+				x = this.map.getStartPosition().getX() + (this.start.getX()) * this.map.getNodeDimension();
+				y = this.map.getStartPosition().getY() + (this.start.getX() + 1) * this.map.getNodeDimension();
+			}
+			if (xTile == this.start.getX() - 1 && yTile == this.start.getY()) {// 8
+				x = this.map.getStartPosition().getX() + (this.start.getX()) * this.map.getNodeDimension();
+				y = this.map.getStartPosition().getY() + (this.start.getX()) * this.map.getNodeDimension()
+						+ this.map.getNodeDimension() / 2;
+			}
+		} else {
+			x = this.map.getStartPosition().getX() + (this.start.getX() + 1) * this.map.getNodeDimension()
+					+ this.map.getNodeDimension() / 2;
+			y = this.map.getStartPosition().getY() + (this.start.getX() + 1) * this.map.getNodeDimension()
+					+ this.map.getNodeDimension() / 2;
+		}
+
+		this.path.setX(x);
+		this.path.setY(y);
+
+		return this.path;
 	}
 
 	public ArrayList<Node> getPathNode() {

@@ -28,6 +28,17 @@ public class Vector {
 		}
 	}
 
+	public void normalize(int flag) {
+		if (this.x != 0) {
+			this.x /= Math.abs(this.x);
+			this.x *= flag;
+		}
+		if (this.y != 0) {
+			this.y /= Math.abs(this.y);
+			this.y *= flag;
+		}
+	}
+
 	public int getX() {
 		return this.x;
 	}

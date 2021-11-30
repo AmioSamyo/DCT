@@ -15,11 +15,12 @@ public class Enemy extends Creature {
 
 	protected boolean playerInAggro = false;
 
-	protected Vector start, target;
+	protected Vector start, target, targetPath;
 	private long lastAttackTimer, attackCooldown = 600, attackTimer = this.attackCooldown;
 	protected int rangeOfAttack;
 	protected int diameterAggro = 300;
 	protected boolean getStart = false;
+	protected boolean getPositionPath = true;
 	protected AStar aStar;
 
 	public Enemy(Facade facade, Rectangle position, int speed, int diameterAggro) {
@@ -28,6 +29,7 @@ public class Enemy extends Creature {
 		this.start = new Vector(this.getPositionX() + this.getPositionWidth() / 2,
 				this.getPositionY() + this.getPositionHeight() / 2);
 		this.target = new Vector();
+		this.targetPath = new Vector();
 		this.speed = speed;
 		this.diameterAggro = diameterAggro;
 		this.aStar = new AStar(this.facade, this);
@@ -38,8 +40,12 @@ public class Enemy extends Creature {
 	public void update() {
 		if (this.health > 0) {
 			this.chooseTarget();
-			this.aStar.update(this.getPositionX() - this.diameterAggro / 2,
-					this.getPositionY() - this.diameterAggro / 2, this.target);
+			if (this.getPositionPath) {
+				this.aStar.update(this.getPositionX() - this.diameterAggro / 2,
+						this.getPositionY() - this.diameterAggro / 2, this.target);
+				this.targetPath = this.aStar.getPath();
+				this.getPositionPath = false;
+			}
 			this.move();
 			this.attack();
 		} else {
@@ -57,18 +63,18 @@ public class Enemy extends Creature {
 
 				if (!this.aStar.getMap().getNode(j, i).isViable()) {
 					g.setColor(new Color(0, 0, 0));
-					g.drawRect(this.getPositionX() - this.diameterAggro / 2
-							+ j * this.aStar.getMap().getNodeDimension() - this.facade.getGameCamera().getXOffset(),
-							this.getPositionY()  - this.diameterAggro / 2
-									+ i * this.aStar.getMap().getNodeDimension()
+					g.drawRect(
+							this.getPositionX() - this.diameterAggro / 2 + j * this.aStar.getMap().getNodeDimension()
+									- this.facade.getGameCamera().getXOffset(),
+							this.getPositionY() - this.diameterAggro / 2 + i * this.aStar.getMap().getNodeDimension()
 									- this.facade.getGameCamera().getYOffset(),
 							this.aStar.getMap().getNodeDimension(), this.aStar.getMap().getNodeDimension());
 				} else {
 					g.setColor(new Color(255, 255, 255));
-					g.drawRect(this.getPositionX() - this.diameterAggro / 2
-							+ j * this.aStar.getMap().getNodeDimension() - this.facade.getGameCamera().getXOffset(),
-							this.getPositionY()  - this.diameterAggro / 2
-									+ i * this.aStar.getMap().getNodeDimension()
+					g.drawRect(
+							this.getPositionX() - this.diameterAggro / 2 + j * this.aStar.getMap().getNodeDimension()
+									- this.facade.getGameCamera().getXOffset(),
+							this.getPositionY() - this.diameterAggro / 2 + i * this.aStar.getMap().getNodeDimension()
 									- this.facade.getGameCamera().getYOffset(),
 							this.aStar.getMap().getNodeDimension(), this.aStar.getMap().getNodeDimension());
 				}
@@ -79,31 +85,37 @@ public class Enemy extends Creature {
 			int j = flag.get(k).getX();
 			int i = flag.get(k).getY();
 			g.setColor(new Color(255, 0, 0));
-			g.drawRect(this.getPositionX() - this.diameterAggro / 2
-					+ j * this.aStar.getMap().getNodeDimension() - this.facade.getGameCamera().getXOffset(),
-					this.getPositionY()  - this.diameterAggro / 2
-							+ i * this.aStar.getMap().getNodeDimension()
+			g.drawRect(
+					this.getPositionX() - this.diameterAggro / 2 + j * this.aStar.getMap().getNodeDimension()
+							- this.facade.getGameCamera().getXOffset(),
+					this.getPositionY() - this.diameterAggro / 2 + i * this.aStar.getMap().getNodeDimension()
 							- this.facade.getGameCamera().getYOffset(),
 					this.aStar.getMap().getNodeDimension(), this.aStar.getMap().getNodeDimension());
 		}
-		Vector start=new Vector(this.aStar.getStart());
-		Vector target=new Vector(this.aStar.getTarget());
+		Vector start = new Vector(this.aStar.getStart());
+		Vector target = new Vector(this.aStar.getTarget());
 		g.setColor(new Color(0, 255, 0));
-		g.drawRect(this.getPositionX() - this.diameterAggro / 2
-				+ start.getX() * this.aStar.getMap().getNodeDimension() - this.facade.getGameCamera().getXOffset(),
-				this.getPositionY()  - this.diameterAggro / 2
-						+ start.getY() * this.aStar.getMap().getNodeDimension()
+		g.drawRect(
+				this.getPositionX() - this.diameterAggro / 2 + start.getX() * this.aStar.getMap().getNodeDimension()
+						- this.facade.getGameCamera().getXOffset(),
+				this.getPositionY() - this.diameterAggro / 2 + start.getY() * this.aStar.getMap().getNodeDimension()
 						- this.facade.getGameCamera().getYOffset(),
 				this.aStar.getMap().getNodeDimension(), this.aStar.getMap().getNodeDimension());
-		
+
 		g.setColor(new Color(0, 0, 255));
-		g.drawRect(this.getPositionX() - this.diameterAggro / 2
-				+ target.getX() * this.aStar.getMap().getNodeDimension() - this.facade.getGameCamera().getXOffset(),
-				this.getPositionY()  - this.diameterAggro / 2
-						+ target.getY() * this.aStar.getMap().getNodeDimension()
+		g.drawRect(
+				this.getPositionX() - this.diameterAggro / 2 + target.getX() * this.aStar.getMap().getNodeDimension()
+						- this.facade.getGameCamera().getXOffset(),
+				this.getPositionY() - this.diameterAggro / 2 + target.getY() * this.aStar.getMap().getNodeDimension()
 						- this.facade.getGameCamera().getYOffset(),
 				this.aStar.getMap().getNodeDimension(), this.aStar.getMap().getNodeDimension());
-		
+
+		g.setColor(new Color(0, 0, 255));
+		g.drawLine(this.getPositionX() + this.getPositionWidth() / 2 - this.facade.getGameCamera().getXOffset(),
+				this.getPositionY() + this.getPositionHeight() / 2 - this.facade.getGameCamera().getYOffset(),
+				this.targetPath.getX() - this.facade.getGameCamera().getXOffset(),
+				this.targetPath.getY() - this.facade.getGameCamera().getYOffset());
+
 		this.aStar.getMap().mapRemoveEntity();
 		g.setColor(this.debuggingColor);
 
@@ -206,9 +218,13 @@ public class Enemy extends Creature {
 
 		Vector delta = new Vector();
 
-		delta.setX(this.target.getX() - this.getPositionX() - this.getPositionWidth() / 2);
+		delta.setX(this.targetPath.getX() - this.getPositionX() - this.getPositionWidth() / 2);
 
-		delta.setY(this.target.getY() - this.getPositionY() - this.getPositionHeight() / 2);
+		delta.setY(this.targetPath.getY() - this.getPositionY() - this.getPositionHeight() / 2);
+
+		if (Math.abs(delta.getX()) < this.speed && Math.abs(delta.getY()) < this.speed) {
+			this.getPositionPath = true;
+		}
 
 		if (Math.abs(delta.getX()) < this.speed) {
 			this.xMove = 0;
