@@ -24,13 +24,20 @@ public class NodeReader {
 		this.startPosition = new Vector();
 
 		this.column = this.rangeView / this.nodeDimension;
+		if (this.column % 2 == 0) {
+			this.column += 1;
+			this.rangeView += this.nodeDimension;
+		}
+		if (this.row % 2 == 0) {
+			this.row += 1;
+		}
 		this.row = this.rangeView / this.nodeDimension;
 
 		this.map = new Node[this.column][this.row];
 
 		for (int i = 0; i < this.row; i++) {
 			for (int j = 0; j < this.column; j++) {
-				this.map[j][i] = new Node(j,i);
+				this.map[j][i] = new Node(j, i);
 			}
 		}
 	}
@@ -76,8 +83,8 @@ public class NodeReader {
 				continue;
 			}
 
-			int xStart = Math.max(((hitbox.getX() - this.startPosition.getX()) / this.nodeDimension) , 0);
-			int yStart = Math.max(((hitbox.getY() - this.startPosition.getY()) / this.nodeDimension) , 0);
+			int xStart = Math.max(((hitbox.getX() - this.startPosition.getX()) / this.nodeDimension), 0);
+			int yStart = Math.max(((hitbox.getY() - this.startPosition.getY()) / this.nodeDimension), 0);
 			if (hitbox.getX() < this.startPosition.getX()) {
 				xStart = 0;
 			}
@@ -111,6 +118,7 @@ public class NodeReader {
 		for (int k = 0; k < this.row; k++) {
 			for (int j = 0; j < this.column; j++) {
 				this.map[j][k].setViable(true);
+				this.map[j][k].setOpen(true);
 				this.map[j][k].setGScore(0);
 				this.map[j][k].setHScore(0);
 				this.map[j][k].setFScore();

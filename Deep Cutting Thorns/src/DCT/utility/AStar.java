@@ -31,6 +31,8 @@ public class AStar {
 
 	public void setPath() {
 
+		this.pathNode.removeAll(pathNode);
+
 		for (int i = 0; i < this.map.getRow(); i++) {
 			for (int j = 0; j < this.map.getColumn(); j++) {
 				this.map.getNode(j, i).setHScore(this.distance(new Vector(j, i), this.target));
@@ -46,7 +48,7 @@ public class AStar {
 		this.current.setY(this.start.getY());
 
 		while (neighbors.size() > 0) {
-			if (this.current.isEquals(target)) {
+			if (this.current.isEquals(this.target)) {
 				break;
 			}
 			Node currentNode = this.chooseOpenNode(neighbors);
@@ -97,16 +99,16 @@ public class AStar {
 			xEnd = this.map.getColumn();
 		}
 		int yStart = node.getY() - 1;
-		int yEnd = xStart + 2;
+		int yEnd = yStart + 2;
 		if (yStart < 0) {
 			yStart = 0;
 		}
-		if (yEnd > this.map.getColumn()) {
-			yEnd = this.map.getColumn();
+		if (yEnd > this.map.getRow()) {
+			yEnd = this.map.getRow();
 		}
 
-		for (int i = yStart; i <= yEnd; i++) {
-			for (int j = xStart; j <= xEnd; j++) {
+		for (int i = yStart; i < yEnd; i++) {
+			for (int j = xStart; j < xEnd; j++) {
 				if (i == node.getY() && j == node.getX()) {
 					continue;
 				}
@@ -144,8 +146,20 @@ public class AStar {
 		this.target.setY(y);
 	}
 
+	public ArrayList<Node> getPathNode() {
+		return this.pathNode;
+	}
+
 	public NodeReader getMap() {
 		return this.map;
+	}
+	
+	public Vector getStart() {
+		return this.start;
+	}
+	
+	public Vector getTarget() {
+		return this.target;
 	}
 
 }

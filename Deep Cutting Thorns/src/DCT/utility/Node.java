@@ -7,10 +7,11 @@ public class Node {
 	private double gScore;
 	private double hScore;
 	private double fScore;
-	private boolean open = true;
+	private boolean open;
 
 	public Node(int i, int j) {
 		this.viable = true;
+		this.open = true;
 		this.x = i;
 		this.y = j;
 	}
@@ -57,5 +58,10 @@ public class Node {
 
 	public boolean isOpen() {
 		return this.open;
+	}
+
+	public void setOpen(boolean b) {
+		this.open=b;
+		
 	}
 }

@@ -2,9 +2,11 @@ package DCT.entity.creature;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.util.ArrayList;
 
 import DCT.Facade;
 import DCT.utility.AStar;
+import DCT.utility.Node;
 import DCT.utility.NodeReader;
 import DCT.utility.Rectangle;
 import DCT.utility.Vector;
@@ -28,7 +30,7 @@ public class Enemy extends Creature {
 		this.target = new Vector();
 		this.speed = speed;
 		this.diameterAggro = diameterAggro;
-		this.aStar=new AStar(this.facade, this);
+		this.aStar = new AStar(this.facade, this);
 
 	}
 
@@ -36,8 +38,8 @@ public class Enemy extends Creature {
 	public void update() {
 		if (this.health > 0) {
 			this.chooseTarget();
-			this.aStar.update(this.getPositionX() + this.getPositionWidth() / 2 - this.diameterAggro / 2,
-					this.getPositionY() + this.getPositionHeight() / 2 - this.diameterAggro / 2,this.target);
+			this.aStar.update(this.getPositionX() - this.diameterAggro / 2,
+					this.getPositionY() - this.diameterAggro / 2, this.target);
 			this.move();
 			this.attack();
 		} else {
@@ -54,24 +56,54 @@ public class Enemy extends Creature {
 			for (int j = 0; j < this.aStar.getMap().getColumn(); j++) {
 
 				if (!this.aStar.getMap().getNode(j, i).isViable()) {
-					g.setColor(new Color(0,0,0,100));
-					g.drawRect(
-							this.getPositionX() + this.getPositionWidth() / 2 - this.diameterAggro / 2 + j * this.aStar.getMap().getNodeDimension()
-									- this.facade.getGameCamera().getXOffset(),
-							this.getPositionY() + this.getPositionHeight() / 2 - this.diameterAggro / 2 + i * this.aStar.getMap().getNodeDimension()
+					g.setColor(new Color(0, 0, 0));
+					g.drawRect(this.getPositionX() - this.diameterAggro / 2
+							+ j * this.aStar.getMap().getNodeDimension() - this.facade.getGameCamera().getXOffset(),
+							this.getPositionY()  - this.diameterAggro / 2
+									+ i * this.aStar.getMap().getNodeDimension()
 									- this.facade.getGameCamera().getYOffset(),
-									this.aStar.getMap().getNodeDimension(), this.aStar.getMap().getNodeDimension());
+							this.aStar.getMap().getNodeDimension(), this.aStar.getMap().getNodeDimension());
 				} else {
-					g.setColor(new Color(255,255,255,100));
-					g.drawRect(
-							this.getPositionX() + this.getPositionWidth() / 2 - this.diameterAggro / 2 + j * this.aStar.getMap().getNodeDimension()
-									- this.facade.getGameCamera().getXOffset(),
-							this.getPositionY() + this.getPositionHeight() / 2 - this.diameterAggro / 2 + i * this.aStar.getMap().getNodeDimension()
+					g.setColor(new Color(255, 255, 255));
+					g.drawRect(this.getPositionX() - this.diameterAggro / 2
+							+ j * this.aStar.getMap().getNodeDimension() - this.facade.getGameCamera().getXOffset(),
+							this.getPositionY()  - this.diameterAggro / 2
+									+ i * this.aStar.getMap().getNodeDimension()
 									- this.facade.getGameCamera().getYOffset(),
-									this.aStar.getMap().getNodeDimension(), this.aStar.getMap().getNodeDimension());
+							this.aStar.getMap().getNodeDimension(), this.aStar.getMap().getNodeDimension());
 				}
 			}
 		}
+		ArrayList<Node> flag = this.aStar.getPathNode();
+		for (int k = 0; k < flag.size(); k++) {
+			int j = flag.get(k).getX();
+			int i = flag.get(k).getY();
+			g.setColor(new Color(255, 0, 0));
+			g.drawRect(this.getPositionX() - this.diameterAggro / 2
+					+ j * this.aStar.getMap().getNodeDimension() - this.facade.getGameCamera().getXOffset(),
+					this.getPositionY()  - this.diameterAggro / 2
+							+ i * this.aStar.getMap().getNodeDimension()
+							- this.facade.getGameCamera().getYOffset(),
+					this.aStar.getMap().getNodeDimension(), this.aStar.getMap().getNodeDimension());
+		}
+		Vector start=new Vector(this.aStar.getStart());
+		Vector target=new Vector(this.aStar.getTarget());
+		g.setColor(new Color(0, 255, 0));
+		g.drawRect(this.getPositionX() - this.diameterAggro / 2
+				+ start.getX() * this.aStar.getMap().getNodeDimension() - this.facade.getGameCamera().getXOffset(),
+				this.getPositionY()  - this.diameterAggro / 2
+						+ start.getY() * this.aStar.getMap().getNodeDimension()
+						- this.facade.getGameCamera().getYOffset(),
+				this.aStar.getMap().getNodeDimension(), this.aStar.getMap().getNodeDimension());
+		
+		g.setColor(new Color(0, 0, 255));
+		g.drawRect(this.getPositionX() - this.diameterAggro / 2
+				+ target.getX() * this.aStar.getMap().getNodeDimension() - this.facade.getGameCamera().getXOffset(),
+				this.getPositionY()  - this.diameterAggro / 2
+						+ target.getY() * this.aStar.getMap().getNodeDimension()
+						- this.facade.getGameCamera().getYOffset(),
+				this.aStar.getMap().getNodeDimension(), this.aStar.getMap().getNodeDimension());
+		
 		this.aStar.getMap().mapRemoveEntity();
 		g.setColor(this.debuggingColor);
 
