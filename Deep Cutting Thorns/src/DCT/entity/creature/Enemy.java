@@ -20,8 +20,9 @@ public class Enemy extends Creature {
 	private long lastAttackTimer, attackCooldown = 600, attackTimer = this.attackCooldown;
 	protected int rangeOfAttack;
 	protected int diameterAggro = 300;
-	protected boolean getStart = false;
+	protected boolean getStart = true;
 	protected boolean getPositionPath = true;
+	protected boolean chooseWatch = true;
 	protected AStar aStar;
 
 	public Enemy(Facade facade, Rectangle position, int speed, int diameterAggro) {
@@ -60,12 +61,22 @@ public class Enemy extends Creature {
 		super.render(g);
 
 		this.drawNode(g);
+
 		this.aStar.getMap().mapRemoveEntity();
 
 		this.drawRangeAggro(g);
 	}
 
 	private void drawNode(Graphics2D g) {
+
+		g.setColor(new Color(175, 0, 120, 100));
+		g.fillRect(this.start.getX() - this.facade.getGameCamera().getXOffset(),
+				this.start.getY() - this.facade.getGameCamera().getYOffset(), 64, 64);
+
+		g.setColor(new Color(0, 0, 120, 100));
+		g.fillRect(this.target.getX() - this.facade.getGameCamera().getXOffset(),
+				this.target.getY() - this.facade.getGameCamera().getYOffset(), 64, 64);
+
 		for (int i = 0; i < this.aStar.getMap().getRow(); i++) {
 			for (int j = 0; j < this.aStar.getMap().getColumn(); j++) {
 
@@ -138,51 +149,63 @@ public class Enemy extends Creature {
 
 	protected void chooseTarget() {
 		this.playerInAggro();
-		this.checkIfStart();
 		if (this.playerInAggro) {
 			this.target.setX(this.facade.getEntityManager().getPlayer().getPositionX()
 					+ this.facade.getEntityManager().getPlayer().getPositionWidth() / 2);
 			this.target.setY(this.facade.getEntityManager().getPlayer().getPositionY()
 					+ this.facade.getEntityManager().getPlayer().getPositionHeight() / 2);
-		} else if (!this.getStart) {
-			this.target.setX(this.start.getX());
-			this.target.setY(this.start.getY());
-		} else if (this.getStart) {
-			this.setWatchTarget();
-			this.checkEndWatch();
+		} else {
+			if (this.getStart) {
+				this.setWatchTarget();
+				this.checkEndWatch();
+			}
+			if (!this.getStart) {
+				this.target.setX(this.start.getX());
+				this.target.setY(this.start.getY());
+				this.checkIfStart();
+			}
 		}
 	}
 
 	private void setWatchTarget() {
-		int x = this.getPositionX() - this.diameterAggro
-				+ (int) (Math.random() * (this.getPositionX() + this.diameterAggro));
-		int y = this.getPositionY() - this.diameterAggro
-				+ (int) (Math.random() * (this.getPositionY() + this.diameterAggro));
-		if (x < 0) {
-			x = 0;
-		}
-		if (x > this.facade.getWidth()) {
-			x = this.facade.getWidth();
-		}
-		if (y < 0) {
-			y = 0;
-		}
-		if (y > this.facade.getHeight()) {
-			y = this.facade.getHeight();
-		}
-		int flagX = x / Tile.TILEWIDTH;
-		int flagY = y / Tile.TILEHEIGHT;
-		if (Tile.tiles[this.facade.getWorld().getTiles()[flagX][flagY]].isSolid()) {
-			this.setWatchTarget();
-		} else {
-			if ((Math.abs(x - this.getPositionX())) < this.speed * 5&&(Math.abs(y - this.getPositionY())) < this.speed) {
-
-			} else {
-				this.target.setX(x);
-				this.target.setY(y);
-				return;
+		if (this.chooseWatch) {
+			int x = this.start.getX() - this.diameterAggro
+					+ (int) (Math.random() * (this.start.getX() + this.diameterAggro));
+			int y = this.start.getY() - this.diameterAggro
+					+ (int) (Math.random() * (this.start.getY() + this.diameterAggro));
+			if (x < 0) {
+				x = 0;
 			}
+			if (x > this.facade.getWidth()) {
+				x = this.facade.getWidth();
+			}
+			if (y < 0) {
+				y = 0;
+			}
+			if (y > this.facade.getHeight()) {
+				y = this.facade.getHeight();
+			}
+			int flagX = x / Tile.TILEWIDTH;
+			int flagY = y / Tile.TILEHEIGHT;
+			if (Tile.tiles[this.facade.getWorld().getTiles()[flagX][flagY]].isSolid()) {
+				x = 300;
+				y = 700;
+			} else if ((Math.abs(x - this.getPositionX())) < 2 * this.aStar.getMap().getNodeDimension()
+					&& (Math.abs(y - this.getPositionY())) < 2 * this.aStar.getMap().getNodeDimension()) {
+				x = 300;
+				y = 700;
+			} else if (((Math.abs(x - this.start.getX())) < 2 * this.aStar.getMap().getNodeDimension()
+					&& (Math.abs(y - this.start.getY())) < 2 * this.aStar.getMap().getNodeDimension())) {
+				x = 300;
+				y = 700;
+			}
+
+			this.target.setX(x);
+			this.target.setY(y);
+			this.chooseWatch = false;
+			return;
 		}
+
 	}
 
 	protected void drawRangeAggro(Graphics2D g) {
@@ -230,8 +253,9 @@ public class Enemy extends Creature {
 
 		int distanceToPlayer = (int) Math.sqrt(Math.pow(delta.getX(), 2) + Math.pow(delta.getY(), 2));
 
-		if (distanceToPlayer < 10 * this.speed) {
+		if (distanceToPlayer < 20 * this.speed) {
 			this.getStart = true;
+			this.chooseWatch = true;
 		}
 
 	}
@@ -243,7 +267,7 @@ public class Enemy extends Creature {
 		delta.setX(Math.abs(this.target.getX() - this.getPositionX() - this.getPositionWidth() / 2));
 		delta.setY(Math.abs(this.target.getY() - this.getPositionY() - this.getPositionHeight() / 2));
 		int distanceToPlayer = (int) Math.sqrt(Math.pow(delta.getX(), 2) + Math.pow(delta.getY(), 2));
-		if (distanceToPlayer < 10 * this.speed) {
+		if (distanceToPlayer < 20 * this.speed) {
 			this.getStart = false;
 		}
 
@@ -261,7 +285,7 @@ public class Enemy extends Creature {
 			this.getPositionPath = true;
 		}
 
-		if (Math.abs(delta.getX()) < 9 * this.speed) {
+		if (Math.abs(delta.getX()) < 8 * this.speed) {
 			this.xMove = 0;
 		} else {
 			if (delta.getX() < 0) {
@@ -271,7 +295,7 @@ public class Enemy extends Creature {
 				this.xMove = this.speed;
 			}
 		}
-		if (Math.abs(delta.getY()) < 9 * this.speed) {
+		if (Math.abs(delta.getY()) < 8 * this.speed) {
 			this.yMove = 0;
 		} else {
 			if (delta.getY() < 0) {
@@ -308,4 +332,5 @@ public class Enemy extends Creature {
 	public int getSpeed() {
 		return this.speed;
 	}
+	
 }

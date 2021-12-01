@@ -133,6 +133,9 @@ public class NodeReader {
 		this.startPosition.setY(y);
 	}
 
+	public Enemy getEnemy() {
+		return this.currentEntity;
+	}
 	public int getColumn() {
 		return this.column;
 	}
