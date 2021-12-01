@@ -175,9 +175,13 @@ public class Enemy extends Creature {
 		if (Tile.tiles[this.facade.getWorld().getTiles()[flagX][flagY]].isSolid()) {
 			this.setWatchTarget();
 		} else {
-			this.target.setX(x);
-			this.target.setY(y);
-			return;
+			if ((Math.abs(x - this.getPositionX())) < this.speed * 5&&(Math.abs(y - this.getPositionY())) < this.speed) {
+
+			} else {
+				this.target.setX(x);
+				this.target.setY(y);
+				return;
+			}
 		}
 	}
 
@@ -257,7 +261,7 @@ public class Enemy extends Creature {
 			this.getPositionPath = true;
 		}
 
-		if (Math.abs(delta.getX()) < this.speed) {
+		if (Math.abs(delta.getX()) < 9 * this.speed) {
 			this.xMove = 0;
 		} else {
 			if (delta.getX() < 0) {
@@ -267,7 +271,7 @@ public class Enemy extends Creature {
 				this.xMove = this.speed;
 			}
 		}
-		if (Math.abs(delta.getY()) < this.speed) {
+		if (Math.abs(delta.getY()) < 9 * this.speed) {
 			this.yMove = 0;
 		} else {
 			if (delta.getY() < 0) {
