@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import java.util.ArrayList;
 
 import DCT.Facade;
+import DCT.tile.Tile;
 import DCT.utility.AStar;
 import DCT.utility.Node;
 import DCT.utility.NodeReader;
@@ -59,6 +60,7 @@ public class Enemy extends Creature {
 		super.render(g);
 
 		this.drawNode(g);
+		this.aStar.getMap().mapRemoveEntity();
 
 		this.drawRangeAggro(g);
 	}
@@ -121,8 +123,6 @@ public class Enemy extends Creature {
 				this.getPositionY() + this.getPositionHeight() / 2 - this.facade.getGameCamera().getYOffset(),
 				this.targetPath.getX() - this.facade.getGameCamera().getXOffset(),
 				this.targetPath.getY() - this.facade.getGameCamera().getYOffset());
-
-		this.aStar.getMap().mapRemoveEntity();
 		g.setColor(this.debuggingColor);
 	}
 
@@ -148,9 +148,36 @@ public class Enemy extends Creature {
 			this.target.setX(this.start.getX());
 			this.target.setY(this.start.getY());
 		} else if (this.getStart) {
-			this.target.setX(64);
-			this.target.setY(64*6);
+			this.setWatchTarget();
 			this.checkEndWatch();
+		}
+	}
+
+	private void setWatchTarget() {
+		int x = this.getPositionX() - this.diameterAggro
+				+ (int) (Math.random() * (this.getPositionX() + this.diameterAggro));
+		int y = this.getPositionY() - this.diameterAggro
+				+ (int) (Math.random() * (this.getPositionY() + this.diameterAggro));
+		if (x < 0) {
+			x = 0;
+		}
+		if (x > this.facade.getWidth()) {
+			x = this.facade.getWidth();
+		}
+		if (y < 0) {
+			y = 0;
+		}
+		if (y > this.facade.getHeight()) {
+			y = this.facade.getHeight();
+		}
+		int flagX = x / Tile.TILEWIDTH;
+		int flagY = y / Tile.TILEHEIGHT;
+		if (Tile.tiles[this.facade.getWorld().getTiles()[flagX][flagY]].isSolid()) {
+			this.setWatchTarget();
+		} else {
+			this.target.setX(x);
+			this.target.setY(y);
+			return;
 		}
 	}
 
@@ -199,7 +226,7 @@ public class Enemy extends Creature {
 
 		int distanceToPlayer = (int) Math.sqrt(Math.pow(delta.getX(), 2) + Math.pow(delta.getY(), 2));
 
-		if (distanceToPlayer < this.speed) {
+		if (distanceToPlayer < 10 * this.speed) {
 			this.getStart = true;
 		}
 
@@ -212,7 +239,7 @@ public class Enemy extends Creature {
 		delta.setX(Math.abs(this.target.getX() - this.getPositionX() - this.getPositionWidth() / 2));
 		delta.setY(Math.abs(this.target.getY() - this.getPositionY() - this.getPositionHeight() / 2));
 		int distanceToPlayer = (int) Math.sqrt(Math.pow(delta.getX(), 2) + Math.pow(delta.getY(), 2));
-		if (distanceToPlayer < this.speed) {
+		if (distanceToPlayer < 10 * this.speed) {
 			this.getStart = false;
 		}
 
@@ -226,7 +253,7 @@ public class Enemy extends Creature {
 
 		delta.setY(this.targetPath.getY() - this.getPositionY() - this.getPositionHeight() / 2);
 
-		if (Math.abs(delta.getX()) < this.speed && Math.abs(delta.getY()) < this.speed) {
+		if (Math.abs(delta.getX()) < 10 * this.speed && Math.abs(delta.getY()) < 10 * this.speed) {
 			this.getPositionPath = true;
 		}
 

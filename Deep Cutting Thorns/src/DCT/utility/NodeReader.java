@@ -19,6 +19,7 @@ public class NodeReader {
 		this.facade = facade;
 		this.currentEntity = currentEntity;
 		this.nodeDimension = Math.max(this.currentEntity.getPositionWidth(), this.currentEntity.getPositionHeight());
+
 		this.rangeView = this.currentEntity.getDiameterAggro();
 
 		this.startPosition = new Vector();
