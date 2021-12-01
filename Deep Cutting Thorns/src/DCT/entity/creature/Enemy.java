@@ -25,7 +25,7 @@ public class Enemy extends Creature {
 	protected boolean chooseWatch = true;
 	protected AStar aStar;
 
-	public Enemy(Facade facade, Rectangle position, int speed, int diameterAggro,int scaleNodeDimension) {
+	public Enemy(Facade facade, Rectangle position, int speed, int diameterAggro, int scaleNodeDimension) {
 		super(facade, position);
 
 		this.start = new Vector(this.getPositionX() + this.getPositionWidth() / 2,
@@ -35,6 +35,7 @@ public class Enemy extends Creature {
 		this.speed = speed;
 		this.diameterAggro = diameterAggro;
 		this.aStar = new AStar(this.facade, this, scaleNodeDimension);
+		this.hitBox = new Rectangle(0, 0, 0, 0);
 
 	}
 
@@ -43,8 +44,10 @@ public class Enemy extends Creature {
 		if (this.health > 0) {
 			this.chooseTarget();
 			if (this.getPositionPath) {
+
 				this.aStar.update(this.getPositionX() - this.diameterAggro / 2,
 						this.getPositionY() - this.diameterAggro / 2, this.target);
+
 				this.targetPath = this.aStar.getPath();
 				this.getPositionPath = false;
 			}
@@ -154,6 +157,7 @@ public class Enemy extends Creature {
 					+ this.facade.getEntityManager().getPlayer().getPositionWidth() / 2);
 			this.target.setY(this.facade.getEntityManager().getPlayer().getPositionY()
 					+ this.facade.getEntityManager().getPlayer().getPositionHeight() / 2);
+
 		} else {
 			if (this.getStart) {
 				this.setWatchTarget();
