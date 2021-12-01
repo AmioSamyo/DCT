@@ -25,7 +25,7 @@ public class Enemy extends Creature {
 	protected boolean chooseWatch = true;
 	protected AStar aStar;
 
-	public Enemy(Facade facade, Rectangle position, int speed, int diameterAggro) {
+	public Enemy(Facade facade, Rectangle position, int speed, int diameterAggro,int scaleNodeDimension) {
 		super(facade, position);
 
 		this.start = new Vector(this.getPositionX() + this.getPositionWidth() / 2,
@@ -34,7 +34,7 @@ public class Enemy extends Creature {
 		this.targetPath = new Vector();
 		this.speed = speed;
 		this.diameterAggro = diameterAggro;
-		this.aStar = new AStar(this.facade, this);
+		this.aStar = new AStar(this.facade, this, scaleNodeDimension);
 
 	}
 
@@ -332,5 +332,5 @@ public class Enemy extends Creature {
 	public int getSpeed() {
 		return this.speed;
 	}
-	
+
 }

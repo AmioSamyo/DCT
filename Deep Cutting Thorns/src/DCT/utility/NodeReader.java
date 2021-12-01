@@ -13,12 +13,14 @@ public class NodeReader {
 	private int nodeDimension, rangeView;
 	private Facade facade;
 	private Vector startPosition;
+	public final int SCALE;
 
-	public NodeReader(Facade facade, Enemy currentEntity) {
-
+	public NodeReader(Facade facade, Enemy currentEntity, int scale) {
+		SCALE = scale;
 		this.facade = facade;
 		this.currentEntity = currentEntity;
-		this.nodeDimension = Math.max(this.currentEntity.getPositionWidth(), this.currentEntity.getPositionHeight());
+		this.nodeDimension = Math.max(this.currentEntity.getPositionWidth(), this.currentEntity.getPositionHeight())
+				/ SCALE;
 
 		this.rangeView = this.currentEntity.getDiameterAggro();
 
@@ -136,6 +138,7 @@ public class NodeReader {
 	public Enemy getEnemy() {
 		return this.currentEntity;
 	}
+
 	public int getColumn() {
 		return this.column;
 	}
