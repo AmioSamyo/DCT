@@ -17,7 +17,7 @@ public class Bat extends Enemy {
 	private static final int ANIMATIONSPEED = 150;
 
 	public Bat(Facade facade, Vector position) {
-		super(facade, new Rectangle(position.getX(), position.getY(), BATWIDTH, BATHEIGHT));
+		super(facade, new Rectangle(position.getX(), position.getY(), SCALE * BATWIDTH, SCALE * BATHEIGHT), 3, 400, 1);
 
 		this.initialize();
 	}
@@ -28,7 +28,6 @@ public class Bat extends Enemy {
 				(int) (BATWIDTH * SCALE * 0.5), (int) (BATHEIGHT * SCALE * 0.5));
 
 		this.setDebuggingColor(new Color(255, 255, 51, 155));
-		this.DiameterAggro = 400;
 
 		this.animationMoveDown = new Animation(ANIMATIONSPEED, Assets.batAnimationDown);
 		this.animationMoveLeft = new Animation(ANIMATIONSPEED, Assets.batAnimationLeft);

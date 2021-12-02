@@ -12,7 +12,6 @@ public abstract class Creature extends Entity {
 	protected Vector previousDirection;
 
 	protected int xMove, yMove;
-	protected int DiameterAggro;
 	protected int speed = 3;
 
 	protected int currentHealth;
