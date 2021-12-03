@@ -70,7 +70,7 @@ public class Enemy extends Creature {
 	}
 
 	private void drawNode(Graphics2D g) {
-		if (this.facade.getDebugMode()) {
+		if (/* this.facade.getDebugMode() */true) {
 			g.setColor(new Color(175, 0, 120, 100));
 			g.fillRect(this.start.getX() - this.facade.getGameCamera().getXOffset(),
 					this.start.getY() - this.facade.getGameCamera().getYOffset(), 64, 64);
@@ -167,7 +167,8 @@ public class Enemy extends Creature {
 				}
 
 				this.checkEndWatch();
-			} else {
+			}
+			if (!this.getStart) {
 				this.target.setX(this.start.getX());
 				this.target.setY(this.start.getY());
 				this.checkIfStart();
@@ -209,6 +210,7 @@ public class Enemy extends Creature {
 
 		this.target.setX(x);
 		this.target.setY(y);
+		this.setWatch = false;
 	}
 
 	protected void drawRangeAggro(Graphics2D g) {
@@ -284,7 +286,7 @@ public class Enemy extends Creature {
 
 		delta.setY(this.targetPath.getY() - this.getPositionY() - this.getPositionHeight() / 2);
 
-		if (Math.abs(delta.getX()) < 10 * this.speed && Math.abs(delta.getY()) < 10 * this.speed) {
+		if (Math.abs(delta.getX()) < 15 * this.speed && Math.abs(delta.getY()) < 15 * this.speed) {
 			this.getPositionPath = true;
 		}
 
