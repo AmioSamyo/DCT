@@ -3,7 +3,6 @@ package DCT.entity;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
-import java.awt.event.KeyEvent;
 
 import DCT.Facade;
 import DCT.gfx.Assets;
