@@ -1,8 +1,11 @@
 package DCT.entity;
 
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Iterator;
+
+import DCT.entity.creature.player.Player;
 
 public class EntityManager {
 
@@ -29,15 +32,25 @@ public class EntityManager {
 
 	public void update() {
 
-		this.entityList.forEach(e -> e.update());
+		Iterator<Entity> it = this.entityList.iterator();
+		while (it.hasNext()) {
+			Entity e = it.next();
+			e.update();
+			if (!e.isAlive())
+				it.remove();
+		}
 
-		this.entityList.sort(ruleSorter);
+		this.sort();
 	}
 
-	public void render(Graphics g) {
+	public void render(Graphics2D g) {
 
 		this.entityList.forEach(e -> e.render(g));
 		this.player.showHealthBar(g);
+	}
+
+	public void sort() {
+		this.entityList.sort(ruleSorter);
 	}
 
 	public void addEntity(Entity e) {
@@ -45,8 +58,16 @@ public class EntityManager {
 		this.entityList.add(e);
 	}
 
+	public void removeEntity(Entity e) {
+		this.entityList.remove(e);
+	}
+
 	public Player getPlayer() {
 		return this.player;
+	}
+	
+	public void setEntityList(ArrayList<Entity> list) {
+		this.entityList = list;
 	}
 
 	public ArrayList<Entity> getEntityList() {

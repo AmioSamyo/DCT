@@ -1,17 +1,22 @@
 package DCT.game;
 
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
+import java.awt.Color;
 
 import DCT.Facade;
 import DCT.gfx.Assets;
 import DCT.gfx.Display;
 import DCT.gfx.GameCamera;
+import DCT.gfx.tools.FontLoader;
+import DCT.gfx.tools.Text;
 import DCT.input.KeyManager;
 import DCT.input.MouseManager;
 import DCT.state.GameState;
 import DCT.state.PauseState;
 import DCT.state.State;
+import DCT.utility.TextOption;
+import DCT.utility.Vector;
 
 public class Game implements Runnable {
 
@@ -19,18 +24,19 @@ public class Game implements Runnable {
 	private int width;
 	private int height;
 
+	private String fps = "";
 	private String worldPath = "rsc\\worldTest";
 	private String title;
 	private Thread thread;
-	private Graphics g;
+	private Graphics2D g;
 	private BufferStrategy bufferStrategy;
 
-	private Display display;
+	private Display display = null;
 	private State gameState, pauseState;
 	private KeyManager keyManager;
 	private MouseManager mouseManager;
-	private Facade facade;
-	private GameCamera gameCamera;
+	private Facade facade = null;
+	private GameCamera gameCamera = null;
 
 	public Game(String title, int width, int height) {
 		this.running = false;
@@ -44,6 +50,28 @@ public class Game implements Runnable {
 	}
 
 	public void initialize() {
+		initializeDisplay();
+
+		initializeGameComponents();
+
+		Assets.assetInitialize();
+
+		initializeStates();
+
+	}
+
+	public void initializeGameComponents() {
+		this.facade = new Facade(this);
+		this.gameCamera = new GameCamera(this.facade);
+	}
+
+	public void initializeStates() {
+		this.gameState = new GameState(this.worldPath, this.facade);
+		this.pauseState = null;
+		State.setCurrentState(gameState);
+	}
+
+	public void initializeDisplay() {
 		this.display = new Display(this.title, this.width, this.height);
 		this.display.getJFrame().addKeyListener(this.keyManager);
 
@@ -52,16 +80,6 @@ public class Game implements Runnable {
 
 		this.display.getCanvas().addMouseListener(this.mouseManager);
 		this.display.getCanvas().addMouseMotionListener(this.mouseManager);
-
-		this.facade = new Facade(this);
-		this.gameCamera = new GameCamera(this.facade);
-
-		Assets.assetInitialize();
-
-		this.gameState = new GameState(this.worldPath, this.facade);
-		this.pauseState = null;
-		State.setCurrentState(gameState);
-
 	}
 
 	public void update() {
@@ -92,11 +110,17 @@ public class Game implements Runnable {
 			return;
 		}
 
-		this.g = this.bufferStrategy.getDrawGraphics();
+		this.g = (Graphics2D) this.bufferStrategy.getDrawGraphics();
 		this.g.clearRect(0, 0, this.width, this.height);
 
 		if (State.getCurrentState() != null) {
 			State.getCurrentState().render(g);
+		}
+
+		if (this.facade.getDebugMode()) {
+			TextOption fpsText = new TextOption("FPS: " + this.fps, new Vector(this.width - 80, 10),
+					FontLoader.fontLoad("rsc\\fonts\\Korean_Calligraphy.ttf", 40), Color.RED, true);
+			Text.drawString(fpsText, g);
 		}
 
 		this.bufferStrategy.show();
@@ -131,7 +155,7 @@ public class Game implements Runnable {
 			}
 
 			if (timer >= 1000000000) {
-				System.out.println("Ticks and Frames: " + update);
+				this.fps = update + "";
 				update = 0;
 				timer = 0;
 			}
@@ -176,6 +200,10 @@ public class Game implements Runnable {
 
 	public Display getDisplay() {
 		return this.display;
+	}
+
+	public Facade getFacade() {
+		return this.facade;
 	}
 
 	public GameCamera getGameCamera() {

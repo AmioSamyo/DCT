@@ -10,6 +10,7 @@ import DCT.gfx.GameCamera;
 import DCT.input.KeyManager;
 import DCT.input.MouseManager;
 import DCT.state.State;
+import DCT.utility.NodeReader;
 
 public class Facade {
 
@@ -62,7 +63,7 @@ public class Facade {
 		return this.game.getHeight();
 	}
 
-	public boolean isDebugging() {
+	public boolean getDebugMode() {
 		return this.debugMode;
 	}
 	

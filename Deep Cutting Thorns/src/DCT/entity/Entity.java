@@ -1,7 +1,7 @@
 package DCT.entity;
 
 import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.awt.event.KeyEvent;
 
@@ -14,6 +14,7 @@ public abstract class Entity {
 	protected static final int MAX_HEALTH = 100;
 
 	protected int health = MAX_HEALTH;
+	protected boolean alive = true;
 
 	protected Facade facade;
 	protected Rectangle position;
@@ -29,19 +30,18 @@ public abstract class Entity {
 
 	public abstract void update();
 
-	public void render(Graphics g) {
+	public void render(Graphics2D g) {
 
 		this.showHealthBar(g);
 
-		if (this.facade.isDebugging()) {
-			Rectangle hitBox = this.getCollisionHitBox(0, 0);
-			g.setColor(this.debuggingColor);
-			g.fillRect(this.getXMoveHitbox(hitBox), this.getYMoveHitbox(hitBox), this.hitBox.getWidth(),
-					this.hitBox.getHeight());
-		}
+		drawHitBox(g);
 	}
 
 	public abstract void die();
+	
+	public void damage(int amount) {
+		this.health -= amount;
+	}
 
 	public boolean checkEntityCollisions(int xOffSet, int yOffSet) {
 		ArrayList<Entity> entities = this.facade.getEntityManager().getEntityList();
@@ -88,8 +88,19 @@ public abstract class Entity {
 		return new Rectangle(this.getPositionX() + this.hitBox.getX() + xOffSet,
 				this.getPositionY() + this.hitBox.getY() + yOffSet, this.hitBox.getWidth(), this.hitBox.getHeight());
 	}
+	
+	protected void drawHitBox(Graphics2D g) {
+		if (this.facade.getDebugMode()) {
+			Rectangle hitBox = this.getCollisionHitBox(0, 0);
+			g.setColor(Color.WHITE);
+			g.drawRect(this.xMoveWithCamera(), this.yMoveWithCamera(), this.getPositionWidth(), this.getPositionHeight());
+			g.setColor(this.debuggingColor);
+			g.fillRect(this.getXMoveHitbox(hitBox), this.getYMoveHitbox(hitBox), this.hitBox.getWidth(),
+					this.hitBox.getHeight());
+		}
+	}
 
-	protected void showHealthBar(Graphics g) {
+	protected void showHealthBar(Graphics2D g) {
 		if (this.health < MAX_HEALTH && this.health >= 0) {
 			float rangeHealthBar = (float) (MAX_HEALTH - 1) / ((float) Assets.healthBars.length - 1);
 			int currentHealthBarToShow = (int) ((float) (MAX_HEALTH - this.health) / rangeHealthBar);
@@ -99,7 +110,7 @@ public abstract class Entity {
 		}
 	}
 
-	protected int xMoveWithCamera() {
+	public int xMoveWithCamera() {
 		return this.position.getX() - this.facade.getGameCamera().getXOffset();
 	}
 
@@ -107,7 +118,7 @@ public abstract class Entity {
 		this.debuggingColor = debuggingColor;
 	}
 
-	protected int yMoveWithCamera() {
+	public int yMoveWithCamera() {
 		return this.position.getY() - this.facade.getGameCamera().getYOffset();
 	}
 
@@ -117,5 +128,9 @@ public abstract class Entity {
 
 	protected int getYMoveHitbox(Rectangle hitBox) {
 		return hitBox.getY() - this.facade.getGameCamera().getYOffset();
+	}
+	
+	public boolean isAlive() {
+		return this.alive;
 	}
 }

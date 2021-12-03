@@ -2,6 +2,8 @@ package DCT.gfx;
 
 import java.awt.image.BufferedImage;
 
+import DCT.gfx.tools.ImageLoader;
+import DCT.gfx.tools.SpriteSheet;
 import DCT.utility.Rectangle;
 
 public class Assets {
@@ -14,9 +16,12 @@ public class Assets {
 
 	public static BufferedImage[] playerAnimationDown, playerAnimationRight, playerAnimationUp, playerAnimationLeft;
 	public static BufferedImage[] healthBars, playerDeadAnimation;
-	public static BufferedImage[] resumeButton, debugButton;
-	public static BufferedImage[] playerAnimationIdle, playerAnimationRoll;
+	public static BufferedImage[] resumeButton, debugButton, saveButton, loadButton;
+	public static BufferedImage[] playerAnimationIdle, playerAnimationRoll, playerAttacking;
 
+	public static BufferedImage[] batAnimationUp, batAnimationDown, batAnimationLeft, batAnimationRight;
+	public static BufferedImage[] batAnimationDead;
+	
 	public static void assetInitialize() {
 
 		SpriteSheet grassSheet = new SpriteSheet(ImageLoader.imageLoad("rsc//32x32_map_Da_Tagliare.png"));
@@ -48,7 +53,7 @@ public class Assets {
 		playerAnimationIdle = new BufferedImage[4];
 		playerDeadAnimation = new BufferedImage[1];
 		playerAnimationRoll = new BufferedImage[1];
-
+		playerAttacking = new BufferedImage[12];
 
 		for (int i = 0; i < 5; i++) {
 			playerAnimationDown[i] = playerSheet.cropImage(
@@ -69,8 +74,21 @@ public class Assets {
 		healthBarLoading();
 
 		pauseStateAssets();
-		
-		playerAnimationRoll[0] = desertSheet.cropImage(new  Rectangle(1070, 0, 276, 280));
+
+		playerAnimationRoll[0] = desertSheet.cropImage(new Rectangle(1070, 0, 276, 280));
+		for (int i = 0; i < 12; i++) {
+			playerAttacking[i] = Assets.tree;
+		}
+
+		SpriteSheet batSheet = new SpriteSheet(ImageLoader.imageLoad("rsc\\BatSprite.png"));
+
+		batAnimationDown = new BufferedImage[3];
+		batAnimationUp = new BufferedImage[3];
+		batAnimationLeft = new BufferedImage[3];
+		batAnimationRight = new BufferedImage[3];
+		batAnimationDead = new BufferedImage[1];
+
+		setBatTile(batSheet);
 	}
 
 	private static void pauseStateAssets() {
@@ -84,6 +102,40 @@ public class Assets {
 
 		debugButton[1] = ImageLoader.imageLoad("rsc\\debugButton0.png");
 		debugButton[0] = ImageLoader.imageLoad("rsc\\debugButton1.png");
+		
+		saveButton = new BufferedImage[2]; 
+		
+		saveButton[0] = ImageLoader.imageLoad("rsc\\save0.png");
+		saveButton[1] = ImageLoader.imageLoad("rsc\\save1.png");
+		
+		loadButton = new BufferedImage[2]; 
+		
+		loadButton[0] = ImageLoader.imageLoad("rsc\\loading0.png");
+		loadButton[1] = ImageLoader.imageLoad("rsc\\loading1.png");
+	}
+
+	private static void setBatTile(SpriteSheet batSheet) {
+		int batAnimWidth = 32;
+		int batAnimHeight = 24;
+
+		batAnimationDown[0] = batSheet.cropImage(new Rectangle(31, 4, batAnimWidth, batAnimHeight));
+		batAnimationDown[1] = batSheet.cropImage(new Rectangle(63, 4, batAnimWidth, batAnimHeight));
+		batAnimationDown[2] = batSheet.cropImage(new Rectangle(95, 0, batAnimWidth, batAnimHeight));
+
+		batAnimationRight[0] = batSheet.cropImage(new Rectangle(32, 31, batAnimWidth, batAnimHeight));
+		batAnimationRight[1] = batSheet.cropImage(new Rectangle(64, 31, batAnimWidth, batAnimHeight));
+		batAnimationRight[2] = batSheet.cropImage(new Rectangle(95, 37, batAnimWidth, batAnimHeight));
+
+		batAnimationUp[0] = batSheet.cropImage(new Rectangle(32, 68, batAnimWidth, batAnimHeight));
+		batAnimationUp[1] = batSheet.cropImage(new Rectangle(64, 68, batAnimWidth, batAnimHeight));
+		batAnimationUp[2] = batSheet.cropImage(new Rectangle(95, 64, batAnimWidth, batAnimHeight));
+
+		batAnimationLeft[0] = batSheet.cropImage(new Rectangle(32, 95, batAnimWidth, batAnimHeight));
+		batAnimationLeft[1] = batSheet.cropImage(new Rectangle(64, 95, batAnimWidth, batAnimHeight));
+		batAnimationLeft[2] = batSheet.cropImage(new Rectangle(95, 100, batAnimWidth, batAnimHeight));
+
+		batAnimationDead[0] = batSheet.cropImage(new Rectangle(0, 104, batAnimWidth, batAnimHeight));
+
 	}
 
 	private static void idleLoading(SpriteSheet playerSheet) {
