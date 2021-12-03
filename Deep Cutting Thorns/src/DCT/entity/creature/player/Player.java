@@ -10,10 +10,7 @@ import DCT.entity.creature.Creature;
 import DCT.entity.creature.player.items.Weapon;
 import DCT.gfx.Animation;
 import DCT.gfx.Assets;
-import DCT.gfx.tools.FontLoader;
-import DCT.gfx.tools.Text;
 import DCT.utility.Rectangle;
-import DCT.utility.TextOption;
 import DCT.utility.Vector;
 
 public class Player extends Creature {
@@ -111,7 +108,7 @@ public class Player extends Creature {
 	}
 
 	public int getCurrentHealth() {
-		return this.currentHealth;
+		return this.health;
 	}
 
 	public boolean isAttacking() {
@@ -127,6 +124,10 @@ public class Player extends Creature {
 		if (this.isAttacking()) {
 			this.drawWeaponDamageBox(g);
 		}
+	}
+	
+	public void setHealth(int hp) {
+		this.health = hp;
 	}
 
 	@Override

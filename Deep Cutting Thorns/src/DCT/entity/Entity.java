@@ -5,7 +5,6 @@ import java.awt.Graphics2D;
 import java.util.ArrayList;
 
 import DCT.Facade;
-import DCT.entity.creature.player.items.Weapon;
 import DCT.gfx.Assets;
 import DCT.utility.Rectangle;
 

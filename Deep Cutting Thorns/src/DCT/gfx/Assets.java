@@ -16,7 +16,7 @@ public class Assets {
 
 	public static BufferedImage[] playerAnimationDown, playerAnimationRight, playerAnimationUp, playerAnimationLeft;
 	public static BufferedImage[] healthBars, playerDeadAnimation;
-	public static BufferedImage[] resumeButton, debugButton;
+	public static BufferedImage[] resumeButton, debugButton, saveButton, loadButton;
 	public static BufferedImage[] playerAnimationIdle, playerAnimationRoll, playerAttacking;
 
 	public static BufferedImage[] batAnimationUp, batAnimationDown, batAnimationLeft, batAnimationRight;
@@ -102,6 +102,16 @@ public class Assets {
 
 		debugButton[1] = ImageLoader.imageLoad("rsc\\debugButton0.png");
 		debugButton[0] = ImageLoader.imageLoad("rsc\\debugButton1.png");
+		
+		saveButton = new BufferedImage[2]; 
+		
+		saveButton[0] = ImageLoader.imageLoad("rsc\\save0.png");
+		saveButton[1] = ImageLoader.imageLoad("rsc\\save1.png");
+		
+		loadButton = new BufferedImage[2]; 
+		
+		loadButton[0] = ImageLoader.imageLoad("rsc\\loading0.png");
+		loadButton[1] = ImageLoader.imageLoad("rsc\\loading1.png");
 	}
 
 	private static void setBatTile(SpriteSheet batSheet) {

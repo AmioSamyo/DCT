@@ -1,7 +1,10 @@
 package DCT.utility;
 
-public class Vector {
+import java.io.Serializable;
 
+public class Vector implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 	private int x, y;
 
 	public Vector() {
