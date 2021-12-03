@@ -31,6 +31,26 @@ public class Vector implements Serializable{
 		}
 	}
 
+	public void normalize(int flag) {
+		if (this.x != 0) {
+			this.x /= Math.abs(this.x);
+			this.x *= flag;
+		}
+		if (this.y != 0) {
+			this.y /= Math.abs(this.y);
+			this.y *= flag;
+		}
+	}
+
+	public int distancetoVector(Vector v) {
+
+		return (int) Math.sqrt(Math.pow(v.getX() - this.x, 2) + Math.pow(v.getY() - this.y, 2));
+	}
+	
+	public double doubleDistanceVector(Vector target) {
+		return Math.sqrt(Math.pow(target.getX() - this.x, 2) + Math.pow(target.getY() - this.y, 2));
+	}
+
 	public int getX() {
 		return this.x;
 	}
@@ -45,5 +65,13 @@ public class Vector implements Serializable{
 
 	public void setY(int y) {
 		this.y = y;
+	}
+
+	public boolean isEquals(Vector target) {
+		if (target.getX() == this.x && target.getY() == this.y) {
+			return true;
+		}
+		return false;
+
 	}
 }

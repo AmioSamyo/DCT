@@ -14,10 +14,12 @@ public class Bat extends Enemy {
 	private final static int BATHEIGHT = 32;
 	private final static int BATWIDTH = 24;
 	private final static int SCALE = 2;
-	private static final int ANIMATIONSPEED = 150;
+	private final static int ANIMATIONSPEED = 150;
+	private final static int[] setSpeedRangeScale = { 3, 400, 1 };
 
 	public Bat(Facade facade, Vector position) {
-		super(facade, new Rectangle(position.getX(), position.getY(), BATWIDTH, BATHEIGHT));
+		super(facade, new Rectangle(position.getX(), position.getY(), SCALE * BATWIDTH, SCALE * BATHEIGHT),
+				setSpeedRangeScale[0], setSpeedRangeScale[1], setSpeedRangeScale[2]);
 
 		this.initialize();
 	}
@@ -28,7 +30,6 @@ public class Bat extends Enemy {
 				(int) (BATWIDTH * SCALE * 0.5), (int) (BATHEIGHT * SCALE * 0.5));
 
 		this.setDebuggingColor(new Color(255, 255, 51, 155));
-		this.DiameterAggro = 400;
 
 		this.animationMoveDown = new Animation(ANIMATIONSPEED, Assets.batAnimationDown);
 		this.animationMoveLeft = new Animation(ANIMATIONSPEED, Assets.batAnimationLeft);
