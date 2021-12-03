@@ -15,7 +15,7 @@ public class Bat extends Enemy {
 	private final static int BATWIDTH = 24;
 	private final static int SCALE = 2;
 	private final static int ANIMATIONSPEED = 150;
-	private final static int[] setSpeedRangeScale = { 3, 400, 6 };
+	private final static int[] setSpeedRangeScale = { 3, 400, 1 };
 
 	public Bat(Facade facade, Vector position) {
 		super(facade, new Rectangle(position.getX(), position.getY(), SCALE * BATWIDTH, SCALE * BATHEIGHT),

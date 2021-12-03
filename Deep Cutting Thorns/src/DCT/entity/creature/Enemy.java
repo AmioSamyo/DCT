@@ -286,7 +286,7 @@ public class Enemy extends Creature {
 
 		delta.setY(this.targetPath.getY() - this.getPositionY() - this.getPositionHeight() / 2);
 
-		if (Math.abs(delta.getX()) < 15 * this.speed && Math.abs(delta.getY()) < 15 * this.speed) {
+		if (Math.abs(delta.getX()) < 20 * this.speed && Math.abs(delta.getY()) < 20 * this.speed) {
 			this.getPositionPath = true;
 		}
 
