@@ -14,7 +14,11 @@ public class AStar {
 
 	public AStar(Facade facade, Enemy enemy, int scale) {
 		this.map = new NodeReader(facade, enemy, scale);
-		this.start = new Vector(this.map.getColumn() / 2, this.map.getRow() / 2);
+
+		int x = (this.map.getEnemy().getPositionWidth() / 2) / this.map.getNodeDimension();
+		int y = (this.map.getEnemy().getPositionHeight() / 2) / this.map.getNodeDimension();
+
+		this.start = new Vector(x + this.map.getColumn() / 2, y + this.map.getRow() / 2);
 
 		this.target = new Vector();
 		this.pathNode = new ArrayList<Node>();
@@ -128,11 +132,11 @@ public class AStar {
 		int x = (target.getX() - this.map.getStartPosition().getX()) / this.map.getNodeDimension();
 		int y = (target.getY() - this.map.getStartPosition().getY()) / this.map.getNodeDimension();
 
-		if (x > this.map.getColumn()) {
-			x = this.map.getColumn();
+		if (x >= this.map.getColumn()) {
+			x = this.map.getColumn() - 1;
 		}
-		if (y > this.map.getRow()) {
-			y = this.map.getRow();
+		if (y >= this.map.getRow()) {
+			y = this.map.getRow() - 1;
 		}
 		if (x < 0) {
 			x = 0;
@@ -151,41 +155,54 @@ public class AStar {
 			int xTile = this.pathNode.get(0).getX();
 			int yTile = this.pathNode.get(0).getY();
 
+			int xFlag;
+			int yFlag;
+
 			if (xTile == this.start.getX() - 1 && yTile == this.start.getY() - 1) {// 1
-				x = this.map.getStartPosition().getX() + (this.start.getX()) * this.map.getNodeDimension();
-				y = this.map.getStartPosition().getY() + (this.start.getX()) * this.map.getNodeDimension();
+				x = this.map.getStartPosition().getX() + (this.start.getX()) * this.map.getNodeDimension()
+						- this.map.SCALE * this.map.getNodeDimension();
+				y = this.map.getStartPosition().getY() + (this.start.getX()) * this.map.getNodeDimension()
+						- this.map.SCALE * this.map.getNodeDimension();
 			}
 			if (xTile == this.start.getX() && yTile == this.start.getY() - 1) {// 2 V
 				x = this.map.getStartPosition().getX() + (this.start.getX()) * this.map.getNodeDimension()
 						+ this.map.getNodeDimension() / 2;
-				y = this.map.getStartPosition().getY() + (this.start.getX()) * this.map.getNodeDimension();
+				y = this.map.getStartPosition().getY() + (this.start.getX()) * this.map.getNodeDimension()
+						- this.map.SCALE * this.map.getNodeDimension();
 			}
 			if (xTile == this.start.getX() + 1 && yTile == this.start.getY() - 1) {// 3 V
-				x = this.map.getStartPosition().getX() + (this.start.getX() + 1) * this.map.getNodeDimension();
-				y = this.map.getStartPosition().getY() + (this.start.getX()) * this.map.getNodeDimension();
+				x = this.map.getStartPosition().getX() + (this.start.getX() + 1) * this.map.getNodeDimension()
+						+ this.map.SCALE * this.map.getNodeDimension();
+				y = this.map.getStartPosition().getY() + (this.start.getX()) * this.map.getNodeDimension()
+						- this.map.SCALE * this.map.getNodeDimension();
 			}
 			if (xTile == this.start.getX() + 1 && yTile == this.start.getY()) {// 4 V
-				x = this.map.getStartPosition().getX() + (this.start.getX() + 1) * this.map.getNodeDimension();
+				x = this.map.getStartPosition().getX() + (this.start.getX() + 1) * this.map.getNodeDimension()
+						+ this.map.SCALE * this.map.getNodeDimension();
 				y = this.map.getStartPosition().getY() + (this.start.getX()) * this.map.getNodeDimension()
 						+ this.map.getNodeDimension() / 2;
 			}
 			if (xTile == this.start.getX() + 1 && yTile == this.start.getY() + 1) {// 5
-				x = this.map.getStartPosition().getX() + (this.start.getX() + 1) * this.map.getNodeDimension();
-				y = this.map.getStartPosition().getY() + (this.start.getX() + 1) * this.map.getNodeDimension();
+				x = this.map.getStartPosition().getX() + (this.start.getX() + 1) * this.map.getNodeDimension()
+						+ this.map.SCALE * this.map.getNodeDimension();
+				y = this.map.getStartPosition().getY() + (this.start.getX() + 1) * this.map.getNodeDimension()
+						+ this.map.SCALE * this.map.getNodeDimension();
 			}
 			if (xTile == this.start.getX() && yTile == this.start.getY() + 1) {// 6 V
 				x = this.map.getStartPosition().getX() + (this.start.getX()) * this.map.getNodeDimension()
 						+ this.map.getNodeDimension() / 2;
-				y = this.map.getStartPosition().getY() + (this.start.getX() + 1) * this.map.getNodeDimension();
+				y = this.map.getStartPosition().getY() + (this.start.getX() + 1) * this.map.getNodeDimension()
+						+ this.map.SCALE * this.map.getNodeDimension();
 			}
 			if (xTile == this.start.getX() - 1 && yTile == this.start.getY() + 1) {// 7
 				x = this.map.getStartPosition().getX() + (this.start.getX()) * this.map.getNodeDimension();
 				y = this.map.getStartPosition().getY() + (this.start.getX() + 1) * this.map.getNodeDimension();
 			}
 			if (xTile == this.start.getX() - 1 && yTile == this.start.getY()) {// 8
-				x = this.map.getStartPosition().getX() + (this.start.getX()) * this.map.getNodeDimension();
+				x = this.map.getStartPosition().getX() + (this.start.getX()) * this.map.getNodeDimension()
+						- this.map.SCALE * this.map.getNodeDimension();
 				y = this.map.getStartPosition().getY() + (this.start.getX()) * this.map.getNodeDimension()
-						+ this.map.getNodeDimension() / 2;
+						+ this.map.getNodeDimension() / 2 + this.map.SCALE * this.map.getNodeDimension();
 			}
 		} else {
 			x = this.map.getStartPosition().getX() + (this.start.getX() + 1) * this.map.getNodeDimension()

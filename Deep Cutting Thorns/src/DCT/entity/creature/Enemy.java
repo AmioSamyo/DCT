@@ -23,6 +23,7 @@ public class Enemy extends Creature {
 	protected boolean getStart = true;
 	protected boolean getPositionPath = true;
 	protected AStar aStar;
+	protected boolean setWatch = true;
 
 	public Enemy(Facade facade, Rectangle position, int speed, int diameterAggro, int scaleNodeDimension) {
 		super(facade, position);
@@ -160,7 +161,11 @@ public class Enemy extends Creature {
 
 		} else {
 			if (this.getStart) {
-				this.setWatchTarget();
+				if (this.setWatch) {
+					this.setWatchTarget();
+					this.setWatch = false;
+				}
+
 				this.checkEndWatch();
 			} else {
 				this.target.setX(this.start.getX());
@@ -253,6 +258,7 @@ public class Enemy extends Creature {
 
 		if (distanceToPlayer < 20 * this.speed) {
 			this.getStart = true;
+			this.setWatch = true;
 		}
 
 	}
