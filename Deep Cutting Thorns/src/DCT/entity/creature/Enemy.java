@@ -22,7 +22,6 @@ public class Enemy extends Creature {
 	protected int diameterAggro = 300;
 	protected boolean getStart = true;
 	protected boolean getPositionPath = true;
-	protected boolean chooseWatch = true;
 	protected AStar aStar;
 
 	public Enemy(Facade facade, Rectangle position, int speed, int diameterAggro, int scaleNodeDimension) {
@@ -35,7 +34,6 @@ public class Enemy extends Creature {
 		this.speed = speed;
 		this.diameterAggro = diameterAggro;
 		this.aStar = new AStar(this.facade, this, scaleNodeDimension);
-		this.hitBox = new Rectangle(0, 0, 0, 0);
 
 	}
 
@@ -164,8 +162,7 @@ public class Enemy extends Creature {
 			if (this.getStart) {
 				this.setWatchTarget();
 				this.checkEndWatch();
-			}
-			if (!this.getStart) {
+			} else {
 				this.target.setX(this.start.getX());
 				this.target.setY(this.start.getY());
 				this.checkIfStart();
@@ -174,44 +171,39 @@ public class Enemy extends Creature {
 	}
 
 	private void setWatchTarget() {
-		if (this.chooseWatch) {
-			int x = this.start.getX() - this.diameterAggro
-					+ (int) (Math.random() * (this.start.getX() + this.diameterAggro));
-			int y = this.start.getY() - this.diameterAggro
-					+ (int) (Math.random() * (this.start.getY() + this.diameterAggro));
-			if (x < 0) {
-				x = 0;
-			}
-			if (x > this.facade.getWidth()) {
-				x = this.facade.getWidth();
-			}
-			if (y < 0) {
-				y = 0;
-			}
-			if (y > this.facade.getHeight()) {
-				y = this.facade.getHeight();
-			}
-			int flagX = x / Tile.TILEWIDTH;
-			int flagY = y / Tile.TILEHEIGHT;
-			if (Tile.tiles[this.facade.getWorld().getTiles()[flagX][flagY]].isSolid()) {
-				x = 300;
-				y = 700;
-			} else if ((Math.abs(x - this.getPositionX())) < 2 * this.aStar.getMap().getNodeDimension()
-					&& (Math.abs(y - this.getPositionY())) < 2 * this.aStar.getMap().getNodeDimension()) {
-				x = 300;
-				y = 700;
-			} else if (((Math.abs(x - this.start.getX())) < 2 * this.aStar.getMap().getNodeDimension()
-					&& (Math.abs(y - this.start.getY())) < 2 * this.aStar.getMap().getNodeDimension())) {
-				x = 300;
-				y = 700;
-			}
-
-			this.target.setX(x);
-			this.target.setY(y);
-			this.chooseWatch = false;
-			return;
+		int x = this.start.getX() - this.diameterAggro
+				+ (int) (Math.random() * (this.start.getX() + this.diameterAggro));
+		int y = this.start.getY() - this.diameterAggro
+				+ (int) (Math.random() * (this.start.getY() + this.diameterAggro));
+		if (x < 0) {
+			x = 0;
+		}
+		if (x > this.facade.getWidth()) {
+			x = this.facade.getWidth();
+		}
+		if (y < 0) {
+			y = 0;
+		}
+		if (y > this.facade.getHeight()) {
+			y = this.facade.getHeight();
+		}
+		int flagX = x / Tile.TILEWIDTH;
+		int flagY = y / Tile.TILEHEIGHT;
+		if (Tile.tiles[this.facade.getWorld().getTiles()[flagX][flagY]].isSolid()) {
+			x = 300;
+			y = 700;
+		} else if ((Math.abs(x - this.getPositionX())) < 2 * this.aStar.getMap().getNodeDimension()
+				&& (Math.abs(y - this.getPositionY())) < 2 * this.aStar.getMap().getNodeDimension()) {
+			x = 300;
+			y = 700;
+		} else if (((Math.abs(x - this.start.getX())) < 2 * this.aStar.getMap().getNodeDimension()
+				&& (Math.abs(y - this.start.getY())) < 2 * this.aStar.getMap().getNodeDimension())) {
+			x = 300;
+			y = 700;
 		}
 
+		this.target.setX(x);
+		this.target.setY(y);
 	}
 
 	protected void drawRangeAggro(Graphics2D g) {
@@ -261,7 +253,6 @@ public class Enemy extends Creature {
 
 		if (distanceToPlayer < 20 * this.speed) {
 			this.getStart = true;
-			this.chooseWatch = true;
 		}
 
 	}

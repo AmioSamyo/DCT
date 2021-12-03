@@ -16,7 +16,6 @@ public class Facade {
 
 	private Game game;
 	private boolean debugMode;
-	private NodeReader map;
 
 	public Facade(Game game) {
 		this.game = game;

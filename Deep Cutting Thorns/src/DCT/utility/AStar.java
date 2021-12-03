@@ -7,10 +7,10 @@ import DCT.entity.creature.Enemy;
 
 public class AStar {
 
-	NodeReader map;
-	Vector start, target, current;
-	Vector path;
-	ArrayList<Node> pathNode;
+	private NodeReader map;
+	private Vector start, target, current;
+	private Vector path;
+	private ArrayList<Node> pathNode;
 
 	public AStar(Facade facade, Enemy enemy, int scale) {
 		this.map = new NodeReader(facade, enemy, scale);
@@ -35,7 +35,7 @@ public class AStar {
 
 		for (int i = 0; i < this.map.getRow(); i++) {
 			for (int j = 0; j < this.map.getColumn(); j++) {
-				this.map.getNode(j, i).setHScore(this.distance(new Vector(j, i), this.target));
+				this.map.getNode(j, i).setHScore(this.target.doubleDistanceVector(new Vector(j, i)));
 			}
 		}
 
@@ -67,7 +67,8 @@ public class AStar {
 		double min = 0;
 		for (int i = 0; i < neighbors.size(); i++) {
 			double flag1 = this.map.getNode(this.current.getX(), this.current.getY()).getGScore();
-			flag1 = flag1 + this.distance(current, new Vector(neighbors.get(i).getX(), neighbors.get(i).getY()));
+			flag1 = flag1
+					+ this.current.doubleDistanceVector(new Vector(neighbors.get(i).getX(), neighbors.get(i).getY()));
 			this.map.getNode(neighbors.get(i).getX(), neighbors.get(i).getY()).setGScore(flag1);
 			this.map.getNode(neighbors.get(i).getX(), neighbors.get(i).getY()).setFScore();
 			flag1 = this.map.getNode(neighbors.get(i).getX(), neighbors.get(i).getY()).getFScore();
@@ -121,10 +122,6 @@ public class AStar {
 			}
 		}
 		return flag;
-	}
-
-	private double distance(Vector node, Vector target) {
-		return Math.sqrt(Math.pow(node.getX() - target.getX(), 2) + Math.pow(node.getY() - target.getY(), 2));
 	}
 
 	private void updateTarget(Vector target) {

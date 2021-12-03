@@ -43,6 +43,10 @@ public class Vector {
 
 		return (int) Math.sqrt(Math.pow(v.getX() - this.x, 2) + Math.pow(v.getY() - this.y, 2));
 	}
+	
+	public double doubleDistanceVector(Vector target) {
+		return Math.sqrt(Math.pow(target.getX() - this.x, 2) + Math.pow(target.getY() - this.y, 2));
+	}
 
 	public int getX() {
 		return this.x;
@@ -63,8 +67,8 @@ public class Vector {
 	public boolean isEquals(Vector target) {
 		if (target.getX() == this.x && target.getY() == this.y) {
 			return true;
-		} else {
-			return false;
 		}
+		return false;
+
 	}
 }

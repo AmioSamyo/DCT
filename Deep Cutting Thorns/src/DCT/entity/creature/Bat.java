@@ -14,10 +14,13 @@ public class Bat extends Enemy {
 	private final static int BATHEIGHT = 32;
 	private final static int BATWIDTH = 24;
 	private final static int SCALE = 2;
-	private static final int ANIMATIONSPEED = 150;
+	private final static int ANIMATIONSPEED = 150;
+	private final static int[] setSpeedRangeScale= {3,400,1};
+	
 
 	public Bat(Facade facade, Vector position) {
-		super(facade, new Rectangle(position.getX(), position.getY(), SCALE * BATWIDTH, SCALE * BATHEIGHT), 3, 400, 1);
+		super(facade, new Rectangle(position.getX(), position.getY(), SCALE * BATWIDTH, SCALE * BATHEIGHT),
+				setSpeedRangeScale[0], setSpeedRangeScale[1], setSpeedRangeScale[2]);
 
 		this.initialize();
 	}

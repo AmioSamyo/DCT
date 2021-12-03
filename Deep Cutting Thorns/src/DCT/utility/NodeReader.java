@@ -8,8 +8,7 @@ public class NodeReader {
 
 	private Node[][] map;
 	private Enemy currentEntity;
-	private int column;
-	private int row;
+	private Vector dimension;
 	private int nodeDimension, rangeView;
 	private Facade facade;
 	private Vector startPosition;
@@ -25,36 +24,37 @@ public class NodeReader {
 		this.rangeView = this.currentEntity.getDiameterAggro();
 
 		this.startPosition = new Vector();
+		this.dimension = new Vector();
 
-		this.column = this.rangeView / this.nodeDimension;
-		if (this.column % 2 == 0) {
-			this.column += 1;
+		this.dimension.setX(this.rangeView / this.nodeDimension);
+		if (this.dimension.getX() % 2 == 0) {
+			this.dimension.setX(this.dimension.getX() + 1);
 			this.rangeView += this.nodeDimension;
 		}
 
-		this.row = this.rangeView / this.nodeDimension;
-		if (this.row % 2 == 0) {
-			this.row += 1;
+		this.dimension.setY(this.rangeView / this.nodeDimension);
+		if (this.dimension.getY() % 2 == 0) {
+			this.dimension.setY(this.dimension.getY() + 1);
 		}
 
-		this.map = new Node[this.column][this.row];
+		this.map = new Node[this.dimension.getX()][this.dimension.getY()];
 
-		for (int i = 0; i < this.row; i++) {
-			for (int j = 0; j < this.column; j++) {
+		for (int i = 0; i < this.dimension.getY(); i++) {
+			for (int j = 0; j < this.dimension.getX(); j++) {
 				this.map[j][i] = new Node(j, i);
 			}
 		}
 	}
 
 	public void fillMap(int x, int y) {
-		this.setVector(x, y);
+		this.setVectorStart(x, y);
 		this.mapCheckSolid();
 		this.mapCheckEntity();
 	}
 
 	public void mapCheckSolid() {
-		for (int k = 0; k < this.row; k++) {
-			for (int j = 0; j < this.column; j++) {
+		for (int k = 0; k < this.dimension.getY(); k++) {
+			for (int j = 0; j < this.dimension.getX(); j++) {
 				int xTile = (this.startPosition.getX() + j * this.nodeDimension) / Tile.TILEWIDTH;
 				int yTile = (this.startPosition.getY() + k * this.nodeDimension) / Tile.TILEHEIGHT;
 				if (this.startPosition.getX() + j * this.nodeDimension < 0
@@ -98,15 +98,15 @@ public class NodeReader {
 
 			int xEnd = Math.min(
 					((hitbox.getX() - this.startPosition.getX() + hitbox.getWidth()) / this.nodeDimension) + 1,
-					this.column);
+					this.dimension.getX());
 			int yEnd = Math.min(
 					((hitbox.getY() - this.startPosition.getY() + hitbox.getHeight()) / this.nodeDimension) + 1,
-					this.row);
-			if (xEnd > this.column) {
-				xEnd = this.column;
+					this.dimension.getY());
+			if (xEnd > this.dimension.getX()) {
+				xEnd = this.dimension.getX();
 			}
-			if (yEnd > this.row) {
-				yEnd = this.row;
+			if (yEnd > this.dimension.getY()) {
+				yEnd = this.dimension.getY();
 			}
 
 			for (int k = yStart; k < yEnd; k++) {
@@ -119,8 +119,8 @@ public class NodeReader {
 	}
 
 	public void mapRemoveEntity() {
-		for (int k = 0; k < this.row; k++) {
-			for (int j = 0; j < this.column; j++) {
+		for (int k = 0; k < this.dimension.getY(); k++) {
+			for (int j = 0; j < this.dimension.getX(); j++) {
 				this.map[j][k].setViable(true);
 				this.map[j][k].setOpen(true);
 				this.map[j][k].setGScore(0);
@@ -130,7 +130,7 @@ public class NodeReader {
 		}
 	}
 
-	private void setVector(int x, int y) {
+	private void setVectorStart(int x, int y) {
 		this.startPosition.setX(x);
 		this.startPosition.setY(y);
 	}
@@ -140,11 +140,11 @@ public class NodeReader {
 	}
 
 	public int getColumn() {
-		return this.column;
+		return this.dimension.getX();
 	}
 
 	public int getRow() {
-		return this.row;
+		return this.dimension.getY();
 	}
 
 	public Node[][] getMap() {

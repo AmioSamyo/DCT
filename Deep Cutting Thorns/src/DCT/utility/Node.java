@@ -3,7 +3,7 @@ package DCT.utility;
 public class Node {
 
 	private boolean viable;
-	private int x, y;
+	private Vector position;
 	private double gScore;
 	private double hScore;
 	private double fScore;
@@ -12,8 +12,7 @@ public class Node {
 	public Node(int i, int j) {
 		this.viable = true;
 		this.open = true;
-		this.x = i;
-		this.y = j;
+		this.position = new Vector(i, j);
 	}
 
 	public boolean isViable() {
@@ -25,11 +24,11 @@ public class Node {
 	}
 
 	public int getX() {
-		return this.x;
+		return this.position.getX();
 	}
 
 	public int getY() {
-		return this.y;
+		return this.position.getY();
 	}
 
 	public void setGScore(double distance) {
