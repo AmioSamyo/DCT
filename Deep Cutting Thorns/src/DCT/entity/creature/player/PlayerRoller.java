@@ -1,6 +1,6 @@
 package DCT.entity.creature.player;
 
-public class PlayerRoll {
+public class PlayerRoller {
 
 	private boolean isRolling;
 	private int rollCurrentDistance;
@@ -10,7 +10,7 @@ public class PlayerRoll {
 	private static final double ROLLDELTA = 0.1;
 	private static final int ROLLBASEDISTANCE = 17;
 
-	public PlayerRoll(Player pureya) {
+	public PlayerRoller(Player pureya) {
 
 		this.player = pureya;
 

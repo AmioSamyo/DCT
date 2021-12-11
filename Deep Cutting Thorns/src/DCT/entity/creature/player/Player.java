@@ -24,7 +24,7 @@ public class Player extends Creature {
 	private Animation playerSprintDown, playerSprintRight, playerSprintUp, playerSprintLeft;
 	private Animation playerRoll, playerAttacking;
 	private Vector attackDirection;
-	private PlayerRoll playerRoller;
+	private PlayerRoller playerRoller;
 
 	private static final int PLAYERWIDTH = 704 / 11, PLAYERHEIGHT = 320 / 5;
 	private static final int SCALE = 2;
@@ -38,7 +38,7 @@ public class Player extends Creature {
 		this.speed = 4;
 
 		this.lastAttackTimer = 0;
-		this.playerRoller = new PlayerRoll(this);
+		this.playerRoller = new PlayerRoller(this);
 
 		this.initialize();
 	}
