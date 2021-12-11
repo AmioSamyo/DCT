@@ -125,25 +125,27 @@ public class PlayerAttacker {
 
 	private Vector chooseVectorOfAttack(ArrayList<Boolean> targettedPosition) {
 
-		if (targettedPosition.get(0)) {
-			return new Vector(-1, -1);
-		} else if (targettedPosition.get(1)) {
-			return new Vector(0, -1);
-		} else if (targettedPosition.get(2)) {
-			return new Vector(1, -1);
-		} else if (targettedPosition.get(3)) {
-			return new Vector(1, 0);
-		} else if (targettedPosition.get(4)) {
-			return new Vector(1, 1);
-		} else if (targettedPosition.get(5)) {
-			return new Vector(0, 1);
-		} else if (targettedPosition.get(6)) {
-			return new Vector(-1, 1);
-		} else if (targettedPosition.get(7)) {
-			return new Vector(-1, 0);
-		} else {
-			return new Vector();
+		switch (targettedPosition.indexOf(true)) {
+			case 0:
+				return new Vector(-1, -1);
+			case 1:
+				return new Vector(0, -1);
+			case 2:
+				return new Vector(1, -1);
+			case 3:
+				return new Vector(1, 0);
+			case 4:
+				return new Vector(1, 1);
+			case 5:
+				return new Vector(0, 1);
+			case 6:
+				return new Vector(-1, 1);
+			case 7:
+				return new Vector(-1, 0);
+			default:
+				return new Vector();
 		}
+
 	}
 
 	private void checkAttackTarget() {
