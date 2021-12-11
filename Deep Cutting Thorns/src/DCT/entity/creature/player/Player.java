@@ -322,7 +322,7 @@ public class Player extends Creature {
 	}
 
 	private void checkAttackTarget() {
-		
+
 		this.attackDirections();
 		this.attackTimer = 0;
 
@@ -345,7 +345,7 @@ public class Player extends Creature {
 	}
 
 	private void drawWeaponDamageBox(Graphics2D g) {
-		
+
 		if (this.facade.getDebugMode()) {
 			this.equippedWeapon.render(g);
 		}
@@ -383,6 +383,15 @@ public class Player extends Creature {
 
 		this.attackTimer = this.equippedWeapon.getCooldown();
 
+		this.initializeAnimation();
+
+		this.currentAnimation = this.animationIdle;
+
+		this.setDebuggingColor(new Color(255, 102, 255, 200));
+	}
+
+	private void initializeAnimation() {
+
 		this.animationMoveDown = new Animation(ANIMATIONSPEED, Assets.playerAnimationDown);
 		this.animationMoveRight = new Animation(ANIMATIONSPEED, Assets.playerAnimationRight);
 		this.animationMoveUp = new Animation(ANIMATIONSPEED, Assets.playerAnimationUp);
@@ -397,10 +406,6 @@ public class Player extends Creature {
 
 		this.playerRoll = new Animation(0, Assets.playerAnimationRoll);
 		this.playerAttacking = new Animation(0, Assets.playerAttacking);
-
-		this.currentAnimation = this.animationIdle;
-
-		this.setDebuggingColor(new Color(255, 102, 255, 200));
 	}
 
 	private void playerMovement() {
