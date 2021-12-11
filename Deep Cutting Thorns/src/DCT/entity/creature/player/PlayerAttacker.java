@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import DCT.Facade;
 import DCT.entity.Entity;
+import DCT.utility.Directions;
 import DCT.utility.Rectangle;
 import DCT.utility.Vector;
 
@@ -125,27 +126,26 @@ public class PlayerAttacker {
 
 	private Vector chooseVectorOfAttack(ArrayList<Boolean> targettedPosition) {
 
-		switch (targettedPosition.indexOf(true)) {
-			case 0:
-				return new Vector(-1, -1);
-			case 1:
-				return new Vector(0, -1);
-			case 2:
-				return new Vector(1, -1);
-			case 3:
-				return new Vector(1, 0);
-			case 4:
-				return new Vector(1, 1);
-			case 5:
-				return new Vector(0, 1);
-			case 6:
-				return new Vector(-1, 1);
-			case 7:
-				return new Vector(-1, 0);
-			default:
-				return new Vector();
-		}
+		int position = targettedPosition.indexOf(true);
 
+		if (position == Directions.TopLeft.code)
+			return new Vector(-1, -1);
+		if (position == Directions.Top.code)
+			return new Vector(0, -1);
+		if (position == Directions.TopRight.code)
+			return new Vector(1, -1);
+		if (position == Directions.Right.code)
+			return new Vector(1, 0);
+		if (position == Directions.BotRight.code)
+			return new Vector(1, 1);
+		if (position == Directions.Bot.code)
+			return new Vector(0, 1);
+		if (position == Directions.BotLeft.code)
+			return new Vector(-1, 1);
+		if (position == Directions.Left.code)
+			return new Vector(-1, 0);
+		
+		return new Vector();
 	}
 
 	private void checkAttackTarget() {
