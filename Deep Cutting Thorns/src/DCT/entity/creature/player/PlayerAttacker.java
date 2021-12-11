@@ -23,6 +23,20 @@ public class PlayerAttacker {
 		this.lastAttackTimer = 0;
 	}
 
+	public void aimAttack() {
+
+		this.attacking = true;
+
+		ArrayList<Rectangle> rectangleOfAttacks = new ArrayList<Rectangle>();
+		ArrayList<Boolean> targettedPosition = new ArrayList<Boolean>();
+
+		this.createRectangleOfAttack(rectangleOfAttacks);
+
+		this.chooseDirectionOfAttack(rectangleOfAttacks, targettedPosition);
+
+		this.attackDirection = this.chooseVectorOfAttack(targettedPosition);
+	}
+
 	public void attackDirections() {
 
 		boolean botRightCondition = this.attackDirection.getX() > 0 && this.attackDirection.getY() > 0;
@@ -76,22 +90,17 @@ public class PlayerAttacker {
 		}
 	}
 
-	public boolean isAttacking() {
-		return this.attacking;
+	public void checkAttacks() {
+
+		this.updateTimerAttack();
+
+		if (this.attackTimer >= this.player.getEquippedWeapon().getCooldown()) {
+			this.checkAttackTarget();
+		}
 	}
 
-	public void aimAttack() {
-
-		this.attacking = true;
-
-		ArrayList<Rectangle> rectangleOfAttacks = new ArrayList<Rectangle>();
-		ArrayList<Boolean> targettedPosition = new ArrayList<Boolean>();
-
-		this.createRectangleOfAttack(rectangleOfAttacks);
-
-		this.chooseDirectionOfAttack(rectangleOfAttacks, targettedPosition);
-
-		this.attackDirection = this.chooseVectorOfAttack(targettedPosition);
+	public boolean isAttacking() {
+		return this.attacking;
 	}
 
 	public void setAttackTimer(long time) {
@@ -134,15 +143,6 @@ public class PlayerAttacker {
 			return new Vector(-1, 0);
 		} else {
 			return new Vector();
-		}
-	}
-
-	public void checkAttacks() {
-
-		this.updateTimerAttack();
-
-		if (this.attackTimer >= this.player.getEquippedWeapon().getCooldown()) {
-			this.checkAttackTarget();
 		}
 	}
 

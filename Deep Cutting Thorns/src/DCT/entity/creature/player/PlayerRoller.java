@@ -18,12 +18,12 @@ public class PlayerRoller {
 		this.rollCurrentDistance = ROLLBASEDISTANCE;
 	}
 
-	public void roll() {
-		this.isRolling = true;
-	}
-
 	public boolean isRolling() {
 		return this.isRolling;
+	}
+
+	public void roll() {
+		this.isRolling = true;
 	}
 
 	public void rollingMove() {
@@ -51,6 +51,20 @@ public class PlayerRoller {
 			this.rollLeft();
 		} else if (this.player.getPreviousDirection().getX() > 0) {
 			this.rollRight();
+		}
+	}
+
+	private void rollUp() {
+		int futureY = this.player.getPositionY() + this.player.getHitbox().getY() - this.rollCurrentDistance;
+
+		boolean rollingCondition1 = !this.player
+				.checkCollisionWithTile(this.player.getPositionX() + this.player.getHitbox().getX(), futureY);
+		boolean rollingCondition2 = !this.player.checkCollisionWithTile(
+				this.player.getPositionX() + this.player.getHitbox().getX() + this.player.getHitbox().getWidth(),
+				futureY);
+
+		if (rollingCondition1 && rollingCondition2) {
+			this.player.setY(this.player.getPositionY() - this.rollCurrentDistance);
 		}
 	}
 
@@ -96,17 +110,4 @@ public class PlayerRoller {
 		}
 	}
 
-	private void rollUp() {
-		int futureY = this.player.getPositionY() + this.player.getHitbox().getY() - this.rollCurrentDistance;
-
-		boolean rollingCondition1 = !this.player
-				.checkCollisionWithTile(this.player.getPositionX() + this.player.getHitbox().getX(), futureY);
-		boolean rollingCondition2 = !this.player.checkCollisionWithTile(
-				this.player.getPositionX() + this.player.getHitbox().getX() + this.player.getHitbox().getWidth(),
-				futureY);
-
-		if (rollingCondition1 && rollingCondition2) {
-			this.player.setY(this.player.getPositionY() - this.rollCurrentDistance);
-		}
-	}
 }

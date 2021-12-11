@@ -6,16 +6,14 @@ import DCT.gfx.Assets;
 
 public class PlayerAnimator {
 
+	public static final int ANIMATIONSPEED = 100;
+
 	private int attackAnimIndex = 0;
 
 	private Animation playerSprintDown, playerSprintRight, playerSprintUp, playerSprintLeft;
 	private Animation playerRoll, playerAttacking;
-
 	private Player player;
-
 	private Facade facade;
-
-	public static final int ANIMATIONSPEED = 100;
 
 	private static final int ANIMATIONSPRINTSPEED = 60;
 
@@ -24,31 +22,24 @@ public class PlayerAnimator {
 		this.facade = facade;
 	}
 
-	public void setAnimation(Animation moveAnimation, Animation sprintAnimation) {
+	public void attack() {
 
-		this.player.setCurrentAnimation(this.facade.getKeyManager().getSprint() ? sprintAnimation : moveAnimation);
+		this.attackAnimIndex++;
+		this.playerAttacking.update();
 
+		if (this.attackAnimIndex >= this.playerAttacking.getAnimationLength()) {
+			this.player.getPlayerAttacker().setAttack(false);
+			this.facade.getMouseManager().setLeftClicked(false);
+			this.attackAnimIndex = 0;
+		}
 	}
 
-	public void update() {
-
-		this.playerSprintUp.update();
-		this.playerSprintRight.update();
-		this.playerSprintLeft.update();
-		this.playerSprintDown.update();
-
-		this.playerRoll.update();
+	public Animation getAttackingAnimation() {
+		return this.playerAttacking;
 	}
 
-	public void initialize() {
-
-		this.playerSprintDown = new Animation(ANIMATIONSPRINTSPEED, Assets.playerAnimationDown);
-		this.playerSprintRight = new Animation(ANIMATIONSPRINTSPEED, Assets.playerAnimationRight);
-		this.playerSprintUp = new Animation(ANIMATIONSPRINTSPEED, Assets.playerAnimationUp);
-		this.playerSprintLeft = new Animation(ANIMATIONSPRINTSPEED, Assets.playerAnimationLeft);
-
-		this.playerRoll = new Animation(0, Assets.playerAnimationRoll);
-		this.playerAttacking = new Animation(0, Assets.playerAttacking);
+	public Animation getRollAnimation() {
+		return this.playerRoll;
 	}
 
 	public Animation getSprintUpAnimation() {
@@ -67,24 +58,31 @@ public class PlayerAnimator {
 		return this.playerSprintRight;
 	}
 
-	public Animation getRollAnimation() {
-		return this.playerRoll;
+	public void initialize() {
+
+		this.playerSprintDown = new Animation(ANIMATIONSPRINTSPEED, Assets.playerAnimationDown);
+		this.playerSprintRight = new Animation(ANIMATIONSPRINTSPEED, Assets.playerAnimationRight);
+		this.playerSprintUp = new Animation(ANIMATIONSPRINTSPEED, Assets.playerAnimationUp);
+		this.playerSprintLeft = new Animation(ANIMATIONSPRINTSPEED, Assets.playerAnimationLeft);
+
+		this.playerRoll = new Animation(0, Assets.playerAnimationRoll);
+		this.playerAttacking = new Animation(0, Assets.playerAttacking);
 	}
 
-	public Animation getAttackingAnimation() {
-		return this.playerAttacking;
+	public void setAnimation(Animation moveAnimation, Animation sprintAnimation) {
+
+		this.player.setCurrentAnimation(this.facade.getKeyManager().getSprint() ? sprintAnimation : moveAnimation);
+
 	}
 
-	public void attack() {
+	public void update() {
 
-		this.attackAnimIndex++;
-		this.playerAttacking.update();
+		this.playerSprintUp.update();
+		this.playerSprintRight.update();
+		this.playerSprintLeft.update();
+		this.playerSprintDown.update();
 
-		if (this.attackAnimIndex >= this.playerAttacking.getAnimationLength()) {
-			this.player.getPlayerAttacker().setAttack(false);
-			this.facade.getMouseManager().setLeftClicked(false);
-			this.attackAnimIndex = 0;
-		}
+		this.playerRoll.update();
 	}
 
 }

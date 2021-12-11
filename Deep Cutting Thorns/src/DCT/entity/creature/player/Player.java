@@ -62,6 +62,15 @@ public class Player extends Creature {
 		return this.hitBox;
 	}
 
+	public Weapon getEquippedWeapon() {
+
+		return this.equippedWeapon;
+	}
+
+	public PlayerAttacker getPlayerAttacker() {
+		return this.playerAttacker;
+	}
+
 	public Vector getPreviousDirection() {
 		return this.previousDirection;
 	}
@@ -77,6 +86,11 @@ public class Player extends Creature {
 		if (this.playerAttacker.isAttacking()) {
 			this.drawWeaponDamageBox(g);
 		}
+	}
+
+	public void setCurrentAnimation(Animation current) {
+		this.currentAnimation = current;
+
 	}
 
 	public void setHealth(int hp) {
@@ -205,7 +219,7 @@ public class Player extends Creature {
 		this.animationMoveLeft = new Animation(PlayerAnimator.ANIMATIONSPEED, Assets.playerAnimationLeft);
 		this.animationIdle = new Animation(PlayerAnimator.ANIMATIONSPEED, Assets.playerAnimationIdle);
 		this.animationDead = new Animation(1, Assets.playerDeadAnimation);
-		
+
 		this.playerAnimator.initialize();
 
 	}
@@ -246,22 +260,8 @@ public class Player extends Creature {
 		this.animationMoveDown.update();
 
 		this.playerAnimator.update();
-		
+
 		this.currentAnimation.update();
-	}
-
-	public Weapon getEquippedWeapon() {
-
-		return this.equippedWeapon;
-	}
-
-	public PlayerAttacker getPlayerAttacker() {
-		return this.playerAttacker;
-	}
-
-	public void setCurrentAnimation(Animation current) {
-		this.currentAnimation = current;
-
 	}
 
 }
