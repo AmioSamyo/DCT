@@ -313,28 +313,39 @@ public class Player extends Creature {
 	}
 
 	private void checkAttacks() {
-		this.attackTimer += System.currentTimeMillis() - this.lastAttackTimer;
-		this.lastAttackTimer = System.currentTimeMillis();
+
+		this.updateTimerAttack();
+
 		if (this.attackTimer >= this.equippedWeapon.getCooldown()) {
-			this.attackDirections();
-			this.attackTimer = 0;
+			this.checkAttackTarget();
+		}
+	}
 
-			for (Entity e : this.facade.getEntityManager().getEntityList()) {
-				if (e.equals(this)) {
-					continue;
-				}
+	private void checkAttackTarget() {
+		
+		this.attackDirections();
+		this.attackTimer = 0;
 
-				if (e.getCollisionHitBox(-this.facade.getGameCamera().getXOffset(),
-						-this.facade.getGameCamera().getYOffset())
-						.intersects(this.equippedWeapon.getDamageBoxRelative())) {
+		for (Entity e : this.facade.getEntityManager().getEntityList()) {
+			if (e.equals(this)) {
+				continue;
+			}
 
-					e.damage(this.equippedWeapon.getDamage());
-				}
+			if (e.getCollisionHitBox(-this.facade.getGameCamera().getXOffset(),
+					-this.facade.getGameCamera().getYOffset()).intersects(this.equippedWeapon.getDamageBoxRelative())) {
+
+				e.damage(this.equippedWeapon.getDamage());
 			}
 		}
 	}
 
+	private void updateTimerAttack() {
+		this.attackTimer += System.currentTimeMillis() - this.lastAttackTimer;
+		this.lastAttackTimer = System.currentTimeMillis();
+	}
+
 	private void drawWeaponDamageBox(Graphics2D g) {
+		
 		if (this.facade.getDebugMode()) {
 			this.equippedWeapon.render(g);
 		}
