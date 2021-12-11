@@ -186,7 +186,7 @@ public class Player extends Creature {
 	}
 
 	private void updateAnimation() {
-		
+
 		this.animationIdle.update();
 		this.animationMoveUp.update();
 		this.animationMoveRight.update();
@@ -414,6 +414,7 @@ public class Player extends Creature {
 	}
 
 	private void playerMovement() {
+
 		this.getInput();
 
 		if (this.isRolling) {
@@ -421,6 +422,7 @@ public class Player extends Creature {
 		} else {
 			this.move();
 		}
+
 		this.chooseCurrentAnimation();
 		this.resetMovement();
 
@@ -434,8 +436,11 @@ public class Player extends Creature {
 	private void rollDown() {
 		int futureY = this.position.getY() + this.hitBox.getY() + this.hitBox.getHeight() + this.rollCurrentDistance;
 
-		if (!this.checkCollisionWithTile(this.position.getX() + this.hitBox.getX(), futureY) && !this
-				.checkCollisionWithTile(this.position.getX() + this.hitBox.getX() + this.hitBox.getWidth(), futureY)) {
+		boolean rollingCondition1 = !this.checkCollisionWithTile(this.position.getX() + this.hitBox.getX(), futureY);
+		boolean rollingCondition2 = !this
+				.checkCollisionWithTile(this.position.getX() + this.hitBox.getX() + this.hitBox.getWidth(), futureY);
+
+		if (rollingCondition1 && rollingCondition2) {
 			this.setY(this.getPositionY() + this.rollCurrentDistance);
 		}
 	}
