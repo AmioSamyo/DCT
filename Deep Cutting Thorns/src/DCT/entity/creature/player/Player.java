@@ -44,10 +44,6 @@ public class Player extends Creature {
 		this.initialize();
 	}
 
-	public void addHealth(int value) {
-		this.health += value;
-	}
-
 	public void attackDirections() {
 
 		boolean botRightCondition = this.attackDirection.getX() > 0 && this.attackDirection.getY() > 0;
@@ -101,9 +97,8 @@ public class Player extends Creature {
 		}
 	}
 
-	private void setDamageDirection(int xAdjustment, int yAdjustment) {
-		this.equippedWeapon.setDamageBox(this.hitBox.getX() + xAdjustment, this.hitBox.getY() + yAdjustment,
-				this.hitBox.getWidth(), this.hitBox.getHeight());
+	public void addHealth(int value) {
+		this.health += value;
 	}
 
 	@Override
@@ -185,24 +180,6 @@ public class Player extends Creature {
 
 	}
 
-	private void updateAnimation() {
-
-		this.animationIdle.update();
-		this.animationMoveUp.update();
-		this.animationMoveRight.update();
-		this.animationMoveLeft.update();
-		this.animationMoveDown.update();
-
-		this.playerSprintUp.update();
-		this.playerSprintRight.update();
-		this.playerSprintLeft.update();
-		this.playerSprintDown.update();
-
-		this.playerRoll.update();
-
-		this.currentAnimation.update();
-	}
-
 	@Override
 	protected void chooseCurrentAnimation() {
 
@@ -255,6 +232,31 @@ public class Player extends Creature {
 		this.attackDirection = this.chooseVectorOfAttack(targettedPosition);
 	}
 
+	private void chooseDirectionOfAttack(ArrayList<Rectangle> rectangleOfAttacks,
+			ArrayList<Boolean> targettedPosition) {
+
+		Vector pointOfAttack = new Vector(
+				this.facade.getMouseManager().getMouseX() + this.facade.getGameCamera().getXOffset(),
+				this.facade.getMouseManager().getMouseY() + this.facade.getGameCamera().getYOffset());
+
+		for (int i = 0; i < 8; i++) {
+			targettedPosition.add(rectangleOfAttacks.get(i).contains(pointOfAttack.getX(), pointOfAttack.getY()));
+		}
+	}
+
+	private void chooseRollDirection() {
+		if (this.previousDirection.getY() < 0) {
+			this.rollUp();
+		} else if (this.previousDirection.getY() > 0) {
+			this.rollDown();
+		}
+		if (this.previousDirection.getX() < 0) {
+			this.rollLeft();
+		} else if (this.previousDirection.getX() > 0) {
+			this.rollRight();
+		}
+	}
+
 	private Vector chooseVectorOfAttack(ArrayList<Boolean> targettedPosition) {
 
 		if (targettedPosition.get(0)) {
@@ -276,45 +278,6 @@ public class Player extends Creature {
 		} else {
 			return new Vector();
 		}
-	}
-
-	private void chooseDirectionOfAttack(ArrayList<Rectangle> rectangleOfAttacks,
-			ArrayList<Boolean> targettedPosition) {
-
-		Vector pointOfAttack = new Vector(
-				this.facade.getMouseManager().getMouseX() + this.facade.getGameCamera().getXOffset(),
-				this.facade.getMouseManager().getMouseY() + this.facade.getGameCamera().getYOffset());
-
-		for (int i = 0; i < 8; i++) {
-			targettedPosition.add(rectangleOfAttacks.get(i).contains(pointOfAttack.getX(), pointOfAttack.getY()));
-		}
-	}
-
-	private void createRectangleOfAttack(ArrayList<Rectangle> rectangleOfAttacks) {
-
-		rectangleOfAttacks.add(new Rectangle(this.getPositionX() - this.facade.getWidth(),
-				this.getPositionY() - this.facade.getHeight(), this.facade.getWidth(), this.facade.getHeight()));
-
-		rectangleOfAttacks.add(new Rectangle(this.getPositionX(), this.getPositionY() - this.facade.getHeight(),
-				this.getPositionWidth(), this.facade.getHeight()));
-
-		rectangleOfAttacks.add(new Rectangle(this.getPositionX() + this.getPositionWidth(),
-				this.getPositionY() - this.facade.getHeight(), this.facade.getWidth(), this.facade.getHeight()));
-
-		rectangleOfAttacks.add(new Rectangle(this.getPositionX() + this.getPositionWidth(), this.getPositionY(),
-				this.facade.getWidth(), this.getPositionHeight()));
-
-		rectangleOfAttacks.add(new Rectangle(this.getPositionX() + this.getPositionWidth(),
-				this.getPositionY() + this.getPositionHeight(), this.facade.getWidth(), this.facade.getHeight()));
-
-		rectangleOfAttacks.add(new Rectangle(this.getPositionX(), this.getPositionY() + this.getPositionHeight(),
-				this.getPositionWidth(), this.facade.getHeight()));
-
-		rectangleOfAttacks.add(new Rectangle(this.getPositionX() - this.facade.getWidth(),
-				this.getPositionY() + this.getPositionHeight(), this.facade.getWidth(), this.facade.getHeight()));
-
-		rectangleOfAttacks.add(new Rectangle(this.getPositionX() - this.facade.getWidth(), this.getPositionY(),
-				this.facade.getWidth(), this.getPositionHeight()));
 	}
 
 	private void checkAttacks() {
@@ -344,9 +307,31 @@ public class Player extends Creature {
 		}
 	}
 
-	private void updateTimerAttack() {
-		this.attackTimer += System.currentTimeMillis() - this.lastAttackTimer;
-		this.lastAttackTimer = System.currentTimeMillis();
+	private void createRectangleOfAttack(ArrayList<Rectangle> rectangleOfAttacks) {
+
+		rectangleOfAttacks.add(new Rectangle(this.getPositionX() - this.facade.getWidth(),
+				this.getPositionY() - this.facade.getHeight(), this.facade.getWidth(), this.facade.getHeight()));
+
+		rectangleOfAttacks.add(new Rectangle(this.getPositionX(), this.getPositionY() - this.facade.getHeight(),
+				this.getPositionWidth(), this.facade.getHeight()));
+
+		rectangleOfAttacks.add(new Rectangle(this.getPositionX() + this.getPositionWidth(),
+				this.getPositionY() - this.facade.getHeight(), this.facade.getWidth(), this.facade.getHeight()));
+
+		rectangleOfAttacks.add(new Rectangle(this.getPositionX() + this.getPositionWidth(), this.getPositionY(),
+				this.facade.getWidth(), this.getPositionHeight()));
+
+		rectangleOfAttacks.add(new Rectangle(this.getPositionX() + this.getPositionWidth(),
+				this.getPositionY() + this.getPositionHeight(), this.facade.getWidth(), this.facade.getHeight()));
+
+		rectangleOfAttacks.add(new Rectangle(this.getPositionX(), this.getPositionY() + this.getPositionHeight(),
+				this.getPositionWidth(), this.facade.getHeight()));
+
+		rectangleOfAttacks.add(new Rectangle(this.getPositionX() - this.facade.getWidth(),
+				this.getPositionY() + this.getPositionHeight(), this.facade.getWidth(), this.facade.getHeight()));
+
+		rectangleOfAttacks.add(new Rectangle(this.getPositionX() - this.facade.getWidth(), this.getPositionY(),
+				this.facade.getWidth(), this.getPositionHeight()));
 	}
 
 	private void drawWeaponDamageBox(Graphics2D g) {
@@ -433,18 +418,6 @@ public class Player extends Creature {
 		this.isRolling = true;
 	}
 
-	private void rollDown() {
-		int futureY = this.position.getY() + this.hitBox.getY() + this.hitBox.getHeight() + this.rollCurrentDistance;
-
-		boolean rollingCondition1 = !this.checkCollisionWithTile(this.position.getX() + this.hitBox.getX(), futureY);
-		boolean rollingCondition2 = !this
-				.checkCollisionWithTile(this.position.getX() + this.hitBox.getX() + this.hitBox.getWidth(), futureY);
-
-		if (rollingCondition1 && rollingCondition2) {
-			this.setY(this.getPositionY() + this.rollCurrentDistance);
-		}
-	}
-
 	private void rollingMove() {
 
 		if (!this.checkEntityCollisions(this.previousDirection.getX() * this.rollCurrentDistance,
@@ -460,16 +433,15 @@ public class Player extends Creature {
 		}
 	}
 
-	private void chooseRollDirection() {
-		if (this.previousDirection.getY() < 0) {
-			this.rollUp();
-		} else if (this.previousDirection.getY() > 0) {
-			this.rollDown();
-		}
-		if (this.previousDirection.getX() < 0) {
-			this.rollLeft();
-		} else if (this.previousDirection.getX() > 0) {
-			this.rollRight();
+	private void rollDown() {
+		int futureY = this.position.getY() + this.hitBox.getY() + this.hitBox.getHeight() + this.rollCurrentDistance;
+
+		boolean rollingCondition1 = !this.checkCollisionWithTile(this.position.getX() + this.hitBox.getX(), futureY);
+		boolean rollingCondition2 = !this
+				.checkCollisionWithTile(this.position.getX() + this.hitBox.getX() + this.hitBox.getWidth(), futureY);
+
+		if (rollingCondition1 && rollingCondition2) {
+			this.setY(this.getPositionY() + this.rollCurrentDistance);
 		}
 	}
 
@@ -515,6 +487,11 @@ public class Player extends Creature {
 
 	}
 
+	private void setDamageDirection(int xAdjustment, int yAdjustment) {
+		this.equippedWeapon.setDamageBox(this.hitBox.getX() + xAdjustment, this.hitBox.getY() + yAdjustment,
+				this.hitBox.getWidth(), this.hitBox.getHeight());
+	}
+
 	private void setXSpeed(int speed, int sprintSpeed) {
 
 		this.addXMove(this.facade.getKeyManager().getSprint() ? sprintSpeed : speed);
@@ -526,4 +503,26 @@ public class Player extends Creature {
 		this.addYMove(this.facade.getKeyManager().getSprint() ? sprintSpeed : speed);
 	}
 
+	private void updateAnimation() {
+
+		this.animationIdle.update();
+		this.animationMoveUp.update();
+		this.animationMoveRight.update();
+		this.animationMoveLeft.update();
+		this.animationMoveDown.update();
+
+		this.playerSprintUp.update();
+		this.playerSprintRight.update();
+		this.playerSprintLeft.update();
+		this.playerSprintDown.update();
+
+		this.playerRoll.update();
+
+		this.currentAnimation.update();
+	}
+
+	private void updateTimerAttack() {
+		this.attackTimer += System.currentTimeMillis() - this.lastAttackTimer;
+		this.lastAttackTimer = System.currentTimeMillis();
+	}
 }
