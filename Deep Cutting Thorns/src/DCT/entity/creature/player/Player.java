@@ -34,6 +34,7 @@ public class Player extends Creature {
 	public Player(Facade facade, Vector position) {
 
 		super(facade, new Rectangle(position.getX(), position.getY(), PLAYERWIDTH * SCALE, PLAYERHEIGHT * SCALE));
+		
 		this.speed = 4;
 		this.isRolling = false;
 		this.rollCurrentDistance = ROLLBASEDISTANCE;
