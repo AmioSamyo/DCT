@@ -509,28 +509,21 @@ public class Player extends Creature {
 		}
 	}
 
-	private void setAnimation(Animation anim, Animation animSprint) {
-		if (this.facade.getKeyManager().getSprint()) {
-			this.currentAnimation = animSprint;
-		} else {
-			this.currentAnimation = anim;
-		}
+	private void setAnimation(Animation moveAnimation, Animation sprintAnimation) {
+
+		this.currentAnimation = this.facade.getKeyManager().getSprint() ? sprintAnimation : moveAnimation;
+
 	}
 
 	private void setXSpeed(int speed, int sprintSpeed) {
-		if (this.facade.getKeyManager().getSprint()) {
-			this.addXMove(sprintSpeed);
-		} else {
-			this.addXMove(speed);
-		}
+
+		this.addXMove(this.facade.getKeyManager().getSprint() ? sprintSpeed : speed);
+
 	}
 
 	private void setYSpeed(int speed, int sprintSpeed) {
-		if (this.facade.getKeyManager().getSprint()) {
-			this.addYMove(sprintSpeed);
-		} else {
-			this.addYMove(speed);
-		}
+
+		this.addYMove(this.facade.getKeyManager().getSprint() ? sprintSpeed : speed);
 	}
 
 }
