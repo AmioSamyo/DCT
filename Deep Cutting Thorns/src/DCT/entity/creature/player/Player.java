@@ -34,7 +34,7 @@ public class Player extends Creature {
 	public Player(Facade facade, Vector position) {
 
 		super(facade, new Rectangle(position.getX(), position.getY(), PLAYERWIDTH * SCALE, PLAYERHEIGHT * SCALE));
-		
+
 		this.speed = 4;
 		this.isRolling = false;
 		this.rollCurrentDistance = ROLLBASEDISTANCE;
@@ -48,45 +48,49 @@ public class Player extends Creature {
 	}
 
 	public void attackDirections() {
-		if (this.attackDirection.getX() > 0 && this.attackDirection.getY() > 0) {// BOTRIGHT
 
-			this.equippedWeapon.setDamageBox(this.hitBox.getX() + this.hitBox.getWidth(),
-					this.hitBox.getY() + this.hitBox.getHeight(), this.hitBox.getWidth(), this.hitBox.getHeight());
+		boolean botRightCondition = this.attackDirection.getX() > 0 && this.attackDirection.getY() > 0;
+		boolean botLeftCondition = this.attackDirection.getX() < 0 && this.attackDirection.getY() > 0;
 
-		} else if (this.attackDirection.getX() < 0 && this.attackDirection.getY() > 0) {// BOTLEFT
+		boolean upLeftCondition = this.attackDirection.getX() < 0 && this.attackDirection.getY() < 0;
+		boolean upRIghtCondition = this.attackDirection.getX() > 0 && this.attackDirection.getY() < 0;
 
-			this.equippedWeapon.setDamageBox(this.hitBox.getX() - this.hitBox.getWidth(),
-					this.hitBox.getY() + this.hitBox.getHeight(), this.hitBox.getWidth(), this.hitBox.getHeight());
+		boolean rightCondition = this.attackDirection.getX() > 0;
+		boolean leftCondition = this.attackDirection.getX() < 0;
+		boolean downCondition = this.attackDirection.getY() > 0;
+		boolean upCondition = this.attackDirection.getY() < 0;
 
-		} else if (this.attackDirection.getX() < 0 && this.attackDirection.getY() < 0) {// UPLEFT
+		if (botRightCondition) {
 
-			this.equippedWeapon.setDamageBox(this.hitBox.getX() - this.hitBox.getWidth(),
-					this.hitBox.getY() - this.hitBox.getHeight(), this.hitBox.getWidth(), this.hitBox.getHeight());
+			this.setDamageDirection(this.hitBox.getWidth(), this.hitBox.getHeight());
 
-		} else if (this.attackDirection.getX() > 0 && this.attackDirection.getY() < 0) {// UPRIGHT
+		} else if (botLeftCondition) {
 
-			this.equippedWeapon.setDamageBox(this.hitBox.getX() + this.hitBox.getWidth(),
-					this.hitBox.getY() - this.hitBox.getHeight(), this.hitBox.getWidth(), this.hitBox.getHeight());
+			this.setDamageDirection(-this.hitBox.getWidth(), this.hitBox.getHeight());
 
-		} else if (this.attackDirection.getX() > 0) {// RIGHT
+		} else if (upLeftCondition) {
 
-			this.equippedWeapon.setDamageBox(this.hitBox.getX() + this.hitBox.getWidth(), this.hitBox.getY(),
-					this.hitBox.getWidth(), this.hitBox.getHeight());
+			this.setDamageDirection(-this.hitBox.getWidth(), -this.hitBox.getHeight());
 
-		} else if (this.attackDirection.getX() < 0) {// LEFT
+		} else if (upRIghtCondition) {
 
-			this.equippedWeapon.setDamageBox(this.hitBox.getX() - this.hitBox.getWidth(), this.hitBox.getY(),
-					this.hitBox.getWidth(), this.hitBox.getHeight());
+			this.setDamageDirection(this.hitBox.getWidth(), -this.hitBox.getHeight());
 
-		} else if (this.attackDirection.getY() > 0) {// DOWN
+		} else if (rightCondition) {
 
-			this.equippedWeapon.setDamageBox(this.hitBox.getX(), this.hitBox.getY() + this.hitBox.getHeight(),
-					this.hitBox.getWidth(), this.hitBox.getHeight());
+			this.setDamageDirection(this.hitBox.getWidth(), 0);
 
-		} else if (this.attackDirection.getY() < 0) {// UP
+		} else if (leftCondition) {
 
-			this.equippedWeapon.setDamageBox(this.hitBox.getX(), this.hitBox.getY() - this.hitBox.getHeight(),
-					this.hitBox.getWidth(), this.hitBox.getHeight());
+			this.setDamageDirection(-this.hitBox.getWidth(), 0);
+
+		} else if (downCondition) {
+
+			this.setDamageDirection(0, this.hitBox.getHeight());
+
+		} else if (upCondition) {
+
+			this.setDamageDirection(0, -this.hitBox.getHeight());
 
 		} else {
 
@@ -94,6 +98,11 @@ public class Player extends Creature {
 			this.equippedWeapon.setDamageBox(0, 0, 0, 0);
 
 		}
+	}
+
+	private void setDamageDirection(int xAdjustment, int yAdjustment) {
+		this.equippedWeapon.setDamageBox(this.hitBox.getX() + xAdjustment, this.hitBox.getY() + yAdjustment,
+				this.hitBox.getWidth(), this.hitBox.getHeight());
 	}
 
 	@Override
@@ -126,7 +135,7 @@ public class Player extends Creature {
 			this.drawWeaponDamageBox(g);
 		}
 	}
-	
+
 	public void setHealth(int hp) {
 		this.health = hp;
 	}
