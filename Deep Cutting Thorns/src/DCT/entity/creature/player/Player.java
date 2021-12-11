@@ -174,6 +174,19 @@ public class Player extends Creature {
 			this.die();
 		}
 
+		this.updateAnimation();
+
+		if (this.isAttacking()) {
+			this.attack();
+			this.checkAttacks();
+		} else if (this.health > 0) {
+			this.playerMovement();
+		}
+
+	}
+
+	private void updateAnimation() {
+		
 		this.animationIdle.update();
 		this.animationMoveUp.update();
 		this.animationMoveRight.update();
@@ -188,14 +201,6 @@ public class Player extends Creature {
 		this.playerRoll.update();
 
 		this.currentAnimation.update();
-
-		if (this.isAttacking()) {
-			this.attack();
-			this.checkAttacks();
-		} else if (this.health > 0) {
-			this.playerMovement();
-		}
-
 	}
 
 	@Override
