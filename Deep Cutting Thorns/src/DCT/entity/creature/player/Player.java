@@ -40,7 +40,7 @@ public class Player extends Creature {
 		this.rollCurrentDistance = ROLLBASEDISTANCE;
 		this.lastAttackTimer = 0;
 
-		initialize();
+		this.initialize();
 	}
 
 	public void addHealth(int value) {
@@ -127,10 +127,12 @@ public class Player extends Creature {
 
 	@Override
 	public void render(Graphics2D g) {
+
 		g.drawImage(this.currentAnimation.getCurrentFrame(), this.xMoveWithCamera(), this.yMoveWithCamera(),
 				this.position.getWidth(), this.position.getHeight(), null);
 
 		this.drawHitBox(g);
+
 		if (this.isAttacking()) {
 			this.drawWeaponDamageBox(g);
 		}
@@ -142,13 +144,25 @@ public class Player extends Creature {
 
 	@Override
 	public void showHealthBar(Graphics2D g) {
+
 		float rangeHealthBar = (float) (MAX_HEALTH - 1) / ((float) Assets.healthBars.length - 1);
 		int currentHealthBarToShow = (int) ((float) (MAX_HEALTH - this.health) / rangeHealthBar);
+
+		int maxHealthBar = 28;
+
 		if (currentHealthBarToShow < 0)
 			currentHealthBarToShow = 0;
-		if (currentHealthBarToShow > 28)
-			currentHealthBarToShow = 28;
-		g.drawImage(Assets.healthBars[currentHealthBarToShow], 20, 20, (int) (390 * 0.75), (int) (70 * 0.75), null);
+		if (currentHealthBarToShow > maxHealthBar)
+			currentHealthBarToShow = maxHealthBar;
+
+		int x = 20;
+		int y = 20;
+		int width = 390;
+		int height = 70;
+		double scale = 0.75;
+
+		g.drawImage(Assets.healthBars[currentHealthBarToShow], x, y, (int) (width * scale), (int) (height * scale),
+				null);
 
 	}
 
