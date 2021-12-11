@@ -3,6 +3,7 @@ package DCT.entity.creature.player;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 import DCT.Facade;
 import DCT.entity.Entity;
@@ -168,6 +169,7 @@ public class Player extends Creature {
 
 	@Override
 	public void update() {
+
 		if (this.health <= 0) {
 			this.die();
 		}
@@ -198,6 +200,7 @@ public class Player extends Creature {
 
 	@Override
 	protected void chooseCurrentAnimation() {
+
 		if (this.isMovingUp()) {
 			this.setAnimation(this.animationMoveUp, this.playerSprintUp);
 		}
@@ -222,8 +225,10 @@ public class Player extends Creature {
 	}
 
 	private void attack() {
+
 		this.attackAnimIndex++;
 		this.playerAttacking.update();
+
 		if (this.attackAnimIndex >= this.playerAttacking.getAnimationLength()) {
 			this.attacking = false;
 			this.facade.getMouseManager().setLeftClicked(false);
@@ -232,63 +237,79 @@ public class Player extends Creature {
 	}
 
 	private void aimAttack() {
+
 		this.attacking = true;
-		Rectangle topLeft = new Rectangle(this.getPositionX() - this.facade.getWidth(),
-				this.getPositionY() - this.facade.getHeight(), this.facade.getWidth(), this.facade.getHeight());
-		Rectangle top = new Rectangle(this.getPositionX(), this.getPositionY() - this.facade.getHeight(),
-				this.getPositionWidth(), this.facade.getHeight());
-		Rectangle topRight = new Rectangle(this.getPositionX() + this.getPositionWidth(),
-				this.getPositionY() - this.facade.getHeight(), this.facade.getWidth(), this.facade.getHeight());
-		Rectangle right = new Rectangle(this.getPositionX() + this.getPositionWidth(), this.getPositionY(),
-				this.facade.getWidth(), this.getPositionHeight());
-		Rectangle botRight = new Rectangle(this.getPositionX() + this.getPositionWidth(),
-				this.getPositionY() + this.getPositionHeight(), this.facade.getWidth(), this.facade.getHeight());
-		Rectangle bot = new Rectangle(this.getPositionX(), this.getPositionY() + this.getPositionHeight(),
-				this.getPositionWidth(), this.facade.getHeight());
-		Rectangle botLeft = new Rectangle(this.getPositionX() - this.facade.getWidth(),
-				this.getPositionY() + this.getPositionHeight(), this.facade.getWidth(), this.facade.getHeight());
-		Rectangle left = new Rectangle(this.getPositionX() - this.facade.getWidth(), this.getPositionY(),
-				this.facade.getWidth(), this.getPositionHeight());
-		boolean TL = topLeft.contains(
+
+		ArrayList<Rectangle> rectangleOfAttacks = new ArrayList<Rectangle>();
+		ArrayList<Boolean> targettedPosition = new ArrayList<Boolean>();
+
+		this.createRectangleOfAttack(rectangleOfAttacks);
+
+		this.chooseDirectionOfAttack(rectangleOfAttacks, targettedPosition);
+
+		this.attackDirection = this.chooseVectorOfAttack(targettedPosition);
+	}
+
+	private Vector chooseVectorOfAttack(ArrayList<Boolean> targettedPosition) {
+
+		if (targettedPosition.get(0)) {
+			return new Vector(-1, -1);
+		} else if (targettedPosition.get(1)) {
+			return new Vector(0, -1);
+		} else if (targettedPosition.get(2)) {
+			return new Vector(1, -1);
+		} else if (targettedPosition.get(3)) {
+			return new Vector(1, 0);
+		} else if (targettedPosition.get(4)) {
+			return new Vector(1, 1);
+		} else if (targettedPosition.get(5)) {
+			return new Vector(0, 1);
+		} else if (targettedPosition.get(6)) {
+			return new Vector(-1, 1);
+		} else if (targettedPosition.get(7)) {
+			return new Vector(-1, 0);
+		} else {
+			return new Vector();
+		}
+	}
+
+	private void chooseDirectionOfAttack(ArrayList<Rectangle> rectangleOfAttacks,
+			ArrayList<Boolean> targettedPosition) {
+
+		Vector pointOfAttack = new Vector(
 				this.facade.getMouseManager().getMouseX() + this.facade.getGameCamera().getXOffset(),
-				this.facade.getMouseManager().getMouseY() + this.facade.getGameCamera().getYOffset());
-		boolean T = top.contains(this.facade.getMouseManager().getMouseX() + this.facade.getGameCamera().getXOffset(),
-				this.facade.getMouseManager().getMouseY() + this.facade.getGameCamera().getYOffset());
-		boolean TR = topRight.contains(
-				this.facade.getMouseManager().getMouseX() + this.facade.getGameCamera().getXOffset(),
-				this.facade.getMouseManager().getMouseY() + this.facade.getGameCamera().getYOffset());
-		boolean R = right.contains(this.facade.getMouseManager().getMouseX() + this.facade.getGameCamera().getXOffset(),
-				this.facade.getMouseManager().getMouseY() + this.facade.getGameCamera().getYOffset());
-		boolean BR = botRight.contains(
-				this.facade.getMouseManager().getMouseX() + this.facade.getGameCamera().getXOffset(),
-				this.facade.getMouseManager().getMouseY() + this.facade.getGameCamera().getYOffset());
-		boolean B = bot.contains(this.facade.getMouseManager().getMouseX() + this.facade.getGameCamera().getXOffset(),
-				this.facade.getMouseManager().getMouseY() + this.facade.getGameCamera().getYOffset());
-		boolean BL = botLeft.contains(
-				this.facade.getMouseManager().getMouseX() + this.facade.getGameCamera().getXOffset(),
-				this.facade.getMouseManager().getMouseY() + this.facade.getGameCamera().getYOffset());
-		boolean L = left.contains(this.facade.getMouseManager().getMouseX() + this.facade.getGameCamera().getXOffset(),
 				this.facade.getMouseManager().getMouseY() + this.facade.getGameCamera().getYOffset());
 
-		if (TL) {
-			this.attackDirection = new Vector(-1, -1);
-		} else if (T) {
-			this.attackDirection = new Vector(0, -1);
-		} else if (TR) {
-			this.attackDirection = new Vector(1, -1);
-		} else if (R) {
-			this.attackDirection = new Vector(1, 0);
-		} else if (BR) {
-			this.attackDirection = new Vector(1, 1);
-		} else if (B) {
-			this.attackDirection = new Vector(0, 1);
-		} else if (BL) {
-			this.attackDirection = new Vector(-1, 1);
-		} else if (L) {
-			this.attackDirection = new Vector(-1, 0);
-		} else {
-			this.attackDirection = new Vector();
+		for (int i = 0; i < 8; i++) {
+			targettedPosition.add(rectangleOfAttacks.get(i).contains(pointOfAttack.getX(), pointOfAttack.getY()));
 		}
+	}
+
+	private void createRectangleOfAttack(ArrayList<Rectangle> rectangleOfAttacks) {
+
+		rectangleOfAttacks.add(new Rectangle(this.getPositionX() - this.facade.getWidth(),
+				this.getPositionY() - this.facade.getHeight(), this.facade.getWidth(), this.facade.getHeight()));
+
+		rectangleOfAttacks.add(new Rectangle(this.getPositionX(), this.getPositionY() - this.facade.getHeight(),
+				this.getPositionWidth(), this.facade.getHeight()));
+
+		rectangleOfAttacks.add(new Rectangle(this.getPositionX() + this.getPositionWidth(),
+				this.getPositionY() - this.facade.getHeight(), this.facade.getWidth(), this.facade.getHeight()));
+
+		rectangleOfAttacks.add(new Rectangle(this.getPositionX() + this.getPositionWidth(), this.getPositionY(),
+				this.facade.getWidth(), this.getPositionHeight()));
+
+		rectangleOfAttacks.add(new Rectangle(this.getPositionX() + this.getPositionWidth(),
+				this.getPositionY() + this.getPositionHeight(), this.facade.getWidth(), this.facade.getHeight()));
+
+		rectangleOfAttacks.add(new Rectangle(this.getPositionX(), this.getPositionY() + this.getPositionHeight(),
+				this.getPositionWidth(), this.facade.getHeight()));
+
+		rectangleOfAttacks.add(new Rectangle(this.getPositionX() - this.facade.getWidth(),
+				this.getPositionY() + this.getPositionHeight(), this.facade.getWidth(), this.facade.getHeight()));
+
+		rectangleOfAttacks.add(new Rectangle(this.getPositionX() - this.facade.getWidth(), this.getPositionY(),
+				this.facade.getWidth(), this.getPositionHeight()));
 	}
 
 	private void checkAttacks() {
@@ -320,6 +341,7 @@ public class Player extends Creature {
 	}
 
 	private void getInput() {
+
 		if (this.facade.getKeyManager().getUp()) {
 			this.setYSpeed(-this.speed, -SPRINTSPEED);
 		}
