@@ -8,7 +8,6 @@ import DCT.Facade;
 import DCT.tile.Tile;
 import DCT.utility.AStar;
 import DCT.utility.Node;
-import DCT.utility.NodeReader;
 import DCT.utility.Rectangle;
 import DCT.utility.Vector;
 

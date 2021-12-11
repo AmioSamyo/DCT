@@ -3,10 +3,8 @@ package DCT.entity.creature.player;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
 
 import DCT.Facade;
-import DCT.entity.Entity;
 import DCT.entity.creature.Creature;
 import DCT.entity.creature.player.items.Weapon;
 import DCT.gfx.Animation;
@@ -16,17 +14,15 @@ import DCT.utility.Vector;
 
 public class Player extends Creature {
 
-	private int attackAnimIndex = 0;
-
 	private Weapon equippedWeapon;
-	private Animation playerSprintDown, playerSprintRight, playerSprintUp, playerSprintLeft;
-	private Animation playerRoll, playerAttacking;
+
 	private PlayerRoller playerRoller;
 	private PlayerAttacker playerAttacker;
+	private PlayerAnimator playerAnimator;
 
 	private static final int PLAYERWIDTH = 704 / 11, PLAYERHEIGHT = 320 / 5;
 	private static final int SCALE = 2;
-	private static final int ANIMATIONSPEED = 100, ANIMATIONSPRINTSPEED = 60;
+
 	private static final int SPRINTSPEED = 8;
 
 	public Player(Facade facade, Vector position) {
@@ -37,6 +33,7 @@ public class Player extends Creature {
 
 		this.playerRoller = new PlayerRoller(this);
 		this.playerAttacker = new PlayerAttacker(this, facade);
+		this.playerAnimator = new PlayerAnimator(this, facade);
 
 		this.initialize();
 	}
@@ -120,7 +117,7 @@ public class Player extends Creature {
 		this.updateAnimation();
 
 		if (this.playerAttacker.isAttacking()) {
-			this.attack();
+			this.playerAnimator.attack();
 			this.playerAttacker.checkAttacks();
 		} else if (this.health > 0) {
 			this.playerMovement();
@@ -132,37 +129,25 @@ public class Player extends Creature {
 	protected void chooseCurrentAnimation() {
 
 		if (this.isMovingUp()) {
-			this.setAnimation(this.animationMoveUp, this.playerSprintUp);
+			this.playerAnimator.setAnimation(this.animationMoveUp, this.playerAnimator.getSprintUpAnimation());
 		}
 		if (this.isMovingDown()) {
-			this.setAnimation(this.animationMoveDown, this.playerSprintDown);
+			this.playerAnimator.setAnimation(this.animationMoveDown, this.playerAnimator.getSprintDownAnimation());
 		}
 		if (this.isMovingLeft()) {
-			this.setAnimation(this.animationMoveLeft, this.playerSprintLeft);
+			this.playerAnimator.setAnimation(this.animationMoveLeft, this.playerAnimator.getSprintLeftAnimation());
 		}
 		if (this.isMovingRight()) {
-			this.setAnimation(this.animationMoveRight, this.playerSprintRight);
+			this.playerAnimator.setAnimation(this.animationMoveRight, this.playerAnimator.getSprintRightAnimation());
 		}
 		if (this.isNotMoving()) {
 			this.currentAnimation = this.animationIdle;
 		}
 		if (this.playerRoller.isRolling()) {
-			this.currentAnimation = this.playerRoll;
+			this.currentAnimation = this.playerAnimator.getRollAnimation();
 		}
 		if (this.playerAttacker.isAttacking()) {
-			this.currentAnimation = this.playerAttacking;
-		}
-	}
-
-	private void attack() {
-
-		this.attackAnimIndex++;
-		this.playerAttacking.update();
-
-		if (this.attackAnimIndex >= this.playerAttacking.getAnimationLength()) {
-			this.playerAttacker.setAttack(false);
-			this.facade.getMouseManager().setLeftClicked(false);
-			this.attackAnimIndex = 0;
+			this.currentAnimation = this.playerAnimator.getAttackingAnimation();
 		}
 	}
 
@@ -214,20 +199,15 @@ public class Player extends Creature {
 
 	private void initializeAnimation() {
 
-		this.animationMoveDown = new Animation(ANIMATIONSPEED, Assets.playerAnimationDown);
-		this.animationMoveRight = new Animation(ANIMATIONSPEED, Assets.playerAnimationRight);
-		this.animationMoveUp = new Animation(ANIMATIONSPEED, Assets.playerAnimationUp);
-		this.animationMoveLeft = new Animation(ANIMATIONSPEED, Assets.playerAnimationLeft);
-		this.animationIdle = new Animation(ANIMATIONSPEED, Assets.playerAnimationIdle);
+		this.animationMoveDown = new Animation(PlayerAnimator.ANIMATIONSPEED, Assets.playerAnimationDown);
+		this.animationMoveRight = new Animation(PlayerAnimator.ANIMATIONSPEED, Assets.playerAnimationRight);
+		this.animationMoveUp = new Animation(PlayerAnimator.ANIMATIONSPEED, Assets.playerAnimationUp);
+		this.animationMoveLeft = new Animation(PlayerAnimator.ANIMATIONSPEED, Assets.playerAnimationLeft);
+		this.animationIdle = new Animation(PlayerAnimator.ANIMATIONSPEED, Assets.playerAnimationIdle);
 		this.animationDead = new Animation(1, Assets.playerDeadAnimation);
+		
+		this.playerAnimator.initialize();
 
-		this.playerSprintDown = new Animation(ANIMATIONSPRINTSPEED, Assets.playerAnimationDown);
-		this.playerSprintRight = new Animation(ANIMATIONSPRINTSPEED, Assets.playerAnimationRight);
-		this.playerSprintUp = new Animation(ANIMATIONSPRINTSPEED, Assets.playerAnimationUp);
-		this.playerSprintLeft = new Animation(ANIMATIONSPRINTSPEED, Assets.playerAnimationLeft);
-
-		this.playerRoll = new Animation(0, Assets.playerAnimationRoll);
-		this.playerAttacking = new Animation(0, Assets.playerAttacking);
 	}
 
 	private void playerMovement() {
@@ -244,12 +224,6 @@ public class Player extends Creature {
 		this.resetMovement();
 
 		this.facade.getGameCamera().centerOnEntity(this);
-	}
-
-	private void setAnimation(Animation moveAnimation, Animation sprintAnimation) {
-
-		this.currentAnimation = this.facade.getKeyManager().getSprint() ? sprintAnimation : moveAnimation;
-
 	}
 
 	private void setXSpeed(int speed, int sprintSpeed) {
@@ -271,19 +245,23 @@ public class Player extends Creature {
 		this.animationMoveLeft.update();
 		this.animationMoveDown.update();
 
-		this.playerSprintUp.update();
-		this.playerSprintRight.update();
-		this.playerSprintLeft.update();
-		this.playerSprintDown.update();
-
-		this.playerRoll.update();
-
+		this.playerAnimator.update();
+		
 		this.currentAnimation.update();
 	}
 
 	public Weapon getEquippedWeapon() {
 
 		return this.equippedWeapon;
+	}
+
+	public PlayerAttacker getPlayerAttacker() {
+		return this.playerAttacker;
+	}
+
+	public void setCurrentAnimation(Animation current) {
+		this.currentAnimation = current;
+
 	}
 
 }
