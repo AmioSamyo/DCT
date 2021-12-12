@@ -24,8 +24,8 @@ public class AStar {
 		this.initializePathNodeMap();
 	}
 
-	public void update(Vector currentPosition, Vector targetPosition) {
-		this.nodeMap.fillMap(currentPosition.getX(), currentPosition.getY());
+	public void update(int x, int y, Vector targetPosition) {
+		this.nodeMap.fillMap(x, y);
 		this.updateTarget(targetPosition);
 		this.setPath();
 	}

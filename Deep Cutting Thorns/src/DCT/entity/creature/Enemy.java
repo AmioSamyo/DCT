@@ -43,8 +43,8 @@ public class Enemy extends Creature {
 			this.chooseTarget();
 			if (this.getPositionPath) {
 
-				this.aStar.update(new Vector(this.getPositionX() - this.diameterAggro / 2,
-						this.getPositionY() - this.diameterAggro / 2), this.target);
+				this.aStar.update(this.getPositionX() - this.diameterAggro / 2,
+						this.getPositionY() - this.diameterAggro / 2, this.target);
 
 				this.targetPath = this.aStar.getPath();
 				this.getPositionPath = false;
