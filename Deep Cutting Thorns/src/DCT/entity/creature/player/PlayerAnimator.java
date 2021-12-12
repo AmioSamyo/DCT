@@ -23,7 +23,6 @@ public class PlayerAnimator {
 	}
 
 	public void attack() {
-
 		this.attackAnimIndex++;
 		this.playerAttacking.update();
 
@@ -59,7 +58,6 @@ public class PlayerAnimator {
 	}
 
 	public void initialize() {
-
 		this.playerSprintDown = new Animation(ANIMATIONSPRINTSPEED, Assets.playerAnimationDown);
 		this.playerSprintRight = new Animation(ANIMATIONSPRINTSPEED, Assets.playerAnimationRight);
 		this.playerSprintUp = new Animation(ANIMATIONSPRINTSPEED, Assets.playerAnimationUp);
@@ -70,13 +68,10 @@ public class PlayerAnimator {
 	}
 
 	public void setAnimation(Animation moveAnimation, Animation sprintAnimation) {
-
 		this.player.setCurrentAnimation(this.facade.getKeyManager().getSprint() ? sprintAnimation : moveAnimation);
-
 	}
 
 	public void update() {
-
 		this.playerSprintUp.update();
 		this.playerSprintRight.update();
 		this.playerSprintLeft.update();
@@ -84,5 +79,4 @@ public class PlayerAnimator {
 
 		this.playerRoll.update();
 	}
-
 }

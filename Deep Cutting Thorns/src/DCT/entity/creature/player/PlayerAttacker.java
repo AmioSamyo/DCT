@@ -19,13 +19,13 @@ public class PlayerAttacker {
 	private Facade facade;
 
 	public PlayerAttacker(Player player, Facade facade) {
+
 		this.player = player;
 		this.facade = facade;
 		this.lastAttackTimer = 0;
 	}
 
 	public void aimAttack() {
-
 		this.attacking = true;
 
 		ArrayList<Rectangle> rectangleOfAttacks = new ArrayList<Rectangle>();
@@ -39,7 +39,6 @@ public class PlayerAttacker {
 	}
 
 	public void attackDirections() {
-
 		boolean botRightCondition = this.attackDirection.getX() > 0 && this.attackDirection.getY() > 0;
 		boolean botLeftCondition = this.attackDirection.getX() < 0 && this.attackDirection.getY() > 0;
 
@@ -92,7 +91,6 @@ public class PlayerAttacker {
 	}
 
 	public void checkAttacks() {
-
 		this.updateTimerAttack();
 
 		if (this.attackTimer >= this.player.getEquippedWeapon().getCooldown()) {
@@ -125,7 +123,6 @@ public class PlayerAttacker {
 	}
 
 	private Vector chooseVectorOfAttack(ArrayList<Boolean> targettedPosition) {
-
 		int position = targettedPosition.indexOf(true);
 
 		if (position == Directions.TopLeft.code)
@@ -144,12 +141,11 @@ public class PlayerAttacker {
 			return new Vector(-1, 1);
 		if (position == Directions.Left.code)
 			return new Vector(-1, 0);
-		
+
 		return new Vector();
 	}
 
 	private void checkAttackTarget() {
-
 		this.attackDirections();
 		this.attackTimer = 0;
 
@@ -158,17 +154,18 @@ public class PlayerAttacker {
 				continue;
 			}
 
-			if (e.getCollisionHitBox(-this.facade.getGameCamera().getXOffset(),
-					-this.facade.getGameCamera().getYOffset())
-					.intersects(this.player.getEquippedWeapon().getDamageBoxRelative())) {
+			boolean checkWeaponHit = e
+					.getCollisionHitBox(-this.facade.getGameCamera().getXOffset(),
+							-this.facade.getGameCamera().getYOffset())
+					.intersects(this.player.getEquippedWeapon().getDamageBoxRelative());
 
+			if (checkWeaponHit) {
 				e.damage(this.player.getEquippedWeapon().getDamage());
 			}
 		}
 	}
 
 	private void createRectangleOfAttack(ArrayList<Rectangle> rectangleOfAttacks) {
-
 		rectangleOfAttacks.add(new Rectangle(this.player.getPositionX() - this.facade.getWidth(),
 				this.player.getPositionY() - this.facade.getHeight(), this.facade.getWidth(), this.facade.getHeight()));
 
@@ -208,5 +205,4 @@ public class PlayerAttacker {
 		this.attackTimer += System.currentTimeMillis() - this.lastAttackTimer;
 		this.lastAttackTimer = System.currentTimeMillis();
 	}
-
 }

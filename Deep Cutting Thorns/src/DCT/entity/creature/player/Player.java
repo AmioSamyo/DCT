@@ -26,7 +26,6 @@ public class Player extends Creature {
 	private static final int SPRINTSPEED = 8;
 
 	public Player(Facade facade, Vector position) {
-
 		super(facade, new Rectangle(position.getX(), position.getY(), PLAYERWIDTH * SCALE, PLAYERHEIGHT * SCALE));
 
 		this.speed = 4;
@@ -76,20 +75,18 @@ public class Player extends Creature {
 
 	@Override
 	public void render(Graphics2D g) {
-
 		g.drawImage(this.currentAnimation.getCurrentFrame(), this.xMoveWithCamera(), this.yMoveWithCamera(),
 				this.position.getWidth(), this.position.getHeight(), null);
 
 		this.drawHitBox(g);
 
-		if (this.playerAttacker.isAttacking()) {
-			this.drawWeaponDamageBox(g);
+		if (this.playerAttacker.isAttacking() && this.facade.getDebugMode()) {
+			this.equippedWeapon.render(g);
 		}
 	}
 
 	public void setCurrentAnimation(Animation current) {
 		this.currentAnimation = current;
-
 	}
 
 	public void setHealth(int hp) {
@@ -98,7 +95,6 @@ public class Player extends Creature {
 
 	@Override
 	public void showHealthBar(Graphics2D g) {
-
 		float rangeHealthBar = (float) (MAX_HEALTH - 1) / ((float) Assets.healthBars.length - 1);
 		int currentHealthBarToShow = (int) ((float) (MAX_HEALTH - this.health) / rangeHealthBar);
 
@@ -117,12 +113,10 @@ public class Player extends Creature {
 
 		g.drawImage(Assets.healthBars[currentHealthBarToShow], x, y, (int) (width * scale), (int) (height * scale),
 				null);
-
 	}
 
 	@Override
 	public void update() {
-		
 		if (this.health <= 0) {
 			this.die();
 		}
@@ -135,12 +129,10 @@ public class Player extends Creature {
 		} else if (this.health > 0) {
 			this.playerMovement();
 		}
-
 	}
 
 	@Override
 	protected void chooseCurrentAnimation() {
-		
 		if (this.isMovingUp()) {
 			this.playerAnimator.setAnimation(this.animationMoveUp, this.playerAnimator.getSprintUpAnimation());
 		}
@@ -164,14 +156,7 @@ public class Player extends Creature {
 		}
 	}
 
-	private void drawWeaponDamageBox(Graphics2D g) {
-		if (this.facade.getDebugMode()) {
-			this.equippedWeapon.render(g);
-		}
-	}
-
 	private void getInput() {
-		
 		if (this.facade.getKeyManager().getUp()) {
 			this.setYSpeed(-this.speed, -SPRINTSPEED);
 		}
@@ -193,7 +178,6 @@ public class Player extends Creature {
 	}
 
 	private void initialize() {
-
 		this.hitBox = new Rectangle((int) (PLAYERWIDTH * SCALE * 0.35), (int) (PLAYERHEIGHT * SCALE * 0.7),
 				(int) (PLAYERWIDTH * SCALE * 0.35), (int) (PLAYERHEIGHT * SCALE * 0.16));
 
@@ -210,7 +194,6 @@ public class Player extends Creature {
 	}
 
 	private void initializeAnimation() {
-
 		this.animationMoveDown = new Animation(PlayerAnimator.ANIMATIONSPEED, Assets.playerAnimationDown);
 		this.animationMoveRight = new Animation(PlayerAnimator.ANIMATIONSPEED, Assets.playerAnimationRight);
 		this.animationMoveUp = new Animation(PlayerAnimator.ANIMATIONSPEED, Assets.playerAnimationUp);
@@ -219,11 +202,9 @@ public class Player extends Creature {
 		this.animationDead = new Animation(1, Assets.playerDeadAnimation);
 
 		this.playerAnimator.initialize();
-
 	}
 
 	private void playerMovement() {
-
 		this.getInput();
 
 		if (this.playerRoller.isRolling()) {
@@ -240,7 +221,6 @@ public class Player extends Creature {
 
 	private void setXSpeed(int speed, int sprintSpeed) {
 		this.addXMove(this.facade.getKeyManager().getSprint() ? sprintSpeed : speed);
-
 	}
 
 	private void setYSpeed(int speed, int sprintSpeed) {
@@ -248,7 +228,6 @@ public class Player extends Creature {
 	}
 
 	private void updateAnimation() {
-
 		this.animationIdle.update();
 		this.animationMoveUp.update();
 		this.animationMoveRight.update();
@@ -259,5 +238,4 @@ public class Player extends Creature {
 
 		this.currentAnimation.update();
 	}
-
 }

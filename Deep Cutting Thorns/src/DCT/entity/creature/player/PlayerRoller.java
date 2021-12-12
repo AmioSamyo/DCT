@@ -11,7 +11,6 @@ public class PlayerRoller {
 	private static final int ROLLBASEDISTANCE = 17;
 
 	public PlayerRoller(Player pureya) {
-
 		this.player = pureya;
 
 		this.isRolling = false;
@@ -27,7 +26,6 @@ public class PlayerRoller {
 	}
 
 	public void rollingMove() {
-
 		if (!this.player.checkEntityCollisions(this.player.getPreviousDirection().getX() * this.rollCurrentDistance,
 				this.player.getPreviousDirection().getY() * this.rollCurrentDistance)) {
 
@@ -39,6 +37,25 @@ public class PlayerRoller {
 			this.rollCurrentDistance = ROLLBASEDISTANCE;
 			this.isRolling = false;
 		}
+	}
+
+	private boolean checkOrizontalConditions(int futureX) {
+		boolean rollingCondition1 = !this.player.checkCollisionWithTile(futureX,
+				this.player.getPositionY() + this.player.getHitbox().getY());
+		boolean rollingCondition2 = !this.player.checkCollisionWithTile(futureX,
+				this.player.getPositionY() + this.player.getHitbox().getY() + this.player.getHitbox().getHeight());
+
+		return rollingCondition1 && rollingCondition2;
+	}
+
+	private boolean checkVerticalConditions(int futureY) {
+		boolean rollingCondition1 = !this.player
+				.checkCollisionWithTile(this.player.getPositionX() + this.player.getHitbox().getX(), futureY);
+		boolean rollingCondition2 = !this.player.checkCollisionWithTile(
+				this.player.getPositionX() + this.player.getHitbox().getX() + this.player.getHitbox().getWidth(),
+				futureY);
+
+		return rollingCondition1 && rollingCondition2;
 	}
 
 	private void chooseRollDirection() {
@@ -57,13 +74,7 @@ public class PlayerRoller {
 	private void rollUp() {
 		int futureY = this.player.getPositionY() + this.player.getHitbox().getY() - this.rollCurrentDistance;
 
-		boolean rollingCondition1 = !this.player
-				.checkCollisionWithTile(this.player.getPositionX() + this.player.getHitbox().getX(), futureY);
-		boolean rollingCondition2 = !this.player.checkCollisionWithTile(
-				this.player.getPositionX() + this.player.getHitbox().getX() + this.player.getHitbox().getWidth(),
-				futureY);
-
-		if (rollingCondition1 && rollingCondition2) {
+		if (this.checkVerticalConditions(futureY)) {
 			this.player.setY(this.player.getPositionY() - this.rollCurrentDistance);
 		}
 	}
@@ -72,13 +83,7 @@ public class PlayerRoller {
 		int futureY = this.player.getPositionY() + this.player.getHitbox().getY() + this.player.getHitbox().getHeight()
 				+ this.rollCurrentDistance;
 
-		boolean rollingCondition1 = !this.player
-				.checkCollisionWithTile(this.player.getPositionX() + this.player.getHitbox().getX(), futureY);
-		boolean rollingCondition2 = !this.player.checkCollisionWithTile(
-				this.player.getPositionX() + this.player.getHitbox().getX() + this.player.getHitbox().getWidth(),
-				futureY);
-
-		if (rollingCondition1 && rollingCondition2) {
+		if (this.checkVerticalConditions(futureY)) {
 			this.player.setY(this.player.getPositionY() + this.rollCurrentDistance);
 		}
 	}
@@ -86,12 +91,7 @@ public class PlayerRoller {
 	private void rollLeft() {
 		int futureX = this.player.getPositionX() + this.player.getHitbox().getX() - this.rollCurrentDistance;
 
-		boolean rollingCondition1 = !this.player.checkCollisionWithTile(futureX,
-				this.player.getPositionY() + this.player.getHitbox().getY());
-		boolean rollingCondition2 = !this.player.checkCollisionWithTile(futureX,
-				this.player.getPositionY() + this.player.getHitbox().getY() + this.player.getHitbox().getHeight());
-
-		if (rollingCondition1 && rollingCondition2) {
+		if (this.checkOrizontalConditions(futureX)) {
 			this.player.setX(this.player.getPositionX() - this.rollCurrentDistance);
 		}
 	}
@@ -100,14 +100,8 @@ public class PlayerRoller {
 		int futureX = this.player.getPositionX() + this.player.getHitbox().getX() + this.player.getHitbox().getWidth()
 				+ this.rollCurrentDistance;
 
-		boolean rollingCondition1 = !this.player.checkCollisionWithTile(futureX,
-				this.player.getPositionY() + this.player.getHitbox().getY());
-		boolean rollingCondition2 = !this.player.checkCollisionWithTile(futureX,
-				this.player.getPositionY() + this.player.getHitbox().getY() + this.player.getHitbox().getHeight());
-
-		if (rollingCondition1 && rollingCondition2) {
+		if (this.checkOrizontalConditions(futureX)) {
 			this.player.setX(this.player.getPositionX() + this.rollCurrentDistance);
 		}
 	}
-
 }
