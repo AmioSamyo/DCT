@@ -17,6 +17,22 @@ public class AStar {
 		this.initialize();
 	}
 
+	public NodeReader getMap() {
+		return this.nodeMap;
+	}
+
+	public ArrayList<Node> getPathNode() {
+		return this.pathNodeMap;
+	}
+
+	public Vector getStart() {
+		return this.start;
+	}
+
+	public Vector getTarget() {
+		return this.target;
+	}
+
 	public void setPath() {
 		this.pathNodeMap.clear();
 		this.initializeScores();
@@ -28,6 +44,26 @@ public class AStar {
 		this.nodeMap.fillMap(x, y);
 		this.updateTarget(targetPosition);
 		this.setPath();
+	}
+
+	private int checkHorizontalEdges(int x) {
+		if (x >= this.nodeMap.getColumn()) {
+			x = this.nodeMap.getColumn() - 1;
+		}
+		if (x < 0) {
+			x = 0;
+		}
+		return x;
+	}
+
+	private int checkVerticalEdges(int y) {
+		if (y >= this.nodeMap.getRow()) {
+			y = this.nodeMap.getRow() - 1;
+		}
+		if (y < 0) {
+			y = 0;
+		}
+		return y;
 	}
 
 	private Node chooseOpenNode(ArrayList<Node> neighbors) {
@@ -145,28 +181,22 @@ public class AStar {
 		neighbors.get(index).setFScore();
 	}
 
-	//TODO
 	private void updateTarget(Vector target) {
 		int x = (target.getX() - this.nodeMap.getStartPosition().getX()) / this.nodeMap.getNodeDimension();
 		int y = (target.getY() - this.nodeMap.getStartPosition().getY()) / this.nodeMap.getNodeDimension();
 
-		if (x >= this.nodeMap.getColumn()) {
-			x = this.nodeMap.getColumn() - 1;
-		}
-		if (y >= this.nodeMap.getRow()) {
-			y = this.nodeMap.getRow() - 1;
-		}
-		if (x < 0) {
-			x = 0;
-		}
-		if (y < 0) {
-			y = 0;
-		}
+		x = this.checkHorizontalEdges(x);
+		y = this.checkVerticalEdges(y);
+
+		this.updateTargetVector(x, y);
+	}
+
+	private void updateTargetVector(int x, int y) {
 		this.target.setX(x);
 		this.target.setY(y);
 	}
 
-	//TODO
+	// TODO
 	public Vector getPath() {
 		int x = 0;
 		int y = 0;
@@ -234,22 +264,6 @@ public class AStar {
 		this.path.setY(y);
 
 		return this.path;
-	}
-
-	public ArrayList<Node> getPathNode() {
-		return this.pathNodeMap;
-	}
-
-	public NodeReader getMap() {
-		return this.nodeMap;
-	}
-
-	public Vector getStart() {
-		return this.start;
-	}
-
-	public Vector getTarget() {
-		return this.target;
 	}
 
 }
