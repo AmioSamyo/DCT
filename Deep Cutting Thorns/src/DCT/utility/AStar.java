@@ -24,8 +24,8 @@ public class AStar {
 		this.initializePathNodeMap();
 	}
 
-	public void update(int x, int y, Vector targetPosition) {
-		this.nodeMap.fillMap(x, y);
+	public void update(Vector currentPosition, Vector targetPosition) {
+		this.nodeMap.fillMap(currentPosition.getX(), currentPosition.getY());
 		this.updateTarget(targetPosition);
 		this.setPath();
 	}
@@ -140,11 +140,12 @@ public class AStar {
 		return currentScore;
 	}
 
-	private void updateNeighborsScores(ArrayList<Node> neighbors, int i, double currentScore) {
-		neighbors.get(i).setGScore(currentScore);
-		neighbors.get(i).setFScore();
+	private void updateNeighborsScores(ArrayList<Node> neighbors, int index, double currentScore) {
+		neighbors.get(index).setGScore(currentScore);
+		neighbors.get(index).setFScore();
 	}
 
+	//TODO
 	private void updateTarget(Vector target) {
 		int x = (target.getX() - this.nodeMap.getStartPosition().getX()) / this.nodeMap.getNodeDimension();
 		int y = (target.getY() - this.nodeMap.getStartPosition().getY()) / this.nodeMap.getNodeDimension();
@@ -165,6 +166,7 @@ public class AStar {
 		this.target.setY(y);
 	}
 
+	//TODO
 	public Vector getPath() {
 		int x = 0;
 		int y = 0;
