@@ -63,7 +63,6 @@ public class Player extends Creature {
 	}
 
 	public Weapon getEquippedWeapon() {
-
 		return this.equippedWeapon;
 	}
 
@@ -123,7 +122,7 @@ public class Player extends Creature {
 
 	@Override
 	public void update() {
-
+		
 		if (this.health <= 0) {
 			this.die();
 		}
@@ -141,7 +140,7 @@ public class Player extends Creature {
 
 	@Override
 	protected void chooseCurrentAnimation() {
-
+		
 		if (this.isMovingUp()) {
 			this.playerAnimator.setAnimation(this.animationMoveUp, this.playerAnimator.getSprintUpAnimation());
 		}
@@ -166,14 +165,13 @@ public class Player extends Creature {
 	}
 
 	private void drawWeaponDamageBox(Graphics2D g) {
-
 		if (this.facade.getDebugMode()) {
 			this.equippedWeapon.render(g);
 		}
 	}
 
 	private void getInput() {
-
+		
 		if (this.facade.getKeyManager().getUp()) {
 			this.setYSpeed(-this.speed, -SPRINTSPEED);
 		}
@@ -241,13 +239,11 @@ public class Player extends Creature {
 	}
 
 	private void setXSpeed(int speed, int sprintSpeed) {
-
 		this.addXMove(this.facade.getKeyManager().getSprint() ? sprintSpeed : speed);
 
 	}
 
 	private void setYSpeed(int speed, int sprintSpeed) {
-
 		this.addYMove(this.facade.getKeyManager().getSprint() ? sprintSpeed : speed);
 	}
 
