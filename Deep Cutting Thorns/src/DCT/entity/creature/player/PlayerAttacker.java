@@ -51,42 +51,24 @@ public class PlayerAttacker {
 		boolean upCondition = this.attackDirection.getY() < 0;
 
 		if (botRightCondition) {
-
 			this.setDamageDirection(this.player.getHitbox().getWidth(), this.player.getHitbox().getHeight());
-
 		} else if (botLeftCondition) {
-
 			this.setDamageDirection(-this.player.getHitbox().getWidth(), this.player.getHitbox().getHeight());
-
 		} else if (upLeftCondition) {
-
 			this.setDamageDirection(-this.player.getHitbox().getWidth(), -this.player.getHitbox().getHeight());
-
 		} else if (upRIghtCondition) {
-
 			this.setDamageDirection(this.player.getHitbox().getWidth(), -this.player.getHitbox().getHeight());
-
 		} else if (rightCondition) {
-
 			this.setDamageDirection(this.player.getHitbox().getWidth(), 0);
-
 		} else if (leftCondition) {
-
 			this.setDamageDirection(-this.player.getHitbox().getWidth(), 0);
-
 		} else if (downCondition) {
-
 			this.setDamageDirection(0, this.player.getHitbox().getHeight());
-
 		} else if (upCondition) {
-
 			this.setDamageDirection(0, -this.player.getHitbox().getHeight());
-
 		} else {
-
 			this.attacking = false;
 			this.player.getEquippedWeapon().setDamageBox(0, 0, 0, 0);
-
 		}
 	}
 
