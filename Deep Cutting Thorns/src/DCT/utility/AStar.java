@@ -21,6 +21,20 @@ public class AStar {
 		return this.nodeMap;
 	}
 
+	public Vector getPath() {
+		Vector newPos = new Vector();
+
+		if (this.pathNodeMap.size() > 0) {
+			this.choosePathDirection(newPos);
+		} else {
+			this.setXCenter(newPos);
+			this.setYCenter(newPos);
+		}
+
+		this.updatePath(newPos.getX(), newPos.getY());
+		return this.path;
+	}
+
 	public ArrayList<Node> getPathNode() {
 		return this.pathNodeMap;
 	}
@@ -101,20 +115,6 @@ public class AStar {
 			}
 		}
 		return neighbors;
-	}
-
-	public Vector getPath() {
-		Vector newPos = new Vector();
-
-		if (this.pathNodeMap.size() > 0) {
-			this.choosePathDirection(newPos);
-		} else {
-			this.setXCenter(newPos);
-			this.setYCenter(newPos);
-		}
-
-		this.updatePath(newPos.getX(), newPos.getY());
-		return this.path;
 	}
 
 	private Vector horizontalNeighborsIndexes(Node node) {
