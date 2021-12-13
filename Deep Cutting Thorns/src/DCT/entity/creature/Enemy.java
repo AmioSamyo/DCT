@@ -58,13 +58,10 @@ public class Enemy extends Creature {
 
 	@Override
 	public void render(Graphics2D g) {
-
 		super.render(g);
-
-		if (this.facade.getDebugMode()) {
-			this.drawNode(g);
+		if (this.facade.getDebugMode() ) {
+		this.drawNode(g);
 		}
-
 		this.aStar.getMap().mapRemoveEntity();
 
 		this.drawRangeAggro(g);
