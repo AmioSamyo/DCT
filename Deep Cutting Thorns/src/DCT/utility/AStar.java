@@ -88,37 +88,44 @@ public class AStar {
 	}
 
 	private ArrayList<Node> getNeighbors(Node node) {
-		ArrayList<Node> flag = new ArrayList<Node>();
+		ArrayList<Node> neighbors = new ArrayList<Node>();
+		Vector xStartEnd = this.horizontalNeighborsIndexes(node);
+		Vector yStartEnd = verticalNeighborsIndexes(node);
 
-		int xStart = node.getX() - 1;
-		int xEnd = xStart + 3;
-		if (xStart < 0) {
-			xStart = 0;
-		}
-		if (xEnd > this.nodeMap.getColumn()) {
-			xEnd = this.nodeMap.getColumn();
-		}
-		int yStart = node.getY() - 1;
-		int yEnd = yStart + 3;
-		if (yStart < 0) {
-			yStart = 0;
-		}
-		if (yEnd > this.nodeMap.getRow()) {
-			yEnd = this.nodeMap.getRow();
-		}
-
-		for (int i = yStart; i < yEnd; i++) {
-			for (int j = xStart; j < xEnd; j++) {
-				if (i == node.getY() && j == node.getX()) {
+		for (int i = yStartEnd.getX(); i < yStartEnd.getY(); i++) {
+			for (int j = xStartEnd.getX(); j < xStartEnd.getY(); j++) {
+				if (!this.isNodeValid(node, j, i)) {
 					continue;
 				}
-				if (!this.nodeMap.getNode(j, i).isOpen() || !this.nodeMap.getNode(j, i).isViable()) {
-					continue;
-				}
-				flag.add(this.nodeMap.getNode(j, i));
+				neighbors.add(this.nodeMap.getNode(j, i));
 			}
 		}
-		return flag;
+		return neighbors;
+	}
+
+	public Vector getPath() {
+		Vector newPos = new Vector();
+
+		if (this.pathNodeMap.size() > 0) {
+			this.choosePathDirection(newPos);
+		} else {
+			this.setXCenter(newPos);
+			this.setYCenter(newPos);
+		}
+
+		this.updatePath(newPos.getX(), newPos.getY());
+		return this.path;
+	}
+
+	private Vector horizontalNeighborsIndexes(Node node) {
+		Vector xStartEnd = new Vector(node.getX() - 1, node.getX() + 2);
+		if (xStartEnd.getX() < 0) {
+			xStartEnd.setX(0);
+		}
+		if (xStartEnd.getY() > this.nodeMap.getColumn()) {
+			xStartEnd.setY(this.nodeMap.getColumn());
+		}
+		return xStartEnd;
 	}
 
 	private void initialize() {
@@ -159,6 +166,18 @@ public class AStar {
 		this.nodeMap.getNode(this.start.getX(), this.start.getY()).setFScore();
 	}
 
+	private boolean isCurrentNode(Node node, int x, int y) {
+		return y == node.getY() && x == node.getX();
+	}
+
+	private boolean isNodeAvailable(int x, int y) {
+		return this.nodeMap.getNode(x, y).isOpen() && this.nodeMap.getNode(x, y).isViable();
+	}
+
+	private boolean isNodeValid(Node node, int x, int y) {
+		return !this.isCurrentNode(node, x, y) && this.isNodeAvailable(x, y);
+	}
+
 	private void setCurrentNode(int x, int y) {
 		this.current.setX(x);
 		this.current.setY(y);
@@ -196,74 +215,69 @@ public class AStar {
 		this.target.setY(y);
 	}
 
-	// TODO
-	public Vector getPath() {
-		int x = 0;
-		int y = 0;
-		if (this.pathNodeMap.size() > 0) {
-			int xTile = this.pathNodeMap.get(0).getX();
-			int yTile = this.pathNodeMap.get(0).getY();
-
-			if (xTile == this.start.getX() - 1 && yTile == this.start.getY() - 1) {// 1
-				x = this.nodeMap.getStartPosition().getX() + (this.start.getX()) * this.nodeMap.getNodeDimension()
-						- this.nodeMap.SCALE * this.nodeMap.getNodeDimension() / 2;
-				y = this.nodeMap.getStartPosition().getY() + (this.start.getY()) * this.nodeMap.getNodeDimension()
-						- this.nodeMap.SCALE * this.nodeMap.getNodeDimension() / 2;
-			}
-			if (xTile == this.start.getX() && yTile == this.start.getY() - 1) {// 2 V
-				x = this.nodeMap.getStartPosition().getX() + (this.start.getX()) * this.nodeMap.getNodeDimension()
-						+ this.nodeMap.getNodeDimension() / 2;
-				y = this.nodeMap.getStartPosition().getY() + (this.start.getY()) * this.nodeMap.getNodeDimension()
-						- this.nodeMap.SCALE * this.nodeMap.getNodeDimension() / 2;
-			}
-			if (xTile == this.start.getX() + 1 && yTile == this.start.getY() - 1) {// 3 V
-				x = this.nodeMap.getStartPosition().getX() + (this.start.getX() + 1) * this.nodeMap.getNodeDimension()
-						+ this.nodeMap.SCALE * this.nodeMap.getNodeDimension() / 2;
-				y = this.nodeMap.getStartPosition().getY() + (this.start.getY()) * this.nodeMap.getNodeDimension()
-						- this.nodeMap.SCALE * this.nodeMap.getNodeDimension() / 2;
-			}
-			if (xTile == this.start.getX() + 1 && yTile == this.start.getY()) {// 4 V
-				x = this.nodeMap.getStartPosition().getX() + (this.start.getX() + 1) * this.nodeMap.getNodeDimension()
-						+ this.nodeMap.SCALE * this.nodeMap.getNodeDimension() / 2;
-				y = this.nodeMap.getStartPosition().getY() + (this.start.getY()) * this.nodeMap.getNodeDimension()
-						+ this.nodeMap.getNodeDimension() / 2;
-			}
-			if (xTile == this.start.getX() + 1 && yTile == this.start.getY() + 1) {// 5
-				x = this.nodeMap.getStartPosition().getX() + (this.start.getX() + 1) * this.nodeMap.getNodeDimension()
-						+ this.nodeMap.SCALE * this.nodeMap.getNodeDimension() / 2;
-				y = this.nodeMap.getStartPosition().getY() + (this.start.getY() + 1) * this.nodeMap.getNodeDimension()
-						+ this.nodeMap.SCALE * this.nodeMap.getNodeDimension() / 2;
-			}
-			if (xTile == this.start.getX() && yTile == this.start.getY() + 1) {// 6 V
-				x = this.nodeMap.getStartPosition().getX() + (this.start.getX()) * this.nodeMap.getNodeDimension()
-						+ this.nodeMap.getNodeDimension() / 2;
-				y = this.nodeMap.getStartPosition().getY() + (this.start.getY() + 1) * this.nodeMap.getNodeDimension()
-						+ this.nodeMap.SCALE * this.nodeMap.getNodeDimension() / 2;
-			}
-			if (xTile == this.start.getX() - 1 && yTile == this.start.getY() + 1) {// 7
-				x = this.nodeMap.getStartPosition().getX() + (this.start.getX()) * this.nodeMap.getNodeDimension()
-						- this.nodeMap.SCALE * this.nodeMap.getNodeDimension() / 2;
-				y = this.nodeMap.getStartPosition().getY() + (this.start.getY() + 1) * this.nodeMap.getNodeDimension()
-						+ this.nodeMap.SCALE * this.nodeMap.getNodeDimension() / 2;
-			}
-			if (xTile == this.start.getX() - 1 && yTile == this.start.getY()) {// 8
-				x = this.nodeMap.getStartPosition().getX() + (this.start.getX()) * this.nodeMap.getNodeDimension()
-						- this.nodeMap.SCALE * this.nodeMap.getNodeDimension() / 2;
-				y = this.nodeMap.getStartPosition().getY() + (this.start.getY()) * this.nodeMap.getNodeDimension()
-						+ this.nodeMap.getNodeDimension() / 2
-						+ this.nodeMap.SCALE * this.nodeMap.getNodeDimension() / 2;
-			}
-		} else {
-			x = this.nodeMap.getStartPosition().getX() + (this.start.getX()) * this.nodeMap.getNodeDimension()
-					+ this.nodeMap.getNodeDimension() / 2;
-			y = this.nodeMap.getStartPosition().getY() + (this.start.getY()) * this.nodeMap.getNodeDimension()
-					+ this.nodeMap.getNodeDimension() / 2;
-		}
-
+	private void updatePath(int x, int y) {
 		this.path.setX(x);
 		this.path.setY(y);
-
-		return this.path;
 	}
 
+	private void choosePathDirection(Vector nextPosVector) {
+		Vector tilePos = new Vector(this.pathNodeMap.get(0).getX(), this.pathNodeMap.get(0).getY());
+
+		if (tilePos.getX() == this.start.getX() - 1) {
+			this.setXLeft(nextPosVector);
+		} else if (tilePos.getX() == this.start.getX()) {
+			this.setXCenter(nextPosVector);
+		} else if (tilePos.getX() == this.start.getX() + 1) {
+			this.setXRight(nextPosVector);
+		}
+
+		if (tilePos.getY() == this.start.getY() - 1) {
+			this.setYTop(nextPosVector);
+		} else if (tilePos.getY() == this.start.getY()) {
+			this.setYCenter(nextPosVector);
+		} else if (tilePos.getY() == this.start.getY() + 1) {
+			this.setYBot(nextPosVector);
+		}
+	}
+
+	private void setYBot(Vector pos) {
+		pos.setY(this.nodeMap.getStartPosition().getY() + (this.start.getY() + 1) * this.nodeMap.getNodeDimension()
+				+ this.nodeMap.SCALE * this.nodeMap.getNodeDimension() / 2);
+	}
+
+	private void setXCenter(Vector pos) {
+		pos.setX(this.nodeMap.getStartPosition().getX() + (this.start.getX()) * this.nodeMap.getNodeDimension()
+				+ this.nodeMap.getNodeDimension() / 2);
+	}
+
+	private void setYCenter(Vector pos) {
+		pos.setY(this.nodeMap.getStartPosition().getY() + (this.start.getY()) * this.nodeMap.getNodeDimension()
+				+ this.nodeMap.getNodeDimension() / 2);
+	}
+
+	private void setXLeft(Vector pos) {
+		pos.setX(this.nodeMap.getStartPosition().getX() + (this.start.getX()) * this.nodeMap.getNodeDimension()
+				- this.nodeMap.SCALE * this.nodeMap.getNodeDimension() / 2);
+	}
+
+	private void setXRight(Vector pos) {
+		pos.setX(this.nodeMap.getStartPosition().getX() + (this.start.getX() + 1) * this.nodeMap.getNodeDimension()
+				+ this.nodeMap.SCALE * this.nodeMap.getNodeDimension() / 2);
+	}
+
+	private void setYTop(Vector pos) {
+		pos.setY(this.nodeMap.getStartPosition().getY() + (this.start.getY()) * this.nodeMap.getNodeDimension()
+				- this.nodeMap.SCALE * this.nodeMap.getNodeDimension() / 2);
+	}
+
+	private Vector verticalNeighborsIndexes(Node node) {
+		Vector yStartEnd = new Vector(node.getY() - 1, node.getY() + 2);
+		if (yStartEnd.getX() < 0) {
+			yStartEnd.setX(0);
+		}
+		if (yStartEnd.getY() > this.nodeMap.getRow()) {
+			yStartEnd.setY(this.nodeMap.getRow());
+		}
+		return yStartEnd;
+	}
 }
