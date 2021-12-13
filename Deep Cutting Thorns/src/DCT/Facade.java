@@ -10,7 +10,6 @@ import DCT.gfx.GameCamera;
 import DCT.input.KeyManager;
 import DCT.input.MouseManager;
 import DCT.state.State;
-import DCT.utility.NodeReader;
 
 public class Facade {
 

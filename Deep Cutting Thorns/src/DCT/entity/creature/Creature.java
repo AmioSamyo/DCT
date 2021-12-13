@@ -118,7 +118,7 @@ public abstract class Creature extends Entity {
 		this.setYMove(0);
 	}
 
-	protected boolean checkCollisionWithTile(int x, int y) {
+	public boolean checkCollisionWithTile(int x, int y) {
 		int xGrid = x / Tile.TILEWIDTH;
 		int yGrid = y / Tile.TILEHEIGHT;
 
