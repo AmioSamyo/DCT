@@ -21,4 +21,4 @@ jobs:
         distribution: 'adopt'
         cache: maven
     - name: Test with Maven
-      run: mvn clean test -pl :DCT -Dtest=Tests
+      run: mvn clean test -Dtest=Tests
