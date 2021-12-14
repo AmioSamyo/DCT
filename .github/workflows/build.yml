@@ -21,4 +21,4 @@ jobs:
         distribution: 'adopt'
         cache: maven
     - name: Test with Maven
-      run: mvn --batch-mode --update-snapshots verify
+      run: mvn -f Deep Cutting Thorns/pom.xml --batch-mode --update-snapshots verify
