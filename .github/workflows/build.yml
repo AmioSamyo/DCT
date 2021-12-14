@@ -21,4 +21,4 @@ jobs:
         distribution: 'adopt'
         cache: maven
     - name: Test with Maven
-      run: mvn -f ./pom.xml clean test
+      run: mvn clean test
