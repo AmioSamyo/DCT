@@ -35,7 +35,6 @@ public class Enemy extends Creature {
 		this.speed = speed;
 		this.diameterAggro = diameterAggro;
 		this.aStar = new AStar(this.facade, this, scaleNodeDimension);
-
 	}
 
 	@Override
@@ -43,10 +42,8 @@ public class Enemy extends Creature {
 		if (this.health > 0) {
 			this.chooseTarget();
 			if (this.getPositionPath) {
-
 				this.aStar.update(this.getPositionX() - this.diameterAggro / 2,
 						this.getPositionY() - this.diameterAggro / 2, this.target);
-
 				this.targetPath = this.aStar.getPath();
 				this.getPositionPath = false;
 			}
@@ -69,13 +66,8 @@ public class Enemy extends Creature {
 	}
 
 	private void drawNode(Graphics2D g) {
-		g.setColor(new Color(175, 0, 120, 100));
-		g.fillRect(this.start.getX() - this.facade.getGameCamera().getXOffset(),
-				this.start.getY() - this.facade.getGameCamera().getYOffset(), 64, 64);
-
-		g.setColor(new Color(0, 0, 120, 100));
-		g.fillRect(this.target.getX() - this.facade.getGameCamera().getXOffset(),
-				this.target.getY() - this.facade.getGameCamera().getYOffset(), 64, 64);
+		EnemyDesignerDebug.drawTarget(this.facade, g, new Color(175, 0, 120 , 100), this.start, Tile.TILEWIDTH, Tile.TILEHEIGHT);
+		EnemyDesignerDebug.drawTarget(this.facade, g, new Color(0, 0, 120 , 100), this.target, Tile.TILEWIDTH, Tile.TILEHEIGHT);
 
 		for (int i = 0; i < this.aStar.getMap().getRow(); i++) {
 			for (int j = 0; j < this.aStar.getMap().getColumn(); j++) {
@@ -140,7 +132,6 @@ public class Enemy extends Creature {
 
 	@Override
 	protected void move() {
-
 		this.moveToPoint();
 		super.move();
 		this.chooseCurrentAnimation();
