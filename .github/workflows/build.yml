@@ -21,4 +21,4 @@ jobs:
         distribution: 'adopt'
         cache: maven
     - name: Test with Maven
-      run: mvn -f /Deep_Cutting_Thorns/Tests clean test
+      run: mvn -f ./Deep_Cutting_Thorns/pom.xml clean test
