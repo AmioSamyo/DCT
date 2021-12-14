@@ -13,16 +13,17 @@ import DCT.utility.Vector;
 
 public class Enemy extends Creature {
 
-	protected boolean playerInAggro = false;
-
-	protected Vector start, target, targetPath;
 	private long lastAttackTimer, attackCooldown = 600, attackTimer = this.attackCooldown;
+
 	protected int rangeOfAttack;
 	protected int diameterAggro = 300;
+	protected boolean playerInAggro = false;
 	protected boolean getStart = true;
 	protected boolean getPositionPath = true;
-	protected AStar aStar;
 	protected boolean setWatch = true;
+
+	protected Vector start, target, targetPath;
+	protected AStar aStar;
 
 	public Enemy(Facade facade, Rectangle position, int speed, int diameterAggro, int scaleNodeDimension) {
 		super(facade, position);
@@ -59,8 +60,8 @@ public class Enemy extends Creature {
 	@Override
 	public void render(Graphics2D g) {
 		super.render(g);
-		if (this.facade.getDebugMode() ) {
-		this.drawNode(g);
+		if (this.facade.getDebugMode()) {
+			this.drawNode(g);
 		}
 		this.aStar.getMap().mapRemoveEntity();
 
