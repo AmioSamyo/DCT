@@ -71,36 +71,18 @@ public class Enemy extends Creature {
 
 		EnemyDesignerDebug.drawGrid(this.facade, this.aStar, g, this);
 
-		ArrayList<Node> flag = this.aStar.getPathNode();
-		for (int k = 0; k < flag.size(); k++) {
-			int j = flag.get(k).getX();
-			int i = flag.get(k).getY();
-			g.setColor(new Color(255, 0, 0));
-			g.drawRect(
-					this.getPositionX() - this.diameterAggro / 2 + j * this.aStar.getMap().getNodeDimension()
-							- this.facade.getGameCamera().getXOffset(),
-					this.getPositionY() - this.diameterAggro / 2 + i * this.aStar.getMap().getNodeDimension()
-							- this.facade.getGameCamera().getYOffset(),
-					this.aStar.getMap().getNodeDimension(), this.aStar.getMap().getNodeDimension());
+		ArrayList<Node> path = this.aStar.getPathNode();
+		for (int k = 0; k < path.size(); k++) {
+			int j = path.get(k).getX();
+			int i = path.get(k).getY();
+			EnemyDesignerDebug.drawPath(this.facade, g, new Color(255, 0, 0), new Vector(j, i), this.aStar, this);
 		}
 		Vector start = new Vector(this.aStar.getStart());
 		Vector target = new Vector(this.aStar.getTarget());
-		g.setColor(new Color(0, 255, 0));
-		g.drawRect(
-				this.getPositionX() - this.diameterAggro / 2 + start.getX() * this.aStar.getMap().getNodeDimension()
-						- this.facade.getGameCamera().getXOffset(),
-				this.getPositionY() - this.diameterAggro / 2 + start.getY() * this.aStar.getMap().getNodeDimension()
-						- this.facade.getGameCamera().getYOffset(),
-				this.aStar.getMap().getNodeDimension(), this.aStar.getMap().getNodeDimension());
-
-		g.setColor(new Color(0, 0, 255));
-		g.drawRect(
-				this.getPositionX() - this.diameterAggro / 2 + target.getX() * this.aStar.getMap().getNodeDimension()
-						- this.facade.getGameCamera().getXOffset(),
-				this.getPositionY() - this.diameterAggro / 2 + target.getY() * this.aStar.getMap().getNodeDimension()
-						- this.facade.getGameCamera().getYOffset(),
-				this.aStar.getMap().getNodeDimension(), this.aStar.getMap().getNodeDimension());
-
+		
+		EnemyDesignerDebug.drawPath(this.facade, g, new Color(0, 255, 0), start, this.aStar, this);
+		EnemyDesignerDebug.drawPath(this.facade, g, new Color(0, 0, 255), target, this.aStar, this);
+		
 		g.setColor(new Color(0, 0, 255));
 		g.drawLine(this.getPositionX() + this.getPositionWidth() / 2 - this.facade.getGameCamera().getXOffset(),
 				this.getPositionY() + this.getPositionHeight() / 2 - this.facade.getGameCamera().getYOffset(),

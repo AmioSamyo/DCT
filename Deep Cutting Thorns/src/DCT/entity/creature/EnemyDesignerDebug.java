@@ -39,4 +39,14 @@ public class EnemyDesignerDebug {
 			}
 		}
 	}
+	
+	public static void drawPath(Facade facade, Graphics2D g, Color color, Vector v, AStar aStar, Enemy e) {
+		g.setColor(color);
+		g.drawRect(
+				e.getPositionX() - e.diameterAggro / 2 + v.getX() * aStar.getMap().getNodeDimension()
+						- facade.getGameCamera().getXOffset(),
+				e.getPositionY() - e.diameterAggro / 2 + v.getY() * aStar.getMap().getNodeDimension()
+						- facade.getGameCamera().getYOffset(),
+				aStar.getMap().getNodeDimension(), aStar.getMap().getNodeDimension());
+	}
 }
