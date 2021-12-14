@@ -69,28 +69,7 @@ public class Enemy extends Creature {
 		EnemyDesignerDebug.drawTarget(this.facade, g, new Color(175, 0, 120 , 100), this.start, Tile.TILEWIDTH, Tile.TILEHEIGHT);
 		EnemyDesignerDebug.drawTarget(this.facade, g, new Color(0, 0, 120 , 100), this.target, Tile.TILEWIDTH, Tile.TILEHEIGHT);
 
-		for (int i = 0; i < this.aStar.getMap().getRow(); i++) {
-			for (int j = 0; j < this.aStar.getMap().getColumn(); j++) {
-
-				if (!this.aStar.getMap().getNode(j, i).isViable()) {
-					g.setColor(new Color(0, 0, 0));
-					g.drawRect(
-							this.getPositionX() - this.diameterAggro / 2 + j * this.aStar.getMap().getNodeDimension()
-									- this.facade.getGameCamera().getXOffset(),
-							this.getPositionY() - this.diameterAggro / 2 + i * this.aStar.getMap().getNodeDimension()
-									- this.facade.getGameCamera().getYOffset(),
-							this.aStar.getMap().getNodeDimension(), this.aStar.getMap().getNodeDimension());
-				} else {
-					g.setColor(new Color(255, 255, 255));
-					g.drawRect(
-							this.getPositionX() - this.diameterAggro / 2 + j * this.aStar.getMap().getNodeDimension()
-									- this.facade.getGameCamera().getXOffset(),
-							this.getPositionY() - this.diameterAggro / 2 + i * this.aStar.getMap().getNodeDimension()
-									- this.facade.getGameCamera().getYOffset(),
-							this.aStar.getMap().getNodeDimension(), this.aStar.getMap().getNodeDimension());
-				}
-			}
-		}
+		EnemyDesignerDebug.drawGrid(this.facade, this.aStar, g, this);
 
 		ArrayList<Node> flag = this.aStar.getPathNode();
 		for (int k = 0; k < flag.size(); k++) {
