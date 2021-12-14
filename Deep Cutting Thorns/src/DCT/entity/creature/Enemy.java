@@ -69,7 +69,7 @@ public class Enemy extends Creature {
 		EnemyDesignerDebug.drawTarget(this.facade, g, new Color(175, 0, 120 , 100), this.start, Tile.TILEWIDTH, Tile.TILEHEIGHT);
 		EnemyDesignerDebug.drawTarget(this.facade, g, new Color(0, 0, 120 , 100), this.target, Tile.TILEWIDTH, Tile.TILEHEIGHT);
 
-		EnemyDesignerDebug.drawGrid(this.facade, this.aStar, g, this);
+		EnemyDesignerDebug.drawGrid(this.facade, g, this.aStar, this);
 
 		ArrayList<Node> path = this.aStar.getPathNode();
 		for (int k = 0; k < path.size(); k++) {
@@ -77,11 +77,8 @@ public class Enemy extends Creature {
 			int i = path.get(k).getY();
 			EnemyDesignerDebug.drawPath(this.facade, g, new Color(255, 0, 0), new Vector(j, i), this.aStar, this);
 		}
-		Vector start = new Vector(this.aStar.getStart());
-		Vector target = new Vector(this.aStar.getTarget());
-		
-		EnemyDesignerDebug.drawPath(this.facade, g, new Color(0, 255, 0), start, this.aStar, this);
-		EnemyDesignerDebug.drawPath(this.facade, g, new Color(0, 0, 255), target, this.aStar, this);
+		EnemyDesignerDebug.drawPath(this.facade, g, new Color(0, 255, 0), new Vector(this.aStar.getStart()), this.aStar, this);
+		EnemyDesignerDebug.drawPath(this.facade, g, new Color(0, 0, 255), new Vector(this.aStar.getTarget()), this.aStar, this);
 		
 		g.setColor(new Color(0, 0, 255));
 		g.drawLine(this.getPositionX() + this.getPositionWidth() / 2 - this.facade.getGameCamera().getXOffset(),
@@ -96,7 +93,6 @@ public class Enemy extends Creature {
 		this.moveToPoint();
 		super.move();
 		this.chooseCurrentAnimation();
-
 		this.resetMovement();
 	}
 

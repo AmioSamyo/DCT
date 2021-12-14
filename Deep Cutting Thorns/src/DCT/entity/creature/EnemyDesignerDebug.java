@@ -15,7 +15,7 @@ public class EnemyDesignerDebug {
 				position.getY() - facade.getGameCamera().getYOffset(), width, height);
 	}
 	
-	public static void drawGrid(Facade facade, AStar aStar, Graphics2D g, Enemy e) {
+	public static void drawGrid(Facade facade, Graphics2D g, AStar aStar, Enemy e) {
 		for (int i = 0; i < aStar.getMap().getRow(); i++) {
 			for (int j = 0; j < aStar.getMap().getColumn(); j++) {
 
