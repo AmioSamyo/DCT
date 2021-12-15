@@ -2,12 +2,10 @@ package DCT.entity.creature;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.util.ArrayList;
 
 import DCT.Facade;
 import DCT.tile.Tile;
 import DCT.utility.AStar;
-import DCT.utility.Node;
 import DCT.utility.Rectangle;
 import DCT.utility.Vector;
 
@@ -58,34 +56,11 @@ public class Enemy extends Creature {
 	public void render(Graphics2D g) {
 		super.render(g);
 		if (this.facade.getDebugMode()) {
-			this.drawNode(g);
+			new EnemyDesignerDebug(this.facade, g, this).drawDebug();
 		}
 		this.aStar.getMap().mapRemoveEntity();
 
 		this.drawRangeAggro(g);
-	}
-
-	private void drawNode(Graphics2D g) {
-		EnemyDesignerDebug.drawTarget(this.facade, g, new Color(175, 0, 120 , 100), this.start, Tile.TILEWIDTH, Tile.TILEHEIGHT);
-		EnemyDesignerDebug.drawTarget(this.facade, g, new Color(0, 0, 120 , 100), this.target, Tile.TILEWIDTH, Tile.TILEHEIGHT);
-
-		EnemyDesignerDebug.drawGrid(this.facade, g, this.aStar, this);
-
-		ArrayList<Node> path = this.aStar.getPathNode();
-		for (int k = 0; k < path.size(); k++) {
-			int j = path.get(k).getX();
-			int i = path.get(k).getY();
-			EnemyDesignerDebug.drawPath(this.facade, g, new Color(255, 0, 0), new Vector(j, i), this.aStar, this);
-		}
-		EnemyDesignerDebug.drawPath(this.facade, g, new Color(0, 255, 0), new Vector(this.aStar.getStart()), this.aStar, this);
-		EnemyDesignerDebug.drawPath(this.facade, g, new Color(0, 0, 255), new Vector(this.aStar.getTarget()), this.aStar, this);
-		
-		g.setColor(new Color(0, 0, 255));
-		g.drawLine(this.getPositionX() + this.getPositionWidth() / 2 - this.facade.getGameCamera().getXOffset(),
-				this.getPositionY() + this.getPositionHeight() / 2 - this.facade.getGameCamera().getYOffset(),
-				this.targetPath.getX() - this.facade.getGameCamera().getXOffset(),
-				this.targetPath.getY() - this.facade.getGameCamera().getYOffset());
-		g.setColor(this.debuggingColor);
 	}
 
 	@Override
@@ -99,18 +74,13 @@ public class Enemy extends Creature {
 	protected void chooseTarget() {
 		this.playerInAggro();
 		if (this.playerInAggro) {
-			this.target.setX(this.facade.getEntityManager().getPlayer().getPositionX()
-					+ this.facade.getEntityManager().getPlayer().getPositionWidth() / 2);
-			this.target.setY(this.facade.getEntityManager().getPlayer().getPositionY()
-					+ this.facade.getEntityManager().getPlayer().getPositionHeight() / 2);
-
+			targetPlayer();
 		} else {
 			if (this.getStart) {
 				if (this.setWatch) {
 					this.setWatchTarget();
 					this.setWatch = false;
 				}
-
 				this.checkEndWatch();
 			}
 			if (!this.getStart) {
@@ -119,6 +89,13 @@ public class Enemy extends Creature {
 				this.checkIfStart();
 			}
 		}
+	}
+
+	private void targetPlayer() {
+		this.target.setX(this.facade.getEntityManager().getPlayer().getPositionX()
+				+ this.facade.getEntityManager().getPlayer().getPositionWidth() / 2);
+		this.target.setY(this.facade.getEntityManager().getPlayer().getPositionY()
+				+ this.facade.getEntityManager().getPlayer().getPositionHeight() / 2);
 	}
 
 	private void setWatchTarget() {
@@ -282,5 +259,4 @@ public class Enemy extends Creature {
 	public int getSpeed() {
 		return this.speed;
 	}
-
 }

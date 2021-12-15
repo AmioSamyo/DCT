@@ -15,24 +15,21 @@ public abstract class Entity {
 	protected int health = MAX_HEALTH;
 	protected boolean alive = true;
 
+	protected Color debuggingColor = Color.RED;
+	
 	protected Facade facade;
 	protected Rectangle position;
 	protected Rectangle hitBox;
 
-	protected Color debuggingColor = Color.RED;
-
 	public Entity(Facade facade, Rectangle position) {
 		this.facade = facade;
 		this.position = position;
-
 	}
 
 	public abstract void update();
 
 	public void render(Graphics2D g) {
-
 		this.showHealthBar(g);
-
 		drawHitBox(g);
 	}
 
@@ -51,7 +48,6 @@ public abstract class Entity {
 				return true;
 			}
 		}
-
 		return false;
 	}
 
@@ -93,7 +89,7 @@ public abstract class Entity {
 			Rectangle hitBox = this.getCollisionHitBox(0, 0);
 			g.setColor(Color.WHITE);
 			g.drawRect(this.xMoveWithCamera(), this.yMoveWithCamera(), this.getPositionWidth(), this.getPositionHeight());
-			g.setColor(this.debuggingColor);
+			g.setColor(this.getDebuggingColor());
 			g.fillRect(this.getXMoveHitbox(hitBox), this.getYMoveHitbox(hitBox), this.hitBox.getWidth(),
 					this.hitBox.getHeight());
 		}
@@ -131,5 +127,9 @@ public abstract class Entity {
 	
 	public boolean isAlive() {
 		return this.alive;
+	}
+
+	public Color getDebuggingColor() {
+		return this.debuggingColor;
 	}
 }
