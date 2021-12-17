@@ -23,7 +23,6 @@ public class Enemy extends Creature {
 	protected static final int STANDARDX = 300, STANDARDY = 700;
 	protected Vector start, target, targetPath;
 	protected AStar aStar;
-	
 
 	public Enemy(Facade facade, Rectangle position, int speed, int diameterAggro, int scaleNodeDimension) {
 		super(facade, position);
@@ -83,12 +82,12 @@ public class Enemy extends Creature {
 					this.setWatchTarget();
 					this.setWatch = false;
 				}
-				this.checkEndWatch();
+				this.checkStart(false);
 			}
 			if (!this.getStart) {
 				this.target.setX(this.start.getX());
 				this.target.setY(this.start.getY());
-				this.checkIfStart();
+				this.checkStart(true);
 			}
 		}
 	}
@@ -170,29 +169,27 @@ public class Enemy extends Creature {
 		}
 	}
 
-	protected void checkIfStart() {
+	protected void checkStart(boolean isStarting) {
 		Vector delta = new Vector();
-
-		delta.setX(Math.abs(this.start.getX() - this.getPositionX() - this.getPositionWidth() / 2));
-		delta.setY(Math.abs(this.start.getY() - this.getPositionY() - this.getPositionHeight() / 2));
-
-		int distanceToPlayer = (int) Math.sqrt(Math.pow(delta.getX(), 2) + Math.pow(delta.getY(), 2));
-
-		if (distanceToPlayer < this.aggro) {
-			this.getStart = true;
-			this.setWatch = true;
+		if (isStarting) {
+			this.deltaSetter(delta, this.start);
+			int distanceToPlayer = (int) Math.sqrt(Math.pow(delta.getX(), 2) + Math.pow(delta.getY(), 2));
+			if (distanceToPlayer < this.aggro) {
+				this.getStart = true;
+				this.setWatch = true;
+			}
+		} else {
+			this.deltaSetter(delta, this.target);
+			int distanceToPlayer = (int) Math.sqrt(Math.pow(delta.getX(), 2) + Math.pow(delta.getY(), 2));
+			if (distanceToPlayer < this.aggro) {
+				this.getStart = false;
+			}
 		}
 	}
-
-	private void checkEndWatch() {
-		Vector delta = new Vector();
-
-		delta.setX(Math.abs(this.target.getX() - this.getPositionX() - this.getPositionWidth() / 2));
-		delta.setY(Math.abs(this.target.getY() - this.getPositionY() - this.getPositionHeight() / 2));
-		int distanceToPlayer = (int) Math.sqrt(Math.pow(delta.getX(), 2) + Math.pow(delta.getY(), 2));
-		if (distanceToPlayer < this.aggro) {
-			this.getStart = false;
-		}
+	
+	protected void deltaSetter(Vector delta, Vector v) {
+		delta.setX(Math.abs(v.getX() - this.getPositionX() - this.getPositionWidth() / 2));
+		delta.setY(Math.abs(v.getY() - this.getPositionY() - this.getPositionHeight() / 2));
 	}
 
 	protected void moveToPoint() {
@@ -234,9 +231,9 @@ public class Enemy extends Creature {
 					this.facade.getEntityManager().getPlayer().getPositionY(),
 					this.facade.getEntityManager().getPlayer().getPositionWidth(),
 					this.facade.getEntityManager().getPlayer().getPositionHeight());
-			
+
 			boolean intersect = this.position.intersects(playerPosition);
-			
+
 			if (intersect) {
 				this.facade.getEntityManager().getPlayer().addHealth(-1);
 				this.attackTimer = 0;
