@@ -93,10 +93,8 @@ public class Enemy extends Creature {
 	}
 
 	private void targetPlayer() {
-		this.target.setX(this.facade.getEntityManager().getPlayer().getPositionX()
-				+ this.facade.getEntityManager().getPlayer().getPositionWidth() / 2);
-		this.target.setY(this.facade.getEntityManager().getPlayer().getPositionY()
-				+ this.facade.getEntityManager().getPlayer().getPositionHeight() / 2);
+		this.target.setX(this.facade.getPlayerX() + this.facade.getPlayerWidth() / 2);
+		this.target.setY(this.facade.getPlayerY() + this.facade.getPlayerHeight() / 2);
 	}
 
 	private void setWatchTarget() {
@@ -152,11 +150,9 @@ public class Enemy extends Creature {
 	protected void playerInAggro() {
 		Vector delta = new Vector();
 
-		delta.setX(Math.abs(this.facade.getEntityManager().getPlayer().getPositionX()
-				+ this.facade.getEntityManager().getPlayer().getPositionWidth() / 2 - this.getPositionX()
+		delta.setX(Math.abs(this.facade.getPlayerX() + this.facade.getPlayerWidth() / 2 - this.getPositionX()
 				- this.getPositionWidth() / 2));
-		delta.setY(Math.abs(this.facade.getEntityManager().getPlayer().getPositionY()
-				+ this.facade.getEntityManager().getPlayer().getPositionHeight() / 2 - this.getPositionY()
+		delta.setY(Math.abs(this.facade.getPlayerY() + this.facade.getPlayerHeight() / 2 - this.getPositionY()
 				- this.getPositionHeight() / 2));
 
 		int distanceToPlayer = (int) Math.sqrt(Math.pow(delta.getX(), 2) + Math.pow(delta.getY(), 2));
@@ -166,22 +162,6 @@ public class Enemy extends Creature {
 			this.getStart = false;
 		} else {
 			this.playerInAggro = false;
-		}
-	}
-
-	protected void checkStart(boolean isStarting) {
-		Vector delta = new Vector();
-		if (isStarting) {
-			this.deltaSetter(delta, this.start, true);
-			if (getDistanceToPlayer(delta) < this.aggro) {
-				this.getStart = true;
-				this.setWatch = true;
-			}
-		} else {
-			this.deltaSetter(delta, this.target, true);
-			if (getDistanceToPlayer(delta) < this.aggro) {
-				this.getStart = false;
-			}
 		}
 	}
 
@@ -214,6 +194,36 @@ public class Enemy extends Creature {
 		}
 	}
 
+	protected void attack() {
+		this.attackTimer += System.currentTimeMillis() - this.lastAttackTimer;
+		this.lastAttackTimer = System.currentTimeMillis();
+		if (this.attackTimer >= ATTACKCOOLDOWN) {
+			Rectangle playerPosition = new Rectangle(this.facade.getPlayerX(), this.facade.getPlayerY(),
+					this.facade.getPlayerWidth(), this.facade.getPlayerHeight());
+
+			if (this.position.intersects(playerPosition)) {
+				this.facade.getEntityManager().getPlayer().addHealth(-1);
+				this.attackTimer = 0;
+			}
+		}
+	}
+
+	protected void checkStart(boolean isStarting) {
+		Vector delta = new Vector();
+		if (isStarting) {
+			this.deltaSetter(delta, this.start, true);
+			if (getDistanceToPlayer(delta) < this.aggro) {
+				this.getStart = true;
+				this.setWatch = true;
+			}
+		} else {
+			this.deltaSetter(delta, this.target, true);
+			if (getDistanceToPlayer(delta) < this.aggro) {
+				this.getStart = false;
+			}
+		}
+	}
+
 	protected void deltaSetter(Vector delta, Vector v, boolean absolute) {
 		if (absolute) {
 			delta.setX(Math.abs(v.getX() - this.getPositionX() - this.getPositionWidth() / 2));
@@ -226,24 +236,6 @@ public class Enemy extends Creature {
 
 	protected int getDistanceToPlayer(Vector delta) {
 		return (int) Math.sqrt(Math.pow(delta.getX(), 2) + Math.pow(delta.getY(), 2));
-	}
-
-	protected void attack() {
-		this.attackTimer += System.currentTimeMillis() - this.lastAttackTimer;
-		this.lastAttackTimer = System.currentTimeMillis();
-		if (this.attackTimer >= ATTACKCOOLDOWN) {
-			Rectangle playerPosition = new Rectangle(this.facade.getEntityManager().getPlayer().getPositionX(),
-					this.facade.getEntityManager().getPlayer().getPositionY(),
-					this.facade.getEntityManager().getPlayer().getPositionWidth(),
-					this.facade.getEntityManager().getPlayer().getPositionHeight());
-
-			boolean intersect = this.position.intersects(playerPosition);
-
-			if (intersect) {
-				this.facade.getEntityManager().getPlayer().addHealth(-1);
-				this.attackTimer = 0;
-			}
-		}
 	}
 
 	public int getDiameterAggro() {

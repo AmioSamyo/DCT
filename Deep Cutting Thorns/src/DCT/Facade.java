@@ -81,4 +81,20 @@ public class Facade {
 
 		return this.game.getPausing();
 	}
+	
+	public int getPlayerX() {
+		return this.getEntityManager().getPlayer().getPositionX();
+	}
+	
+	public int getPlayerY() {
+		return this.getEntityManager().getPlayer().getPositionY();
+	}
+	
+	public int getPlayerWidth() {
+		return this.getEntityManager().getPlayer().getPositionWidth();
+	}
+	
+	public int getPlayerHeight() {
+		return this.getEntityManager().getPlayer().getPositionHeight();
+	}
 }
