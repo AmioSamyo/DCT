@@ -155,9 +155,7 @@ public class Enemy extends Creature {
 		delta.setY(Math.abs(this.facade.getPlayerY() + this.facade.getPlayerHeight() / 2 - this.getPositionY()
 				- this.getPositionHeight() / 2));
 
-		int distanceToPlayer = (int) Math.sqrt(Math.pow(delta.getX(), 2) + Math.pow(delta.getY(), 2));
-
-		if (distanceToPlayer < this.diameterAggro / 2) {
+		if (getDistanceToPlayer(delta) < this.diameterAggro / 2) {
 			this.playerInAggro = true;
 			this.getStart = false;
 		} else {
