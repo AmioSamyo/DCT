@@ -1,6 +1,5 @@
 package DCT.entity.creature;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 
 import DCT.Facade;
@@ -11,57 +10,51 @@ import DCT.utility.Vector;
 
 public class Enemy extends Creature {
 
-	private long lastAttackTimer, attackTimer = ATTACKCOOLDOWN;
-
-	protected int rangeOfAttack;
-	protected int diameterAggro = 300, aggro = 20 * this.speed, speedLimit = 8 * this.speed;
-	protected boolean playerInAggro = false;
+	protected int rangeOfAttack, watchTargetX, watchTargetY;
+	protected int diameterAggro = 300, distanceToChange = 20 * this.speed, speedLimit = 8 * this.speed;
 	protected boolean getStart = true;
 	protected boolean getPositionPath = true;
 	protected boolean setWatch = true;
 
-	protected static final int STANDARDX = 300, STANDARDY = 700, ATTACKCOOLDOWN = 600;
 	protected Vector start, target, targetPath;
 	protected AStar aStar;
 
+	protected static final int ATTACKCOOLDOWN = 600;
+
+	private long lastAttackTimer, attackTimer = ATTACKCOOLDOWN;
+
 	public Enemy(Facade facade, Rectangle position, int speed, int diameterAggro, int scaleNodeDimension) {
 		super(facade, position);
-
-		this.start = new Vector(this.getPositionX() + this.getPositionWidth() / 2,
-				this.getPositionY() + this.getPositionHeight() / 2);
-		this.target = new Vector();
-		this.targetPath = new Vector();
 		this.speed = speed;
 		this.diameterAggro = diameterAggro;
 		this.aStar = new AStar(this.facade, this, scaleNodeDimension);
+		this.initialize();
 	}
 
-	@Override
-	public void update() {
-		if (this.health > 0) {
-			this.chooseTarget();
-			if (this.getPositionPath) {
-				this.aStar.update(this.getPositionX() - this.diameterAggro / 2,
-						this.getPositionY() - this.diameterAggro / 2, this.target);
-				this.targetPath = this.aStar.getPath();
-				this.getPositionPath = false;
-			}
-			this.move();
-			this.attack();
-		} else {
-			this.die();
-		}
+	public int getDiameterAggro() {
+		return this.diameterAggro;
+	}
+
+	public int getSpeed() {
+		return this.speed;
 	}
 
 	@Override
 	public void render(Graphics2D g) {
 		super.render(g);
-		if (this.facade.getDebugMode()) {
+		if (this.facade.getDebugMode())
 			new EnemyDesignerDebug(this.facade, g, this).drawDebug();
-		}
 		this.aStar.getMap().mapRemoveEntity();
+	}
 
-		this.drawRangeAggro(g);
+	@Override
+	public void update() {
+		if (this.health > 0) {
+			this.handleMovement();
+			this.attack();
+		} else {
+			this.die();
+		}
 	}
 
 	@Override
@@ -72,129 +65,19 @@ public class Enemy extends Creature {
 		this.resetMovement();
 	}
 
-	protected void chooseTarget() {
-		this.playerInAggro();
-		if (this.playerInAggro) {
-			targetPlayer();
-		} else {
-			if (this.getStart) {
-				if (this.setWatch) {
-					this.setWatchTarget();
-					this.setWatch = false;
-				}
-				this.checkStart(false);
-			}
-			if (!this.getStart) {
-				this.target.setX(this.start.getX());
-				this.target.setY(this.start.getY());
-				this.checkStart(true);
-			}
-		}
-	}
+	protected boolean playerInAggro() {
+		Vector delta = this.deltaInitAbs(new Vector(this.facade.getPlayerX() + this.facade.getPlayerWidth() / 2,
+				this.facade.getPlayerY() + this.facade.getPlayerHeight() / 2));
 
-	private void targetPlayer() {
-		this.target.setX(this.facade.getPlayerX() + this.facade.getPlayerWidth() / 2);
-		this.target.setY(this.facade.getPlayerY() + this.facade.getPlayerHeight() / 2);
-	}
-
-	private void setWatchTarget() {
-		int x = this.start.getX() - this.diameterAggro
-				+ (int) (Math.random() * (this.start.getX() + this.diameterAggro));
-		int y = this.start.getY() - this.diameterAggro
-				+ (int) (Math.random() * (this.start.getY() + this.diameterAggro));
-		if (x < 0) {
-			x = 0;
-		}
-		if (x > this.facade.getWidth()) {
-			x = this.facade.getWidth();
-		}
-		if (y < 0) {
-			y = 0;
-		}
-		if (y > this.facade.getHeight()) {
-			y = this.facade.getHeight();
-		}
-		int flagX = x / Tile.TILEWIDTH;
-		int flagY = y / Tile.TILEHEIGHT;
-		if (Tile.tiles[this.facade.getWorld().getTiles()[flagX][flagY]].isSolid()) {
-			x = STANDARDX;
-			y = STANDARDY;
-		} else if ((Math.abs(x - this.getPositionX())) < 2 * this.aStar.getMap().getNodeDimension()
-				&& (Math.abs(y - this.getPositionY())) < 2 * this.aStar.getMap().getNodeDimension()) {
-			x = STANDARDX;
-			y = STANDARDY;
-		} else if (((Math.abs(x - this.start.getX())) < 2 * this.aStar.getMap().getNodeDimension()
-				&& (Math.abs(y - this.start.getY())) < 2 * this.aStar.getMap().getNodeDimension())) {
-			x = STANDARDX;
-			y = STANDARDY;
-		}
-
-		this.target.setX(x);
-		this.target.setY(y);
-		this.setWatch = false;
-	}
-
-	protected void drawRangeAggro(Graphics2D g) {
-		if (this.facade.getDebugMode()) {
-			Rectangle StartBatEye = new Rectangle(
-					(int) (this.position.getX() - this.diameterAggro / 2 + this.getPositionWidth() / 2),
-					(int) (this.position.getY() - this.diameterAggro / 2 + this.getPositionHeight() / 2), 0, 0);
-			if (this.playerInAggro) {
-				g.setColor(new Color(255, 0, 0, 100));
-			}
-			g.fillOval(this.getXMoveHitbox(StartBatEye), this.getYMoveHitbox(StartBatEye), this.diameterAggro,
-					this.diameterAggro);
-		}
-	}
-
-	protected void playerInAggro() {
-		Vector delta = new Vector();
-
-		delta.setX(Math.abs(this.facade.getPlayerX() + this.facade.getPlayerWidth() / 2 - this.getPositionX()
-				- this.getPositionWidth() / 2));
-		delta.setY(Math.abs(this.facade.getPlayerY() + this.facade.getPlayerHeight() / 2 - this.getPositionY()
-				- this.getPositionHeight() / 2));
-
-		if (getDistanceToPlayer(delta) < this.diameterAggro / 2) {
-			this.playerInAggro = true;
+		if (delta.getModule() < this.diameterAggro / 2) {
 			this.getStart = false;
-		} else {
-			this.playerInAggro = false;
+			return true;
 		}
+		return false;
 	}
 
-	protected void moveToPoint() {
-		Vector delta = new Vector();
-		deltaSetter(delta, this.targetPath, false);
-
-		if (Math.abs(delta.getX()) < this.aggro && Math.abs(delta.getY()) < this.aggro) {
-			this.getPositionPath = true;
-		}
-		if (Math.abs(delta.getX()) < this.speedLimit) {
-			this.xMove = 0;
-		} else {
-			if (delta.getX() < 0) {
-				this.xMove = -this.speed;
-			}
-			if (delta.getX() > 0) {
-				this.xMove = this.speed;
-			}
-		}
-		if (Math.abs(delta.getY()) < this.speedLimit) {
-			this.yMove = 0;
-		} else {
-			if (delta.getY() < 0) {
-				this.yMove = -this.speed;
-			}
-			if (delta.getY() > 0) {
-				this.yMove = this.speed;
-			}
-		}
-	}
-
-	protected void attack() {
-		this.attackTimer += System.currentTimeMillis() - this.lastAttackTimer;
-		this.lastAttackTimer = System.currentTimeMillis();
+	private void attack() {
+		this.attackTimer();
 		if (this.attackTimer >= ATTACKCOOLDOWN) {
 			Rectangle playerPosition = new Rectangle(this.facade.getPlayerX(), this.facade.getPlayerY(),
 					this.facade.getPlayerWidth(), this.facade.getPlayerHeight());
@@ -206,41 +89,149 @@ public class Enemy extends Creature {
 		}
 	}
 
-	protected void checkStart(boolean isStarting) {
+	private void attackTimer() {
+		this.attackTimer += System.currentTimeMillis() - this.lastAttackTimer;
+		this.lastAttackTimer = System.currentTimeMillis();
+	}
+
+	private int calculateSpeed(int axis) {
+		if (Math.abs(axis) < this.speedLimit)
+			return 0;
+		return axis < 0 ? -this.speed : this.speed;
+	}
+
+	private void checkStart() {
+		Vector startToEntity = this.deltaInitAbs(this.start);
+		if (startToEntity.getModule() < this.distanceToChange) {
+			this.getStart = true;
+			this.setWatch = true;
+		}
+	}
+
+	private void checkEnd() {
+		Vector targetToEntity = this.deltaInitAbs(this.target);
+		if (targetToEntity.getModule() < this.distanceToChange) {
+			this.getStart = false;
+		}
+	}
+
+	private void chooseTarget() {
+		if (this.playerInAggro()) {
+			this.targetPlayer();
+			return;
+		}
+		if (this.getStart)
+			this.newRouteTarget();
+		else
+			this.routeToStart();
+	}
+
+	private Vector deltaInit(Vector v) {
 		Vector delta = new Vector();
-		if (isStarting) {
-			this.deltaSetter(delta, this.start, true);
-			if (getDistanceToPlayer(delta) < this.aggro) {
-				this.getStart = true;
-				this.setWatch = true;
-			}
-		} else {
-			this.deltaSetter(delta, this.target, true);
-			if (getDistanceToPlayer(delta) < this.aggro) {
-				this.getStart = false;
-			}
+		delta.setX(v.getX() - this.getPositionX() - this.getPositionWidth() / 2);
+		delta.setY(v.getY() - this.getPositionY() - this.getPositionHeight() / 2);
+		return delta;
+	}
+
+	private Vector deltaInitAbs(Vector v) {
+		Vector delta = new Vector();
+		delta.setX(Math.abs(v.getX() - this.getPositionX() - this.getPositionWidth() / 2));
+		delta.setY(Math.abs(v.getY() - this.getPositionY() - this.getPositionHeight() / 2));
+		return delta;
+	}
+
+	private void getPositionPath() {
+		this.aStar.update(this.getPositionX() - this.diameterAggro / 2, this.getPositionY() - this.diameterAggro / 2,
+				this.target);
+		this.targetPath = this.aStar.getPath();
+		this.getPositionPath = false;
+	}
+
+	private void handleMovement() {
+		this.chooseTarget();
+		if (this.getPositionPath)
+			this.getPositionPath();
+		this.move();
+	}
+
+	private void initialize() {
+		this.start = new Vector(this.getPositionX() + this.getPositionWidth() / 2,
+				this.getPositionY() + this.getPositionHeight() / 2);
+		this.target = new Vector();
+		this.targetPath = new Vector();
+	}
+
+	private void moveToPoint() {
+		Vector pointToEntity = this.deltaInit(this.targetPath);
+
+		if (Math.abs(pointToEntity.getX()) < this.distanceToChange
+				&& Math.abs(pointToEntity.getY()) < this.distanceToChange) {
+			this.getPositionPath = true;
+		}
+		this.xMove = this.calculateSpeed(pointToEntity.getX());
+		this.yMove = this.calculateSpeed(pointToEntity.getY());
+	}
+
+	private void newRouteTarget() {
+		if (this.setWatch) {
+			this.setWatchTarget();
+		}
+		this.checkEnd();
+	}
+
+	private void routeToStart() {
+		this.target.setX(this.start.getX());
+		this.target.setY(this.start.getY());
+		this.checkStart();
+	}
+
+	private void setWatchLimit() {
+		if (this.watchTargetX < 0) {
+			this.watchTargetX = 0;
+		}
+		if (this.watchTargetX > this.facade.getWidth()) {
+			this.watchTargetX = this.facade.getWidth();
+		}
+		if (this.watchTargetY < 0) {
+			this.watchTargetY = 0;
+		}
+		if (this.watchTargetY > this.facade.getHeight()) {
+			this.watchTargetY = this.facade.getHeight();
 		}
 	}
 
-	protected void deltaSetter(Vector delta, Vector v, boolean absolute) {
-		if (absolute) {
-			delta.setX(Math.abs(v.getX() - this.getPositionX() - this.getPositionWidth() / 2));
-			delta.setY(Math.abs(v.getY() - this.getPositionY() - this.getPositionHeight() / 2));
-		} else {
-			delta.setX(v.getX() - this.getPositionX() - this.getPositionWidth() / 2);
-			delta.setY(v.getY() - this.getPositionY() - this.getPositionHeight() / 2);
+	private void setWatchStandard() {
+		final int STANDARDX = 300, STANDARDY = 700;
+		int tileX = this.watchTargetX / Tile.TILEWIDTH;
+		int tileY = this.watchTargetY / Tile.TILEHEIGHT;
+		if (Tile.tiles[this.facade.getWorld().getTiles()[tileX][tileY]].isSolid()) {
+			this.watchTargetX = STANDARDX;
+			this.watchTargetY = STANDARDY;
+		} else if ((Math.abs(this.watchTargetX - this.getPositionX())) < 2 * this.aStar.getMap().getNodeDimension()
+				&& (Math.abs(this.watchTargetY - this.getPositionY())) < 2 * this.aStar.getMap().getNodeDimension()) {
+			this.watchTargetX = STANDARDX;
+			this.watchTargetY = STANDARDY;
+		} else if (((Math.abs(this.watchTargetX - this.start.getX())) < 2 * this.aStar.getMap().getNodeDimension()
+				&& (Math.abs(this.watchTargetY - this.start.getY())) < 2 * this.aStar.getMap().getNodeDimension())) {
+			this.watchTargetX = STANDARDX;
+			this.watchTargetY = STANDARDY;
 		}
 	}
 
-	protected int getDistanceToPlayer(Vector delta) {
-		return (int) Math.sqrt(Math.pow(delta.getX(), 2) + Math.pow(delta.getY(), 2));
+	private void setWatchTarget() {
+		this.watchTargetX = this.start.getX() - this.diameterAggro
+				+ (int) (Math.random() * (this.start.getX() + this.diameterAggro));
+		this.watchTargetY = this.start.getY() - this.diameterAggro
+				+ (int) (Math.random() * (this.start.getY() + this.diameterAggro));
+		this.setWatchLimit();
+		this.setWatchStandard();
+		this.target.setX(this.watchTargetX);
+		this.target.setY(this.watchTargetY);
+		this.setWatch = false;
 	}
 
-	public int getDiameterAggro() {
-		return this.diameterAggro;
-	}
-
-	public int getSpeed() {
-		return this.speed;
+	private void targetPlayer() {
+		this.target.setX(this.facade.getPlayerX() + this.facade.getPlayerWidth() / 2);
+		this.target.setY(this.facade.getPlayerY() + this.facade.getPlayerHeight() / 2);
 	}
 }

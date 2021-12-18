@@ -10,33 +10,19 @@ import DCT.utility.Rectangle;
 
 public abstract class Entity {
 
-	protected static final int MAX_HEALTH = 100;
-
 	protected int health = MAX_HEALTH;
 	protected boolean alive = true;
 
 	protected Color debuggingColor = Color.RED;
-	
 	protected Facade facade;
 	protected Rectangle position;
 	protected Rectangle hitBox;
 
+	protected static final int MAX_HEALTH = 100;
+
 	public Entity(Facade facade, Rectangle position) {
 		this.facade = facade;
 		this.position = position;
-	}
-
-	public abstract void update();
-
-	public void render(Graphics2D g) {
-		this.showHealthBar(g);
-		drawHitBox(g);
-	}
-
-	public abstract void die();
-	
-	public void damage(int amount) {
-		this.health -= amount;
 	}
 
 	public boolean checkEntityCollisions(int xOffSet, int yOffSet) {
@@ -49,6 +35,21 @@ public abstract class Entity {
 			}
 		}
 		return false;
+	}
+	
+	public void damage(int amount) {
+		this.health -= amount;
+	}
+	
+	public abstract void die();
+	
+	public Rectangle getCollisionHitBox(int xOffSet, int yOffSet) {
+		return new Rectangle(this.getPositionX() + this.hitBox.getX() + xOffSet,
+				this.getPositionY() + this.hitBox.getY() + yOffSet, this.hitBox.getWidth(), this.hitBox.getHeight());
+	}
+	
+	public Color getDebuggingColor() {
+		return this.debuggingColor;
 	}
 
 	public int getPositionX() {
@@ -66,6 +67,23 @@ public abstract class Entity {
 	public int getPositionHeight() {
 		return this.position.getHeight();
 	}
+	
+	public int getXMoveHitbox(Rectangle hitBox) {
+		return hitBox.getX() - this.facade.getGameCamera().getXOffset();
+	}
+	
+	public int getYMoveHitbox(Rectangle hitBox) {
+		return hitBox.getY() - this.facade.getGameCamera().getYOffset();
+	}
+	
+	public boolean isAlive() {
+		return this.alive;
+	}
+	
+	public void render(Graphics2D g) {
+		this.showHealthBar(g);
+		drawHitBox(g);
+	}
 
 	public void setX(int positionX) {
 		this.position.setX(positionX);
@@ -78,21 +96,31 @@ public abstract class Entity {
 	public void setHitBox(int x, int y, int width, int height) {
 		this.hitBox = new Rectangle(x, y, width, height);
 	}
-
-	public Rectangle getCollisionHitBox(int xOffSet, int yOffSet) {
-		return new Rectangle(this.getPositionX() + this.hitBox.getX() + xOffSet,
-				this.getPositionY() + this.hitBox.getY() + yOffSet, this.hitBox.getWidth(), this.hitBox.getHeight());
-	}
 	
+	public abstract void update();
+
+	public int xMoveWithCamera() {
+		return this.position.getX() - this.facade.getGameCamera().getXOffset();
+	}
+
+	public int yMoveWithCamera() {
+		return this.position.getY() - this.facade.getGameCamera().getYOffset();
+	}
+
 	protected void drawHitBox(Graphics2D g) {
 		if (this.facade.getDebugMode()) {
 			Rectangle hitBox = this.getCollisionHitBox(0, 0);
 			g.setColor(Color.WHITE);
-			g.drawRect(this.xMoveWithCamera(), this.yMoveWithCamera(), this.getPositionWidth(), this.getPositionHeight());
+			g.drawRect(this.xMoveWithCamera(), this.yMoveWithCamera(), this.getPositionWidth(),
+					this.getPositionHeight());
 			g.setColor(this.getDebuggingColor());
 			g.fillRect(this.getXMoveHitbox(hitBox), this.getYMoveHitbox(hitBox), this.hitBox.getWidth(),
 					this.hitBox.getHeight());
 		}
+	}
+
+	protected void setDebuggingColor(Color debuggingColor) {
+		this.debuggingColor = debuggingColor;
 	}
 
 	protected void showHealthBar(Graphics2D g) {
@@ -103,33 +131,5 @@ public abstract class Entity {
 					this.xMoveWithCamera() + this.getPositionWidth() / 2 - 290 / 5 / 2,
 					this.yMoveWithCamera() + this.hitBox.getY(), 290 / 5, 70 / 5, null);
 		}
-	}
-
-	public int xMoveWithCamera() {
-		return this.position.getX() - this.facade.getGameCamera().getXOffset();
-	}
-
-	protected void setDebuggingColor(Color debuggingColor) {
-		this.debuggingColor = debuggingColor;
-	}
-
-	public int yMoveWithCamera() {
-		return this.position.getY() - this.facade.getGameCamera().getYOffset();
-	}
-
-	protected int getXMoveHitbox(Rectangle hitBox) {
-		return hitBox.getX() - this.facade.getGameCamera().getXOffset();
-	}
-
-	protected int getYMoveHitbox(Rectangle hitBox) {
-		return hitBox.getY() - this.facade.getGameCamera().getYOffset();
-	}
-	
-	public boolean isAlive() {
-		return this.alive;
-	}
-
-	public Color getDebuggingColor() {
-		return this.debuggingColor;
 	}
 }

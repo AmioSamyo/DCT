@@ -50,6 +50,10 @@ public class Vector implements Serializable{
 	public double doubleDistanceVector(Vector target) {
 		return Math.sqrt(Math.pow(target.getX() - this.x, 2) + Math.pow(target.getY() - this.y, 2));
 	}
+	
+	public int getModule() {
+		return (int) Math.sqrt(Math.pow(this.x, 2) + Math.pow(this.y, 2));
+	}
 
 	public int getX() {
 		return this.x;
