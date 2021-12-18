@@ -16,6 +16,12 @@ public class KeyManager implements KeyListener {
 		this.cantPress = new boolean[keys.length];
 
 	}
+	
+	public void clearKeys() {
+		this.keys = new boolean[256];
+		this.justPressed = new boolean[keys.length];
+		this.cantPress = new boolean[keys.length];
+	}
 
 	public void update() {
 

@@ -1,6 +1,8 @@
 package DCT.game;
 
 import java.awt.Graphics2D;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.image.BufferStrategy;
 import java.awt.Color;
 
@@ -74,6 +76,18 @@ public class Game implements Runnable {
 	public void initializeDisplay() {
 		this.display = new Display(this.title, this.width, this.height);
 		this.display.getJFrame().addKeyListener(this.keyManager);
+		this.display.getJFrame().addFocusListener(new FocusListener() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				keyManager.clearKeys();
+			}
+
+			@Override
+			public void focusLost(FocusEvent e) {
+				keyManager.clearKeys();
+				e.getComponent().requestFocus();
+			}
+		});
 
 		this.display.getJFrame().addMouseListener(this.mouseManager);
 		this.display.getJFrame().addMouseMotionListener(this.mouseManager);
