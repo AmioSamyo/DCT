@@ -2,7 +2,7 @@ package DCT.entity.creature.player;
 
 import DCT.Facade;
 import DCT.gfx.Animation;
-import DCT.gfx.Assets;
+import DCT.gfx.assets.Assets;
 
 public class PlayerAnimator {
 

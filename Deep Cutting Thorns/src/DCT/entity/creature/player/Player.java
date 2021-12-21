@@ -8,7 +8,7 @@ import DCT.Facade;
 import DCT.entity.creature.Creature;
 import DCT.entity.creature.player.items.Weapon;
 import DCT.gfx.Animation;
-import DCT.gfx.Assets;
+import DCT.gfx.assets.Assets;
 import DCT.utility.Rectangle;
 import DCT.utility.Vector;
 

@@ -5,7 +5,7 @@ import java.awt.Graphics2D;
 
 import DCT.Facade;
 import DCT.gfx.Animation;
-import DCT.gfx.Assets;
+import DCT.gfx.assets.Assets;
 import DCT.utility.Rectangle;
 import DCT.utility.Vector;
 

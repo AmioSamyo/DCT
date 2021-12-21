@@ -1,6 +1,6 @@
 package DCT.tile;
 
-import DCT.gfx.Assets;
+import DCT.gfx.assets.Assets;
 
 public class RockGrassTile extends Tile {
 
