@@ -56,7 +56,7 @@ public class Game implements Runnable {
 
 		initializeGameComponents();
 
-		Assets.assetInitialize();
+		Assets.initialize();
 
 		initializeStates();
 

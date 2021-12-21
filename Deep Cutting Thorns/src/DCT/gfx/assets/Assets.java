@@ -22,17 +22,8 @@ public class Assets {
 	public static BufferedImage[] batAnimationUp, batAnimationDown, batAnimationLeft, batAnimationRight;
 	public static BufferedImage[] batAnimationDead;
 
-	public static void assetInitialize() {
-		PlayerAssets.initialize();
-		
-		playerAnimationDown = PlayerAssets.playerAnimationDown;
-		playerAnimationRight = PlayerAssets.playerAnimationRight;
-		playerAnimationUp = PlayerAssets.playerAnimationUp;
-		playerAnimationLeft = PlayerAssets.playerAnimationLeft;
-		playerAnimationIdle = PlayerAssets.playerAnimationIdle;
-		playerDeadAnimation = PlayerAssets.playerDeadAnimation;
-		playerAnimationRoll = PlayerAssets.playerAnimationRoll;
-		playerAttacking = PlayerAssets.playerAttacking;
+	public static void initialize() {
+		playerLoading();
 
 		SpriteSheet grassSheet = new SpriteSheet(ImageLoader.imageLoad("rsc//32x32_map_Da_Tagliare.png"));
 
@@ -65,6 +56,19 @@ public class Assets {
 		batAnimationDead = new BufferedImage[1];
 
 		setBatTile(batSheet);
+	}
+
+	private static void playerLoading() {
+		PlayerAssets.initialize();
+		
+		playerAnimationDown = PlayerAssets.playerAnimationDown;
+		playerAnimationRight = PlayerAssets.playerAnimationRight;
+		playerAnimationUp = PlayerAssets.playerAnimationUp;
+		playerAnimationLeft = PlayerAssets.playerAnimationLeft;
+		playerAnimationIdle = PlayerAssets.playerAnimationIdle;
+		playerDeadAnimation = PlayerAssets.playerDeadAnimation;
+		playerAnimationRoll = PlayerAssets.playerAnimationRoll;
+		playerAttacking = PlayerAssets.playerAttacking;
 	}
 
 	private static void pauseStateAssets() {
