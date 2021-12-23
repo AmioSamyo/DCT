@@ -7,9 +7,9 @@ import java.awt.image.BufferStrategy;
 import java.awt.Color;
 
 import DCT.Facade;
-import DCT.gfx.Assets;
 import DCT.gfx.Display;
 import DCT.gfx.GameCamera;
+import DCT.gfx.assets.Assets;
 import DCT.gfx.tools.FontLoader;
 import DCT.gfx.tools.Text;
 import DCT.input.KeyManager;
@@ -56,7 +56,7 @@ public class Game implements Runnable {
 
 		initializeGameComponents();
 
-		Assets.assetInitialize();
+		Assets.initialize();
 
 		initializeStates();
 

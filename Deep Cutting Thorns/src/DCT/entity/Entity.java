@@ -5,7 +5,7 @@ import java.awt.Graphics2D;
 import java.util.ArrayList;
 
 import DCT.Facade;
-import DCT.gfx.Assets;
+import DCT.gfx.assets.Assets;
 import DCT.utility.Rectangle;
 
 public abstract class Entity {

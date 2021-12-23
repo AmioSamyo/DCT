@@ -5,7 +5,7 @@ import java.awt.Color;
 
 import DCT.Facade;
 import DCT.entity.creature.player.Player;
-import DCT.gfx.Assets;
+import DCT.gfx.assets.Assets;
 import DCT.gfx.ui.IClickListener;
 import DCT.gfx.ui.UIImageButton;
 import DCT.gfx.ui.UIManager;

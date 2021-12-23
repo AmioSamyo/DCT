@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 
 import DCT.Facade;
-import DCT.gfx.Assets;
+import DCT.gfx.assets.Assets;
 import DCT.utility.Rectangle;
 
 public class Jar extends StaticEntity {

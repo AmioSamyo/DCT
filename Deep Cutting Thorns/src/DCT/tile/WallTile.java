@@ -2,7 +2,7 @@ package DCT.tile;
 
 import java.awt.Color;
 
-import DCT.gfx.Assets;
+import DCT.gfx.assets.Assets;
 
 public class WallTile extends Tile {
 
