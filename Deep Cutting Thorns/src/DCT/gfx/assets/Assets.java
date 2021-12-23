@@ -10,11 +10,10 @@ public class Assets {
 
 	public static BufferedImage grass, flowerGrass, rockGrass;
 	public static BufferedImage wall, downWall, upperColumns, upperWall;
-	public static BufferedImage jar, rocks;
+	public static BufferedImage jar, rocks, tree;
 
-	public static BufferedImage tree;
-
-	public static BufferedImage[] playerAnimationDown, playerAnimationRight, playerAnimationUp, playerAnimationLeft, playerDeadAnimation;
+	public static BufferedImage[] playerAnimationDown, playerAnimationRight, playerAnimationUp, playerAnimationLeft,
+			playerDeadAnimation;
 	public static BufferedImage[] healthBars;
 	public static BufferedImage[] resumeButton, debugButton, saveButton, loadButton;
 	public static BufferedImage[] playerAnimationIdle, playerAnimationRoll, playerAttacking;
@@ -25,11 +24,7 @@ public class Assets {
 	public static void initialize() {
 		playerLoading();
 		tilesLoading();
-
-		SpriteSheet desertSheet = new SpriteSheet(ImageLoader.imageLoad("rsc\\DesertObjectPack#1 .png"));
-
-		jar = desertSheet.cropImage(new Rectangle(240, 0, 260, 260));
-		rocks = desertSheet.cropImage(new Rectangle(1070, 0, 276, 280));
+		staticEntitiesLoading();
 
 		healthBarLoading();
 
@@ -46,6 +41,14 @@ public class Assets {
 		setBatTile(batSheet);
 	}
 
+	private static void staticEntitiesLoading() {
+		StaticEntitiesAssets.initialize();
+
+		jar = StaticEntitiesAssets.jar;
+		rocks = StaticEntitiesAssets.rocks;
+		tree = StaticEntitiesAssets.tree;
+	}
+
 	private static void tilesLoading() {
 		TilesAssets.initialize();
 
@@ -60,7 +63,7 @@ public class Assets {
 
 	private static void playerLoading() {
 		PlayerAssets.initialize();
-		
+
 		playerAnimationDown = PlayerAssets.playerAnimationDown;
 		playerAnimationRight = PlayerAssets.playerAnimationRight;
 		playerAnimationUp = PlayerAssets.playerAnimationUp;

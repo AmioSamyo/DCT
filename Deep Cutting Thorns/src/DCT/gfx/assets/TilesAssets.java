@@ -7,7 +7,7 @@ import DCT.gfx.tools.SpriteSheet;
 import DCT.utility.Rectangle;
 
 public class TilesAssets {
-	
+
 	public static BufferedImage grass, flowerGrass, rockGrass;
 	public static BufferedImage wall, downWall, upperColumns, upperWall;
 
