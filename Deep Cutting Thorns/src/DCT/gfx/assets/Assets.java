@@ -24,17 +24,7 @@ public class Assets {
 
 	public static void initialize() {
 		playerLoading();
-
-		SpriteSheet grassSheet = new SpriteSheet(ImageLoader.imageLoad("rsc//32x32_map_Da_Tagliare.png"));
-
-		grass = grassSheet.cropImage(new Rectangle(107, 33, 32, 32));
-		flowerGrass = grassSheet.cropImage(new Rectangle(107, 231, 32, 32));
-		rockGrass = grassSheet.cropImage(new Rectangle(140, 198, 32, 32));
-		tree = grassSheet.cropImage(new Rectangle(0, 102, 63, 87));
-		wall = grassSheet.cropImage(new Rectangle(206, 99, 32, 32));
-		upperColumns = grassSheet.cropImage(new Rectangle(239, 0, 32, 32));
-		upperWall = grassSheet.cropImage(new Rectangle(206, 66, 32, 32));
-		downWall = grassSheet.cropImage(new Rectangle(206, 33, 32, 32));
+		tilesLoading();
 
 		SpriteSheet desertSheet = new SpriteSheet(ImageLoader.imageLoad("rsc\\DesertObjectPack#1 .png"));
 
@@ -56,6 +46,18 @@ public class Assets {
 		batAnimationDead = new BufferedImage[1];
 
 		setBatTile(batSheet);
+	}
+
+	private static void tilesLoading() {
+		TilesAssets.initialize();
+
+		grass = TilesAssets.grass;
+		flowerGrass = TilesAssets.flowerGrass;
+		rockGrass = TilesAssets.rockGrass;
+		wall = TilesAssets.wall;
+		upperColumns = TilesAssets.upperColumns;
+		upperWall = TilesAssets.upperWall;
+		downWall = TilesAssets.downWall;
 	}
 
 	private static void playerLoading() {
