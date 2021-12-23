@@ -31,8 +31,6 @@ public class Assets {
 		jar = desertSheet.cropImage(new Rectangle(240, 0, 260, 260));
 		rocks = desertSheet.cropImage(new Rectangle(1070, 0, 276, 280));
 
-		
-
 		healthBarLoading();
 
 		pauseStateAssets();
