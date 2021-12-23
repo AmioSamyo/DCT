@@ -26,10 +26,11 @@ public class PlayerAssets {
 	}
 
 	private static void attackLoading(SpriteSheet playerSheet) {
+		SpriteSheet grassSheet = new SpriteSheet(ImageLoader.imageLoad("rsc//32x32_map_Da_Tagliare.png"));
 		playerAttacking = new BufferedImage[12];
 
 		for (int i = 0; i < 12; i++) {
-			playerAttacking[i] = Assets.tree;
+			playerAttacking[i] = grassSheet.cropImage(new Rectangle(0, 102, 63, 87));
 		}
 	}
 
@@ -73,9 +74,10 @@ public class PlayerAssets {
 	}
 
 	private static void rollLoading() {
+		SpriteSheet desertSheet = new SpriteSheet(ImageLoader.imageLoad("rsc\\DesertObjectPack#1 .png"));
 		playerAnimationRoll = new BufferedImage[1];
 
-		playerAnimationRoll[0] = Assets.rocks;
+		playerAnimationRoll[0] = desertSheet.cropImage(new Rectangle(1070, 0, 276, 280));
 	}
 
 }
